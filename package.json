@@ -1,0 +1,46 @@
+{
+  "name": "portfolio-astro",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check:watch": "astro check --watch",
+    "lint": "prettier --check . && eslint .",
+    "format": "prettier --write .",
+    "convert-pdfs": "node scripts/convert-pdfs-to-images.js"
+  },
+  "dependencies": {
+    "@astrojs/react": "^3.6.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/vercel": "^8.0.0",
+    "astro": "^5.0.0",
+    "clsx": "^2.1.0",
+    "lucide-react": "^0.446.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "autoprefixer": "^10.4.20",
+    "canvas": "^3.2.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "postcss": "^8.4.47",
+    "pdf-poppler": "^0.2.3",
+    "pdfjs-dist": "^5.4.394",
+    "prettier": "^3.4.2",
+    "prettier-plugin-astro": "^0.13.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.0"
+  }
+}

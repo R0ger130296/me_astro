@@ -1,0 +1,51 @@
+---
+import '../app.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Roger Cedeño - Software Engineer | Full Stack Developer',
+  description = 'Portafolio profesional de Roger Cedeño - Desarrollador Full Stack con experiencia en React, Next.js, NestJS, Spring Boot y más. Especializado en desarrollo de aplicaciones web modernas.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="Roger Cedeño, Full Stack Developer, Software Engineer, React, Next.js, NestJS, Spring Boot, TypeScript, Portfolio" />
+    <meta name="author" content="Roger Cedeño" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="Portafolio profesional de Roger Cedeño - Desarrollador Full Stack especializado en tecnologías modernas" />
+    <meta property="og:image" content="/me/roger.jpg" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content="Portafolio profesional de Roger Cedeño - Desarrollador Full Stack" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://rogercedeno.dev" />
+    
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+

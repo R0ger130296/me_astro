@@ -1,0 +1,278 @@
+/**
+ * Database - Single source of truth for portfolio data
+ * Generated from database.json
+ */
+export const database = {
+  personalInfo: {
+    name: "Roger Cedeño",
+    title: "Software Engineer | Full Stack Developer",
+    email: "grarogccee@gmail.com",
+    phone: "+593 990475612",
+    location: "Quito, Pichincha, Ecuador",
+    summary: "Desarrollador de software apasionado por la tecnología, con más de 4 años de experiencia creando soluciones funcionales y creativas. He participado en diversos proyectos como consultor técnico, lo que me ha permitido fortalecer mis habilidades y adaptarme con facilidad a diferentes entornos. Me definen la búsqueda constante de conocimiento, el compromiso con mis responsabilidades y la disposición para asumir nuevos desafíos, aprender y compartir el conocimiento adquirido."
+  },
+  experiences: [
+    {
+      id: 1,
+      title: "Full Stack Developer",
+      company: "Kruger Corp",
+      location: "Ecuador",
+      startDate: "08/2023",
+      endDate: "09/2025",
+      responsibilities: [
+        "Diseño de bases de datos relacionales y modelamiento.",
+        "Implementación de estructuras de datos y relaciones en PostgreSQL.",
+        "Backend (NestJS / Java Spring Boot).",
+        "Desarrollo de servicios y APIs escalables.",
+        "Transformación de diseño y mockups en código funcional.",
+        "Corrección de incidencias y optimización de servicios.",
+        "Frontend (Next.js / React / Angular / Tailwind CSS).",
+        "Desarrollo de interfaces dinámicas y responsivas.",
+        "Consumo de servicios REST desde distintas plataformas frontend.",
+        "Uso de Tailwind CSS para diseño rápido y consistente.",
+        "Manejo de incidencias y tareas con Jira y Bitbucket.",
+        "Control de versiones y colaboración con Git y GitHub.",
+        "Rol de Líder Técnico temporal, coordinando equipo y supervisando desarrollos.",
+        "Desarrollo y mantenimiento de aplicaciones escalables."
+      ]
+    },
+    {
+      id: 2,
+      title: "Ingeniero de software",
+      company: "Jeremy SAS",
+      location: "Quito, Pichincha, Ecuador",
+      startDate: "11/2024",
+      endDate: "06/2025",
+      responsibilities: [
+        "Desarrollo de interfaces de usuario dinámicas y responsivas.",
+        "Desarrollo de aplicaciones web escalables y bien estructuradas.",
+        "Diseño e implementación de APIs REST y gestión de base de datos relacional.",
+        "Consumo de APIs REST para comunicación entre frontend y backend.",
+        "Manejo de datos, validaciones y sincronización entre sistemas.",
+        "Optimización de rendimiento y escalabilidad.",
+        "Aprendizaje autónomo en el desarrollo de apps móviles con Flutter/Dart."
+      ]
+    },
+    {
+      id: 3,
+      title: "Technical Consultant",
+      company: "Kruger Corp",
+      location: "Ecuador",
+      startDate: "05/2021",
+      endDate: "07/2023",
+      responsibilities: [
+        "Análisis y diseño de soluciones y creación de mocks.",
+        "Desarrollo Frontend con React, implementación de interfaces y manejo de CSS.",
+        "Gestión del estado de aplicaciones, incluyendo uso de Context API.",
+        "Integración mediante consumo de servicios REST.",
+        "Mantenimiento y mejora continua de aplicaciones."
+      ]
+    },
+    {
+      id: 4,
+      title: "Desarrollador Junior",
+      company: "UTIC - ESPE",
+      location: "Sangolquí, Rumiñahui",
+      startDate: "2019",
+      endDate: "2021",
+      responsibilities: [
+        "Análisis y diseño de aplicaciones e interfaces.",
+        "Desarrollo de servicios y funcionalidades (CRUD) bajo arquitectura MVC.",
+        "Integración mediante consumo de servicios REST.",
+        "Gestión de datos en bases de datos relacionales.",
+        "Mantenimiento y mejora continua de aplicaciones."
+      ]
+    }
+  ],
+  education: [
+    {
+      id: 1,
+      degree: "Ingeniería de Software",
+      institution: "Universidad Iberoamericana del Ecuador",
+      location: null,
+      startDate: "05/2023",
+      endDate: "09/2024"
+    },
+    {
+      id: 2,
+      degree: "Tecnólogo Superior en Desarrollo de Software",
+      institution: "Instituto Superior Tecnológico Yavirac",
+      location: "Quito",
+      startDate: "2018",
+      endDate: "2021"
+    },
+    {
+      id: 3,
+      degree: "Bachillerato General Unificado",
+      institution: "Carlos Zambrano Orejuela",
+      location: "Quito, Ecuador",
+      startDate: "02/2013",
+      endDate: "09/2018"
+    }
+  ],
+  certifications: [
+    {
+      id: 1,
+      name: "NestJS: The Complete Developer's Guide",
+      issuer: "Udemy",
+      image: "/certificados/UC-db9f4742-c670-4e62-8135-94901041190f.pdf"
+    },
+    {
+      id: 2,
+      name: "PMP Preparación Certificación PMP PMBOK 7 [2024]",
+      issuer: "Udemy",
+      image: "/certificados/UC-d346666b-bb9e-40bb-bf34-df671435afe3.pdf"
+    },
+    {
+      id: 3,
+      name: "React Native Expo: Aplicaciones nativas para IOS y Android",
+      issuer: "Udemy",
+      image: "/certificados/UC-ade4fb41-0853-4b4d-834d-a5f13a0a86b9.pdf"
+    },
+    {
+      id: 4,
+      name: "Principios SOLID y Clean Code",
+      issuer: "Udemy",
+      image: "/certificados/UC-c1db414c-1499-45b7-9926-b901a190c9b6.pdf"
+    },
+    {
+      id: 5,
+      name: "Scrum Foundation Professional Certificate",
+      issuer: "CertiProf",
+      image: "/certificados/UC-cd24730c-e4b8-41cf-9536-eaee93a85591.pdf"
+    },
+    {
+      id: 6,
+      name: "Legacy - Flutter: Tu guía completa para IOS y Android",
+      issuer: "Udemy",
+      image: "/certificados/UC-ab20688e-dbaa-49ea-b531-c05165f3bbd3.jpg"
+    },
+    {
+      id: 7,
+      name: "Micro-Frontend: Arquitectura de Aplicaciones Web Escalables",
+      issuer: "Udemy",
+      image: "/certificados/UC-6407e9f7-06f3-40c2-bbde-1f6e97762f21.pdf"
+    },
+    {
+      id: 8,
+      name: "TanStack Query - Un poderoso gestor de estado asíncrono",
+      issuer: "Udemy",
+      image: "/certificados/UC-7bdc1624-c759-49de-a831-6776dd9b5c05.pdf"
+    },
+    {
+      id: 9,
+      name: "Angular 14 - La Guia Completa + 15 Proyectos",
+      issuer: "Udemy",
+      image: "/certificados/UC-1d588080-981a-4bd6-9491-850f1b85b37c.pdf"
+    },
+    {
+      id: 10,
+      name: "Python TOTAL - Programador Avanzado en 16 días",
+      issuer: "Udemy",
+      image: "/certificados/UC-279f4df5-faa2-405a-819a-64632d64a40e.pdf"
+    },
+    {
+      id: 11,
+      name: "React: De cero a experto (Hooks y MERN)",
+      issuer: "Udemy",
+      image: "/certificados/UC-402c1606-b34c-4e46-9624-a431e038bd00.pdf"
+    },
+    {
+      id: 12,
+      name: "Spring Framework 6 & Spring Boot 3 desde cero a experto",
+      issuer: "Udemy",
+      image: "/certificados/1744649962733.pdf"
+    },
+    {
+      id: 13,
+      name: "Next.js: El framework de React para producción",
+      issuer: "Udemy",
+      image: "/certificados/UC-db9f4742-c670-4e62-8135-94901041190f.pdf"
+    }
+  ],
+  references: [
+    {
+      id: 1,
+      name: "Erick Daniel Erraez Guamán",
+      position: "Ingeniero en Software",
+      company: "Neoris",
+      email: "erickerraez2@gmail.com",
+      phone: "097178106",
+      testimonial: "Roger es un desarrollador excepcional con gran capacidad para resolver problemas complejos. Su dedicación y conocimiento técnico lo hacen un excelente compañero de equipo.",
+      linkedinUrl: null
+    },
+    {
+      id: 2,
+      name: "Johao Nicolas Perlaza Zambrano",
+      position: "Ingeniero en Software",
+      company: "Procuraduría General del Estado",
+      email: "perlazajohao@gmail.com",
+      phone: "0978970998",
+      testimonial: "Trabajar con Roger ha sido una experiencia enriquecedora. Su enfoque en la calidad del código y su capacidad de aprendizaje continuo son destacables.",
+      linkedinUrl: null
+    },
+    {
+      id: 3,
+      name: "Jennifer Geoconda Barriga Montalvo",
+      position: "Tngla. Seguridad y Riesgos Laborales",
+      company: "Freelance",
+      email: "jenniferbarriga95@gmail.com",
+      phone: "0998699289",
+      testimonial: null,
+      linkedinUrl: null
+    }
+  ],
+  skills: {
+    frontend: [
+      { name: "React", level: 90 },
+      { name: "Next.js", level: 85 },
+      { name: "Angular", level: 80 },
+      { name: "Angular CLI", level: 80 },
+      { name: "React Native", level: 75 },
+      { name: "Expo", level: 70 },
+      { name: "Tailwind CSS", level: 85 },
+      { name: "HTML5", level: 90 },
+      { name: "CSS", level: 85 },
+      { name: "Micro-Frontend", level: 70 }
+    ],
+    backend: [
+      { name: "NestJS", level: 85 },
+      { name: "Spring Framework", level: 80 },
+      { name: "Python", level: 75 }
+    ],
+    mobile: [
+      { name: "React Native", level: 75 },
+      { name: "Flutter", level: 65 }
+    ],
+    tools: [
+      { name: "Git", level: 90 },
+      { name: "GitHub", level: 90 },
+      { name: "Bitbucket", level: 85 },
+      { name: "GitFlow", level: 80 },
+      { name: "Jira", level: 85 },
+      { name: "Swagger", level: 80 },
+      { name: "Visual Studio", level: 85 },
+      { name: "Windows", level: 90 },
+      { name: "Discord", level: 70 }
+    ],
+    methodologies: [
+      { name: "SCRUM", level: 85 },
+      { name: "PMP", level: 75 },
+      { name: "Principios SOLID", level: 80 }
+    ]
+  },
+  softSkills: [
+    "Responsabilidad",
+    "Trabajo en Equipo",
+    "Adaptabilidad",
+    "Resolución de Problemas",
+    "Empatía",
+    "Pasión por el Aprendizaje",
+    "Perseverancia"
+  ],
+  languages: [
+    { name: "Español", level: "Nativo" },
+    { name: "Inglés", level: "Intermedio" }
+  ]
+};
+
