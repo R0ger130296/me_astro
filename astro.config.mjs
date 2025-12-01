@@ -3,16 +3,21 @@ import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel';
 
-// https://astro.build/config
+import db from '@astrojs/db';
+
+/**
+ * Astro Configuration
+ * Optimized for performance and best practices
+ */
 export default defineConfig({
   integrations: [
     react(),
     tailwind({
-      applyBaseStyles: false, // Ya tenemos nuestros estilos en app.css
+      applyBaseStyles: false,
       nesting: true,
     }),
+    db()
   ],
-  output: 'static',
+  output: 'server', // Cambiado a 'server' para soportar Astro DB
   adapter: vercel(),
 });
-

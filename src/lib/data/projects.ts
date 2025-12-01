@@ -2,7 +2,7 @@
  * Project data
  * Single Source of Truth for portfolio projects
  */
-import type { Project } from '$lib/domain/entities';
+import type { Project } from '../domain/entities';
 
 // Type for raw data before creating entities
 interface ProjectData {

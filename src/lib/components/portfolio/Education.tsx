@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useEducation } from '../../presentation/hooks/usePortfolio';
+import React, { useMemo } from 'react';
+import { useEducationHook } from '../../presentation/hooks/usePortfolio';
 import { Section } from '../ui';
-import type { Education } from '../../domain/entities';
+import type { Education as EducationEntity } from '../../domain/entities';
 
-export const Education: React.FC = () => {
-  const [visible, setVisible] = useState(false);
-  const [education, setEducation] = useState<Education[]>([]);
+interface EducationProps {
+  initialData?: EducationEntity[];
+}
 
-  useEffect(() => {
-    setVisible(true);
-    useEducation().then(setEducation);
-  }, []);
+export const Education: React.FC<EducationProps> = ({ initialData }) => {
+  const { data: fetchedData } = useEducationHook();
+  const education = useMemo(() => initialData || fetchedData || [], [initialData, fetchedData]);
 
   return (
     <Section title="Educación">

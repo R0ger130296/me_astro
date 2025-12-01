@@ -4,8 +4,8 @@
  * - Single Responsibility: Only retrieves projects
  * - Dependency Inversion: Depends on abstraction (IPortfolioRepository)
  */
-import type { IPortfolioRepository } from '$lib/domain/ports';
-import type { Project } from '$lib/domain/entities';
+import type { IPortfolioRepository } from '../../domain/ports/IPortfolioRepository.port';
+import type { Project } from '../../domain/entities';
 
 export class GetProjectsUseCase {
   constructor(private readonly repository: IPortfolioRepository) {}

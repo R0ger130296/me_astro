@@ -162,12 +162,12 @@ export const Hero: React.FC = () => {
               </h1>
 
               <p className="text-lg sm:text-xl text-primary-200 mb-8 leading-relaxed">
-                Transformando ideas en interfaces interactivas y funcionales con React, Svelte y tecnologías modernas.
+                Transformando ideas en interfaces interactivas y funcionales con React, Astro y tecnologías modernas.
               </p>
 
               {/* Tech Stack Badges */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-3">
-                {['React', 'Svelte', 'TypeScript', 'Tailwind'].map((tech) => (
+                {['React', 'Astro', 'TypeScript', 'Tailwind'].map((tech) => (
                   <div
                     key={tech}
                     className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 text-sm font-medium text-white hover:bg-white/20 transition-colors"

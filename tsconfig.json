@@ -18,5 +18,7 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "jsxImportSource": "react"
-  }
+  },
+  "include": ["src/**/*", "db/**/*", "astro.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }

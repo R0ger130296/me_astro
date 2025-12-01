@@ -1,8 +1,10 @@
 /**
  * Presentation Hook
  * Connects the presentation layer with use cases
+ * Implements Facade Pattern for simplified API
  */
 import { container } from '../../infrastructure/di/Container';
+import { useAsyncData } from './useAsyncData';
 import type {
   PersonalInfo,
   Experience,
@@ -15,7 +17,7 @@ import type {
 } from '../../domain/entities';
 
 /**
- * Hook to get personal information
+ * Hook to get personal information (async function for server-side)
  */
 export async function usePersonalInfo(): Promise<PersonalInfo> {
   const useCase = container.getGetPersonalInfoUseCase();
@@ -23,7 +25,17 @@ export async function usePersonalInfo(): Promise<PersonalInfo> {
 }
 
 /**
- * Hook to get experiences
+ * React Hook to get personal information (for client-side components)
+ */
+export function usePersonalInfoHook() {
+  return useAsyncData<PersonalInfo>(async () => {
+    const useCase = container.getGetPersonalInfoUseCase();
+    return await useCase.execute();
+  });
+}
+
+/**
+ * Hook to get experiences (async function for server-side)
  */
 export async function useExperiences(): Promise<Experience[]> {
   const useCase = container.getGetExperiencesUseCase();
@@ -31,7 +43,17 @@ export async function useExperiences(): Promise<Experience[]> {
 }
 
 /**
- * Hook to get education
+ * React Hook to get experiences (for client-side components)
+ */
+export function useExperiencesHook() {
+  return useAsyncData<Experience[]>(async () => {
+    const useCase = container.getGetExperiencesUseCase();
+    return await useCase.execute();
+  });
+}
+
+/**
+ * Hook to get education (async function for server-side)
  */
 export async function useEducation(): Promise<Education[]> {
   const useCase = container.getGetEducationUseCase();
@@ -39,7 +61,17 @@ export async function useEducation(): Promise<Education[]> {
 }
 
 /**
- * Hook to get certifications
+ * React Hook to get education (for client-side components)
+ */
+export function useEducationHook() {
+  return useAsyncData<Education[]>(async () => {
+    const useCase = container.getGetEducationUseCase();
+    return await useCase.execute();
+  });
+}
+
+/**
+ * Hook to get certifications (async function for server-side)
  */
 export async function useCertifications(): Promise<Certification[]> {
   const useCase = container.getGetCertificationsUseCase();
@@ -47,7 +79,17 @@ export async function useCertifications(): Promise<Certification[]> {
 }
 
 /**
- * Hook to get skills
+ * React Hook to get certifications (for client-side components)
+ */
+export function useCertificationsHook() {
+  return useAsyncData<Certification[]>(async () => {
+    const useCase = container.getGetCertificationsUseCase();
+    return await useCase.execute();
+  });
+}
+
+/**
+ * Hook to get skills (async function for server-side)
  */
 export async function useSkills(): Promise<Skill[]> {
   const useCase = container.getGetSkillsUseCase();
@@ -55,7 +97,17 @@ export async function useSkills(): Promise<Skill[]> {
 }
 
 /**
- * Hook to get soft skills
+ * React Hook to get skills (for client-side components)
+ */
+export function useSkillsHook() {
+  return useAsyncData<Skill[]>(async () => {
+    const useCase = container.getGetSkillsUseCase();
+    return await useCase.execute();
+  });
+}
+
+/**
+ * Hook to get soft skills (async function for server-side)
  */
 export async function useSoftSkills(): Promise<Skill[]> {
   const useCase = container.getGetSkillsUseCase();
@@ -63,11 +115,31 @@ export async function useSoftSkills(): Promise<Skill[]> {
 }
 
 /**
- * Hook to get languages
+ * React Hook to get soft skills (for client-side components)
+ */
+export function useSoftSkillsHook() {
+  return useAsyncData<Skill[]>(async () => {
+    const useCase = container.getGetSkillsUseCase();
+    return await useCase.executeSoftSkills();
+  });
+}
+
+/**
+ * Hook to get languages (async function for server-side)
  */
 export async function useLanguages(): Promise<Language[]> {
   const useCase = container.getGetLanguagesUseCase();
   return await useCase.execute();
+}
+
+/**
+ * React Hook to get languages (for client-side components)
+ */
+export function useLanguagesHook() {
+  return useAsyncData<Language[]>(async () => {
+    const useCase = container.getGetLanguagesUseCase();
+    return await useCase.execute();
+  });
 }
 
 /**

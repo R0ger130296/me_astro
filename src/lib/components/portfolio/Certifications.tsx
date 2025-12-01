@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useCertifications } from '../../presentation/hooks/usePortfolio';
+import React, { useMemo } from 'react';
+import { useCertificationsHook } from '../../presentation/hooks/usePortfolio';
 import { Section, Icon } from '../ui';
 import type { Certification } from '../../domain/entities';
 
-export const Certifications: React.FC = () => {
-  const [visible, setVisible] = useState(false);
-  const [certifications, setCertifications] = useState<Certification[]>([]);
+interface CertificationsProps {
+  initialData?: Certification[];
+}
 
-  useEffect(() => {
-    setVisible(true);
-    useCertifications().then(setCertifications);
-  }, []);
+export const Certifications: React.FC<CertificationsProps> = ({ initialData }) => {
+  const { data: fetchedData } = useCertificationsHook();
+  const certifications = useMemo(() => initialData || fetchedData || [], [initialData, fetchedData]);
 
   return (
     <Section title="Certificaciones">

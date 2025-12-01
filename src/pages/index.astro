@@ -1,7 +1,22 @@
 ---
+/**
+ * Main Portfolio Page
+ * Uses Astro's server-side rendering to pre-fetch data
+ * Implements Islands Architecture - only interactive components are hydrated
+ */
 import Layout from '../layouts/Layout.astro';
 import { Header, Hero, About, Experience, Education, Skills, Certifications, Languages } from '../lib/components/portfolio';
 import { ScrollToTop } from '../lib/components/ui/ScrollToTop';
+import { usePersonalInfo, useExperiences, useEducation, useCertifications, useSkills, useSoftSkills, useLanguages } from '../lib/presentation/hooks/usePortfolio';
+
+// Pre-fetch data on server-side (Astro SSR)
+const personalInfo = await usePersonalInfo();
+const experiences = await useExperiences();
+const education = await useEducation();
+const certifications = await useCertifications();
+const skills = await useSkills();
+const softSkills = await useSoftSkills();
+const languages = await useLanguages();
 ---
 
 <Layout>
@@ -24,7 +39,7 @@ import { ScrollToTop } from '../lib/components/ui/ScrollToTop';
         
         <!-- About Section -->
         <div class="section-content initially-visible">
-          <About client:load />
+          <About client:load initialData={personalInfo} />
         </div>
 
         <!-- Divider -->
@@ -32,7 +47,7 @@ import { ScrollToTop } from '../lib/components/ui/ScrollToTop';
         
         <!-- Experience Section -->
         <div class="section-content initially-visible">
-          <Experience client:load />
+          <Experience client:load initialData={experiences} />
         </div>
 
         <!-- Divider -->
@@ -40,7 +55,7 @@ import { ScrollToTop } from '../lib/components/ui/ScrollToTop';
         
         <!-- Education Section -->
         <div class="section-content initially-visible">
-          <Education client:load />
+          <Education client:load initialData={education} />
         </div>
 
         <!-- Divider -->
@@ -48,7 +63,7 @@ import { ScrollToTop } from '../lib/components/ui/ScrollToTop';
         
         <!-- Skills Section -->
         <div class="section-content initially-visible">
-          <Skills client:load />
+          <Skills client:load initialData={{ skills, softSkills }} />
         </div>
 
         <!-- Divider -->
@@ -56,7 +71,7 @@ import { ScrollToTop } from '../lib/components/ui/ScrollToTop';
         
         <!-- Certifications Section -->
         <div class="section-content initially-visible">
-          <Certifications client:load />
+          <Certifications client:load initialData={certifications} />
         </div>
 
         <!-- Divider -->
@@ -64,7 +79,7 @@ import { ScrollToTop } from '../lib/components/ui/ScrollToTop';
         
         <!-- Languages Section -->
         <div class="section-content initially-visible">
-          <Languages client:load />
+          <Languages client:load initialData={languages} />
         </div>
 
         <!-- Divider -->
@@ -94,7 +109,7 @@ import { ScrollToTop } from '../lib/components/ui/ScrollToTop';
     </footer>
 
     <!-- Scroll to Top Button -->
-    <ScrollToTop client:load />
+    <ScrollToTop client:idle />
   </div>
 </Layout>
 

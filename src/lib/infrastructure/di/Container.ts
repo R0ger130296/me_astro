@@ -1,6 +1,7 @@
 /**
  * Dependency Injection Container
  * Infrastructure Layer - Dependency injection
+ * Implements Singleton Pattern and Dependency Injection
  */
 import { PortfolioRepository } from '../repositories/PortfolioRepository';
 import {
@@ -13,6 +14,9 @@ import {
   GetReferencesUseCase,
   GetProjectsUseCase
 } from '../../application/use-cases';
+import { LoggerFactory } from '../logger/Logger';
+
+const logger = LoggerFactory.getLogger();
 
 /**
  * Singleton container to manage dependencies
@@ -32,10 +36,13 @@ class Container {
   private getProjectsUseCase: GetProjectsUseCase;
 
   private constructor() {
+    logger.debug('Initializing DI Container');
+    
     // Initialize repository
     this.repository = new PortfolioRepository();
 
     // Initialize use cases with their dependencies
+    // Dependency Injection: Use cases receive repository through constructor
     this.getPersonalInfoUseCase = new GetPersonalInfoUseCase(this.repository);
     this.getExperiencesUseCase = new GetExperiencesUseCase(this.repository);
     this.getCertificationsUseCase = new GetCertificationsUseCase(this.repository);
@@ -44,6 +51,8 @@ class Container {
     this.getLanguagesUseCase = new GetLanguagesUseCase(this.repository);
     this.getReferencesUseCase = new GetReferencesUseCase(this.repository);
     this.getProjectsUseCase = new GetProjectsUseCase(this.repository);
+    
+    logger.debug('DI Container initialized successfully');
   }
 
   public static getInstance(): Container {

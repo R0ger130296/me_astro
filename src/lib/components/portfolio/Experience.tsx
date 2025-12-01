@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { useExperiences } from '../../presentation/hooks/usePortfolio';
+import React, { useState, useMemo } from 'react';
+import { useExperiencesHook } from '../../presentation/hooks/usePortfolio';
 import { Section, Icon, Modal, Pagination } from '../ui';
-import type { Experience } from '../../domain/entities';
+import type { Experience as ExperienceEntity } from '../../domain/entities';
 
-export const Experience: React.FC = () => {
-  const [visible, setVisible] = useState(false);
-  const [experiences, setExperiences] = useState<Experience[]>([]);
-  const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
+interface ExperienceProps {
+  initialData?: ExperienceEntity[];
+}
+
+export const Experience: React.FC<ExperienceProps> = ({ initialData }) => {
+  const [selectedExperience, setSelectedExperience] = useState<ExperienceEntity | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  useEffect(() => {
-    setVisible(true);
-    useExperiences().then(setExperiences);
-  }, []);
+  const { data: fetchedData } = useExperiencesHook();
+  const experiences = useMemo(() => initialData || fetchedData || [], [initialData, fetchedData]);
 
   const totalPages = Math.ceil(experiences.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedExperiences = experiences.slice(startIndex, endIndex);
 
-  const openModal = (experience: Experience) => {
+  const openModal = (experience: ExperienceEntity) => {
     setSelectedExperience(experience);
     setShowModal(true);
   };
