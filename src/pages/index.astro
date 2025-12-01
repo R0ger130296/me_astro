@@ -3,10 +3,12 @@
  * Main Portfolio Page
  * Uses Astro's server-side rendering to pre-fetch data
  * Implements Islands Architecture - only interactive components are hydrated
+ * Enhanced with TanStack Query for better data management
  */
 import Layout from '../layouts/Layout.astro';
 import { Header, Hero, About, Experience, Education, Skills, Certifications, Languages } from '../lib/components/portfolio';
 import { ScrollToTop } from '../lib/components/ui/ScrollToTop';
+import { AppProviders } from '../lib/components/providers/AppProviders';
 import { usePersonalInfo, useExperiences, useEducation, useCertifications, useSkills, useSoftSkills, useLanguages } from '../lib/presentation/hooks/usePortfolio';
 
 // Pre-fetch data on server-side (Astro SSR)
@@ -20,11 +22,12 @@ const languages = await useLanguages();
 ---
 
 <Layout>
-  <div class="min-h-screen bg-gradient-to-b from-white via-primary-50/30 to-white">
-    <!-- Fixed Header -->
-    <nav class="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-lg border-b border-primary-200/50 shadow-xs">
-      <Header client:load />
-    </nav>
+  <AppProviders client:only="react">
+    <div class="min-h-screen bg-gradient-to-b from-white via-primary-50/30 to-white">
+      <!-- Fixed Header -->
+      <nav class="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-lg border-b border-primary-200/50 shadow-xs">
+        <Header client:load />
+      </nav>
 
     <!-- Hero Section -->
     <Hero client:load />
@@ -108,9 +111,10 @@ const languages = await useLanguages();
       </div>
     </footer>
 
-    <!-- Scroll to Top Button -->
-    <ScrollToTop client:idle />
-  </div>
+      <!-- Scroll to Top Button -->
+      <ScrollToTop client:idle />
+    </div>
+  </AppProviders>
 </Layout>
 
 <style>

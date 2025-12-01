@@ -7,4 +7,5 @@ export { ContactLink } from './ContactLink';
 export { Modal } from './Modal';
 export { Pagination } from './Pagination';
 export { ScrollToTop } from './ScrollToTop';
+export { Skeleton, SkeletonCard, SkeletonAvatar, SkeletonList } from './Skeleton';
 export type { ButtonVariant, ButtonSize, BadgeVariant, ContactType } from './types';

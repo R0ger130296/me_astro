@@ -98,6 +98,20 @@
     scroll-behavior: smooth;
   }
 
+  /* Shimmer animation for skeleton loaders */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold tracking-tight text-primary-900;
     line-height: 1.25;
