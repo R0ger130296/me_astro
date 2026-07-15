@@ -33,7 +33,56 @@
 
 .site-header .cv-button {
   justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
   flex: 0 0 auto;
+}
+
+.button,
+.tech-pills span,
+.profile-meta span,
+.section-title-row > a,
+.project-footer a,
+.mail-link,
+.panel-link,
+.cta-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+}
+
+.icon-button,
+.project-icon,
+.metrics article > span,
+.socials a,
+.technology-grid div > svg,
+.panel header > svg {
+  flex: 0 0 auto;
+}
+
+.profile-meta span {
+  white-space: nowrap;
+}
+
+.technology-grid div > svg {
+  color: #9dd7ff;
+  stroke-width: 1.8;
+}
+
+.project-icon svg,
+.metrics svg,
+.panel header > svg,
+.socials svg {
+  stroke-width: 1.8;
+}
+
+.project-footer a,
+.section-title-row > a,
+.panel-link,
+.cta-card a {
+  white-space: nowrap;
 }
 
 @media (max-width: 1120px) {
@@ -76,5 +125,10 @@
   .site-header .cv-button {
     padding: .6rem .72rem;
     font-size: .76rem;
+  }
+
+  .site-header .cv-button svg {
+    width: 14px;
+    height: 14px;
   }
 }
