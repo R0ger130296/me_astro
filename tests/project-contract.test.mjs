@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const readJson = async (path) => JSON.parse(await readFile(path, 'utf8'));
+const readText = async (path) => readFile(path, 'utf8');
 
 test('package exposes the required quality scripts', async () => {
   const packageJson = await readJson('package.json');
@@ -26,4 +27,23 @@ test('supported Node runtime is explicitly documented', async () => {
   const packageJson = await readJson('package.json');
 
   assert.match(packageJson.engines?.node ?? '', />=20/);
+});
+
+test('SEO component contains canonical, social and structured metadata', async () => {
+  const seo = await readText('src/components/SEO.astro');
+
+  assert.match(seo, /rel="canonical"/);
+  assert.match(seo, /property="og:title"/);
+  assert.match(seo, /name="twitter:card"/);
+  assert.match(seo, /application\/ld\+json/);
+});
+
+test('crawler files reference the canonical domain', async () => {
+  const [robots, sitemap] = await Promise.all([
+    readText('public/robots.txt'),
+    readText('public/sitemap.xml'),
+  ]);
+
+  assert.match(robots, /https:\/\/rogercedeno\.dev\/sitemap\.xml/);
+  assert.match(sitemap, /https:\/\/rogercedeno\.dev\//);
 });
