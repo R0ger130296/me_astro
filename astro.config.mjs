@@ -4,10 +4,8 @@ import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel';
 import db from '@astrojs/db';
 
-/**
- * Astro configuration for the server-rendered portfolio.
- */
 export default defineConfig({
+  site: 'https://rogercedeno.dev',
   integrations: [
     react(),
     tailwind({
