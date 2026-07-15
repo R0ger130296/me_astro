@@ -1,9 +1,47 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
+import { extname, join, relative } from 'node:path';
 import test from 'node:test';
 
 const readJson = async (path) => JSON.parse(await readFile(path, 'utf8'));
 const readText = async (path) => readFile(path, 'utf8');
+
+const textExtensions = new Set([
+  '.astro', '.cjs', '.css', '.html', '.js', '.json', '.jsx', '.md', '.mjs', '.ts', '.tsx', '.txt', '.yml', '.yaml',
+]);
+const ignoredDirectories = new Set(['.git', '.astro', 'dist', 'node_modules', 'coverage']);
+
+async function collectTextFiles(directory = '.') {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    if (entry.isDirectory() && ignoredDirectories.has(entry.name)) continue;
+
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...(await collectTextFiles(path)));
+    } else if (textExtensions.has(extname(entry.name)) || entry.name === '.editorconfig') {
+      files.push(path);
+    }
+  }
+
+  return files;
+}
+
+test('repository contains no unresolved Git merge conflicts', async () => {
+  const files = await collectTextFiles();
+  const conflictedFiles = [];
+
+  for (const path of files) {
+    const content = await readText(path);
+    if (/^(<<<<<<<|=======|>>>>>>>)/m.test(content)) {
+      conflictedFiles.push(relative('.', path));
+    }
+  }
+
+  assert.deepEqual(conflictedFiles, [], `Unresolved merge conflicts: ${conflictedFiles.join(', ')}`);
+});
 
 test('package exposes the required quality scripts', async () => {
   const packageJson = await readJson('package.json');
@@ -17,7 +55,6 @@ test('package exposes the required quality scripts', async () => {
 
 test('project keeps strict TypeScript enabled', async () => {
   const tsconfig = await readJson('tsconfig.json');
-
   assert.equal(tsconfig.extends, 'astro/tsconfigs/strict');
   assert.equal(tsconfig.compilerOptions?.strict, true);
   assert.equal(tsconfig.compilerOptions?.forceConsistentCasingInFileNames, true);
@@ -25,13 +62,11 @@ test('project keeps strict TypeScript enabled', async () => {
 
 test('supported Node runtime is explicitly documented', async () => {
   const packageJson = await readJson('package.json');
-
   assert.match(packageJson.engines?.node ?? '', />=20/);
 });
 
 test('SEO component contains canonical, social and structured metadata', async () => {
   const seo = await readText('src/components/SEO.astro');
-
   assert.match(seo, /rel="canonical"/);
   assert.match(seo, /property="og:title"/);
   assert.match(seo, /name="twitter:card"/);
@@ -43,7 +78,6 @@ test('crawler files reference the canonical domain', async () => {
     readText('public/robots.txt'),
     readText('public/sitemap.xml'),
   ]);
-
   assert.match(robots, /https:\/\/rogercedeno\.dev\/sitemap\.xml/);
   assert.match(sitemap, /https:\/\/rogercedeno\.dev\//);
 });
@@ -55,7 +89,6 @@ test('PWA assets and registration remain configured', async () => {
     readText('public/offline.html'),
     readText('src/layouts/Layout.astro'),
   ]);
-
   assert.equal(manifest.display, 'standalone');
   assert.equal(manifest.start_url, '/');
   assert.ok(Array.isArray(manifest.icons) && manifest.icons.length > 0);
@@ -72,7 +105,6 @@ test('mobile performance defaults remain enabled', async () => {
     readText('src/lib/components/portfolio/About.tsx'),
     readText('src/lib/presentation/hooks/usePortfolioQuery.ts'),
   ]);
-
   assert.match(indexPage, /client:idle/);
   assert.doesNotMatch(indexPage, /client:load/);
   assert.match(aboutComponent, /loading="lazy"/);
@@ -80,7 +112,7 @@ test('mobile performance defaults remain enabled', async () => {
   assert.match(queryHooks, /import type \{ UseQueryResult \}/);
 });
 
-test('profile components use the uploaded JPEG and contain no merge conflicts', async () => {
+test('profile components use the uploaded JPEG', async () => {
   const [hero, about, image] = await Promise.all([
     readText('src/lib/components/portfolio/Hero.tsx'),
     readText('src/lib/components/portfolio/About.tsx'),
@@ -89,7 +121,6 @@ test('profile components use the uploaded JPEG and contain no merge conflicts', 
 
   for (const component of [hero, about]) {
     assert.match(component, /\/me\/1757515565808\.jpeg/);
-    assert.doesNotMatch(component, /<<<<<<<|=======|>>>>>>>/);
     assert.doesNotMatch(component, /roger-profile\.svg/);
   }
 
