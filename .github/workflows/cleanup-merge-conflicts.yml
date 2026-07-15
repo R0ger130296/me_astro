@@ -1,0 +1,42 @@
+name: Cleanup merge conflicts
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/resolve-merge-conflicts.mjs'
+      - '.github/workflows/cleanup-merge-conflicts.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Resolve legacy merge markers
+        run: node scripts/resolve-merge-conflicts.mjs
+
+      - name: Commit cleaned files
+        run: |
+          if git diff --quiet; then
+            echo "No unresolved merge conflicts found."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "fix: resolve all legacy merge conflicts"
+          git push origin HEAD:main
