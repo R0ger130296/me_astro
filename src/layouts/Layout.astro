@@ -1,5 +1,6 @@
 ---
 import '../app.css';
+import '../theme.css';
 import SEO from '../components/SEO.astro';
 import { SITE } from '../lib/config/site';
 
@@ -27,8 +28,26 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b0f19" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#020617" media="(prefers-color-scheme: dark)" />
     <meta name="color-scheme" content="light dark" />
+
+    <script is:inline>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem('theme');
+          const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          const theme = storedTheme === 'dark' || storedTheme === 'light' ? storedTheme : preferredTheme;
+          document.documentElement.classList.toggle('dark', theme === 'dark');
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch {
+          document.documentElement.classList.toggle(
+            'dark',
+            window.matchMedia('(prefers-color-scheme: dark)').matches,
+          );
+        }
+      })();
+    </script>
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
