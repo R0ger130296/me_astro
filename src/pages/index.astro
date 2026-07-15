@@ -3,6 +3,7 @@ export const prerender = true;
 
 import Layout from '../layouts/Layout.astro';
 import { PortfolioApp } from '../lib/components/portfolio/PortfolioApp';
+import { getFeaturedRepositories } from '../lib/infrastructure/github/getFeaturedRepositories';
 import {
   useCertifications,
   useEducation,
@@ -13,16 +14,25 @@ import {
   useSoftSkills,
 } from '../lib/presentation/hooks/usePortfolio';
 
-const [personalInfo, experiences, education, certifications, skills, softSkills, languages] =
-  await Promise.all([
-    usePersonalInfo(),
-    useExperiences(),
-    useEducation(),
-    useCertifications(),
-    useSkills(),
-    useSoftSkills(),
-    useLanguages(),
-  ]);
+const [
+  personalInfo,
+  experiences,
+  education,
+  certifications,
+  skills,
+  softSkills,
+  languages,
+  repositories,
+] = await Promise.all([
+  usePersonalInfo(),
+  useExperiences(),
+  useEducation(),
+  useCertifications(),
+  useSkills(),
+  useSoftSkills(),
+  useLanguages(),
+  getFeaturedRepositories(),
+]);
 ---
 
 <Layout>
@@ -35,6 +45,7 @@ const [personalInfo, experiences, education, certifications, skills, softSkills,
     skills={skills}
     softSkills={softSkills}
     languages={languages}
+    repositories={repositories}
   />
 </Layout>
 
