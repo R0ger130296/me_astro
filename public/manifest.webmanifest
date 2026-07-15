@@ -1,0 +1,33 @@
+{
+  "name": "Roger Cedeño · Portafolio profesional",
+  "short_name": "Roger Cedeño",
+  "description": "Portafolio profesional de Roger Cedeño, software engineer especializado en React, .NET, Astro y Azure.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "lang": "es-EC",
+  "orientation": "portrait-primary",
+  "categories": ["business", "developer", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ver proyectos",
+      "short_name": "Proyectos",
+      "url": "/#proyectos"
+    },
+    {
+      "name": "Contactar",
+      "short_name": "Contacto",
+      "url": "/#contacto"
+    }
+  ]
+}
