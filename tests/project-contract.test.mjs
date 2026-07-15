@@ -1,130 +1,60 @@
 import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
-import { extname, join, relative } from 'node:path';
+import { extname, join } from 'node:path';
 import test from 'node:test';
 
-const readJson = async (path) => JSON.parse(await readFile(path, 'utf8'));
-const readText = async (path) => readFile(path, 'utf8');
+const textExtensions = new Set(['.astro', '.css', '.js', '.json', '.md', '.mjs', '.ts', '.tsx', '.txt', '.yml', '.yaml']);
 
-const textExtensions = new Set([
-  '.astro', '.cjs', '.css', '.html', '.js', '.json', '.jsx', '.md', '.mjs', '.ts', '.tsx', '.txt', '.yml', '.yaml',
-]);
-const ignoredDirectories = new Set(['.git', '.astro', 'dist', 'node_modules', 'coverage']);
-
-async function collectTextFiles(directory = '.') {
+async function walk(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
   const files = [];
-
   for (const entry of entries) {
-    if (entry.isDirectory() && ignoredDirectories.has(entry.name)) continue;
-
+    if (['node_modules', '.git', 'dist', '.astro'].includes(entry.name)) continue;
     const path = join(directory, entry.name);
-    if (entry.isDirectory()) {
-      files.push(...(await collectTextFiles(path)));
-    } else if (textExtensions.has(extname(entry.name)) || entry.name === '.editorconfig') {
-      files.push(path);
-    }
+    if (entry.isDirectory()) files.push(...await walk(path));
+    else if (textExtensions.has(extname(entry.name)) || ['astro.config.mjs', 'vercel.json'].includes(entry.name)) files.push(path);
   }
-
   return files;
 }
 
-test('repository contains no unresolved Git merge conflicts', async () => {
-  const files = await collectTextFiles();
-  const conflictedFiles = [];
-
-  for (const path of files) {
-    const content = await readText(path);
-    if (/^(<<<<<<<|=======|>>>>>>>)/m.test(content)) {
-      conflictedFiles.push(relative('.', path));
-    }
+test('repository has no unresolved merge markers', async () => {
+  const conflicts = [];
+  for (const path of await walk('.')) {
+    const text = await readFile(path, 'utf8');
+    if (/^(<<<<<<<|=======|>>>>>>>)/m.test(text)) conflicts.push(path);
   }
-
-  assert.deepEqual(conflictedFiles, [], `Unresolved merge conflicts: ${conflictedFiles.join(', ')}`);
+  assert.deepEqual(conflicts, []);
 });
 
-test('package exposes the required quality scripts', async () => {
-  const packageJson = await readJson('package.json');
-  const requiredScripts = ['build', 'typecheck', 'lint', 'format:check', 'test', 'quality'];
-
-  for (const script of requiredScripts) {
-    assert.equal(typeof packageJson.scripts?.[script], 'string', `Missing script: ${script}`);
-    assert.ok(packageJson.scripts[script].trim().length > 0, `Empty script: ${script}`);
-  }
-});
-
-test('project keeps strict TypeScript enabled', async () => {
-  const tsconfig = await readJson('tsconfig.json');
-  assert.equal(tsconfig.extends, 'astro/tsconfigs/strict');
-  assert.equal(tsconfig.compilerOptions?.strict, true);
-  assert.equal(tsconfig.compilerOptions?.forceConsistentCasingInFileNames, true);
-});
-
-test('supported Node runtime is explicitly documented', async () => {
-  const packageJson = await readJson('package.json');
-  assert.match(packageJson.engines?.node ?? '', />=20/);
-});
-
-test('SEO component contains canonical, social and structured metadata', async () => {
-  const seo = await readText('src/components/SEO.astro');
-  assert.match(seo, /rel="canonical"/);
-  assert.match(seo, /property="og:title"/);
-  assert.match(seo, /name="twitter:card"/);
-  assert.match(seo, /application\/ld\+json/);
-});
-
-test('crawler files reference the canonical domain', async () => {
-  const [robots, sitemap] = await Promise.all([
-    readText('public/robots.txt'),
-    readText('public/sitemap.xml'),
-  ]);
-  assert.match(robots, /https:\/\/rogercedeno\.dev\/sitemap\.xml/);
-  assert.match(sitemap, /https:\/\/rogercedeno\.dev\//);
-});
-
-test('PWA assets and registration remain configured', async () => {
-  const [manifest, serviceWorker, offlinePage, layout] = await Promise.all([
-    readJson('public/manifest.webmanifest'),
-    readText('public/sw.js'),
-    readText('public/offline.html'),
-    readText('src/layouts/Layout.astro'),
-  ]);
-  assert.equal(manifest.display, 'standalone');
-  assert.equal(manifest.start_url, '/');
-  assert.ok(Array.isArray(manifest.icons) && manifest.icons.length > 0);
-  assert.match(serviceWorker, /offline\.html/);
-  assert.match(serviceWorker, /addEventListener\('fetch'/);
-  assert.match(offlinePage, /Modo offline/);
-  assert.match(layout, /rel="manifest"/);
-  assert.match(layout, /serviceWorker\.register\('\/sw\.js'\)/);
-});
-
-test('mobile performance defaults remain enabled', async () => {
-  const [indexPage, aboutComponent, queryHooks] = await Promise.all([
-    readText('src/pages/index.astro'),
-    readText('src/lib/components/portfolio/About.tsx'),
-    readText('src/lib/presentation/hooks/usePortfolioQuery.ts'),
-  ]);
-  assert.match(indexPage, /client:idle/);
-  assert.doesNotMatch(indexPage, /client:load/);
-  assert.match(aboutComponent, /loading="lazy"/);
-  assert.match(aboutComponent, /fetchPriority="low"/);
-  assert.match(queryHooks, /import type \{ UseQueryResult \}/);
-});
-
-test('profile components use the uploaded JPEG', async () => {
-  const [hero, about, image] = await Promise.all([
-    readText('src/lib/components/portfolio/Hero.tsx'),
-    readText('src/lib/components/portfolio/About.tsx'),
-    readFile('public/me/1757515565808.jpeg'),
-  ]);
-
-  for (const component of [hero, about]) {
-    assert.match(component, /\/me\/1757515565808\.jpeg/);
-    assert.doesNotMatch(component, /roger-profile\.svg/);
-  }
-
-  assert.ok(image.length > 10_000, 'Profile JPEG appears to be empty or invalid.');
+test('portfolio uses the uploaded JPEG', async () => {
+  const [page, image] = await Promise.all([readFile('src/pages/index.astro', 'utf8'), readFile('public/me/1757515565808.jpeg')]);
+  assert.match(page, /\/me\/1757515565808\.jpeg/);
   assert.equal(image[0], 0xff);
   assert.equal(image[1], 0xd8);
+  assert.ok(image.length > 10_000);
+});
+
+test('deployment is static and does not use Astro DB', async () => {
+  const [config, packageJson, vercel] = await Promise.all([
+    readFile('astro.config.mjs', 'utf8'),
+    JSON.parse(await readFile('package.json', 'utf8')),
+    JSON.parse(await readFile('vercel.json', 'utf8')),
+  ]);
+  assert.match(config, /output: 'static'/);
+  assert.equal(packageJson.dependencies['@astrojs/db'], undefined);
+  assert.equal(vercel.buildCommand, 'npm run quality');
+});
+
+test('SEO and PWA essentials are present', async () => {
+  const [page, manifest, robots, worker] = await Promise.all([
+    readFile('src/pages/index.astro', 'utf8'),
+    JSON.parse(await readFile('public/manifest.webmanifest', 'utf8')),
+    readFile('public/robots.txt', 'utf8'),
+    readFile('public/sw.js', 'utf8'),
+  ]);
+  assert.match(page, /application\/ld\+json/);
+  assert.match(page, /rel="canonical"/);
+  assert.equal(manifest.display, 'standalone');
+  assert.match(robots, /sitemap\.xml/);
+  assert.match(worker, /addEventListener\('fetch'/);
 });

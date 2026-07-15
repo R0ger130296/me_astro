@@ -1,70 +1,161 @@
 ---
-export const prerender = true;
+import '../styles/global.css';
 
-import Layout from '../layouts/Layout.astro';
-import { PortfolioApp } from '../lib/components/portfolio/PortfolioApp';
-import { getFeaturedRepositories } from '../lib/infrastructure/github/getFeaturedRepositories';
-import {
-  useCertifications,
-  useEducation,
-  useExperiences,
-  useLanguages,
-  usePersonalInfo,
-  useSkills,
-  useSoftSkills,
-} from '../lib/presentation/hooks/usePortfolio';
-
-const [
-  personalInfo,
-  experiences,
-  education,
-  certifications,
-  skills,
-  softSkills,
-  languages,
-  repositories,
-] = await Promise.all([
-  usePersonalInfo(),
-  useExperiences(),
-  useEducation(),
-  useCertifications(),
-  useSkills(),
-  useSoftSkills(),
-  useLanguages(),
-  getFeaturedRepositories(),
-]);
+const technologies = ['React', 'TypeScript', '.NET 8', 'Astro', 'Node.js', 'Azure', 'Docker'];
+const projects = [
+  {
+    title: 'Auriga Multibrand',
+    description: 'Plataforma empresarial para órdenes de trabajo, recepción, técnicos, control de calidad y presupuestos.',
+    tags: ['React', 'TypeScript', '.NET 8', 'SQL Server'],
+  },
+  {
+    title: 'FinanciaApp',
+    description: 'Aplicación mobile-first para administrar ingresos, gastos, cuentas y reportes financieros personales.',
+    tags: ['React', 'PWA', 'UX/UI', 'APIs'],
+  },
+  {
+    title: 'Portafolio profesional',
+    description: 'Experiencia web estática, rápida y accesible para presentar experiencia, habilidades y proyectos.',
+    tags: ['Astro', 'TypeScript', 'SEO', 'Vercel'],
+  },
+];
+const year = new Date().getFullYear();
+const canonical = 'https://rogercedeno.dev/';
+const title = 'Roger Cedeño | Full Stack Software Developer';
+const description = 'Portafolio profesional de Roger Cedeño, desarrollador full stack especializado en React, TypeScript, .NET, APIs, aplicaciones móviles y soluciones cloud.';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Roger Cedeño',
+  jobTitle: 'Full Stack Software Developer',
+  url: canonical,
+  image: `${canonical}me/1757515565808.jpeg`,
+  address: { '@type': 'PostalAddress', addressCountry: 'EC' },
+  sameAs: ['https://github.com/R0ger130296'],
+};
 ---
+<!doctype html>
+<html lang="es" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Roger Cedeño" />
+    <meta name="theme-color" content="#050816" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${canonical}me/1757515565808.jpeg`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${canonical}me/1757515565808.jpeg`} />
+    <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="header">
+      <nav class="container nav" aria-label="Navegación principal">
+        <a class="brand" href="#inicio" aria-label="Ir al inicio">
+          <span class="monogram" aria-hidden="true">RC</span>
+          <span class="brand-copy"><strong>Roger Cedeño</strong><span>Full Stack Software Developer</span></span>
+        </a>
+        <div class="nav-links">
+          <a href="#sobre-mi">Sobre mí</a>
+          <a href="#experiencia">Experiencia</a>
+          <a href="#proyectos">Proyectos</a>
+        </div>
+        <a class="nav-cta" href="mailto:rogercedeno96@gmail.com">Contactar</a>
+      </nav>
+    </header>
 
-<Layout>
-  <PortfolioApp
-    client:idle
-    personalInfo={personalInfo}
-    experiences={experiences}
-    education={education}
-    certifications={certifications}
-    skills={skills}
-    softSkills={softSkills}
-    languages={languages}
-    repositories={repositories}
-  />
-</Layout>
+    <main id="contenido">
+      <section id="inicio" class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow"><span class="dot"></span>Disponible para nuevos retos</div>
+            <h1>Construyo <span class="gradient-text">productos digitales</span> robustos y fáciles de usar.</h1>
+            <p class="lead">Desarrollador full stack enfocado en aplicaciones web, móviles y APIs empresariales con React, TypeScript, .NET y servicios cloud.</p>
+            <div class="actions">
+              <a class="button button-primary" href="#proyectos">Ver proyectos</a>
+              <a class="button button-secondary" href="https://github.com/R0ger130296" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+            <div class="stack" aria-label="Tecnologías principales">
+              {technologies.map((technology) => <span class="chip">{technology}</span>)}
+            </div>
+          </div>
 
-<style is:global>
-  .divider {
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgb(var(--color-primary-200)),
-      transparent
-    );
-    margin: 0 auto;
-    max-width: 80%;
-  }
+          <aside class="profile-wrap" aria-label="Perfil profesional">
+            <div class="glow" aria-hidden="true"></div>
+            <div class="profile-card">
+              <img class="profile-image" src="/me/1757515565808.jpeg" alt="Retrato profesional de Roger Cedeño" width="800" height="1000" loading="eager" decoding="async" fetchpriority="high" />
+              <div class="identity">
+                <div class="identity-top">
+                  <div><h2>Roger Cedeño</h2><p>Full Stack Software Developer</p></div>
+                  <span class="badge">Disponible</span>
+                </div>
+                <div class="identity-meta">
+                  <div>Ubicación<strong>Ecuador</strong></div>
+                  <div>Especialidad<strong>Web, móvil y APIs</strong></div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
 
-  @media (min-width: 1280px) {
-    .divider {
-      max-width: 60%;
-    }
-  }
-</style>
+      <section id="sobre-mi" class="section">
+        <div class="container">
+          <div class="section-heading"><span class="section-kicker">Perfil</span><h2>Ingeniería con visión de producto.</h2><p>Combino desarrollo frontend, backend, experiencia de usuario e infraestructura para entregar soluciones mantenibles y preparadas para producción.</p></div>
+          <div class="stats">
+            <div class="stat"><strong>Full stack</strong><span>Frontend, backend y cloud</span></div>
+            <div class="stat"><strong>Mobile-first</strong><span>Experiencias rápidas y adaptables</span></div>
+            <div class="stat"><strong>Clean code</strong><span>Arquitectura y mantenibilidad</span></div>
+            <div class="stat"><strong>DevOps</strong><span>CI, Docker, Azure y Vercel</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="experiencia" class="section">
+        <div class="container">
+          <div class="section-heading"><span class="section-kicker">Experiencia</span><h2>Soluciones para operaciones reales.</h2><p>Experiencia construyendo y manteniendo aplicaciones empresariales, flujos operativos, integraciones y plataformas multiplataforma.</p></div>
+          <div class="timeline">
+            <article><h3>Desarrollo full stack</h3><div class="meta">React · TypeScript · .NET 8 · SQL Server</div><p>Implementación de módulos empresariales, permisos, formularios, reportes, APIs y reglas de negocio complejas.</p></article>
+            <article><h3>Aplicaciones móviles y PWA</h3><div class="meta">React Native · Flutter · Cordova · Web APIs</div><p>Soporte y evolución de aplicaciones móviles, acceso a capacidades del dispositivo y experiencias instalables.</p></article>
+            <article><h3>Infraestructura y despliegue</h3><div class="meta">Azure · Docker · GitHub Actions · Vercel</div><p>Automatización de calidad, despliegues reproducibles y resolución de incidencias entre desarrollo y producción.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="proyectos" class="section">
+        <div class="container">
+          <div class="section-heading"><span class="section-kicker">Proyectos</span><h2>Trabajo relevante.</h2><p>Una selección de productos y plataformas donde la calidad técnica se combina con necesidades reales de negocio.</p></div>
+          <div class="cards">
+            {projects.map((project) => (
+              <article class="card"><h3>{project.title}</h3><p>{project.description}</p><div class="card-tags">{project.tags.map((tag) => <span class="chip">{tag}</span>)}</div></article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="contacto" class="section">
+        <div class="container contact-box">
+          <div><h2>Construyamos algo sólido.</h2><p>Disponible para oportunidades, colaboración técnica y desarrollo de productos digitales.</p></div>
+          <a class="button button-primary" href="mailto:rogercedeno96@gmail.com">Enviar correo</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"><div class="container footer-row"><span>© {year} Roger Cedeño</span><span>Construido con Astro y TypeScript</span></div></footer>
+    <script is:inline>
+      if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+    </script>
+  </body>
+</html>
