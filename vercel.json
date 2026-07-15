@@ -1,6 +1,12 @@
 {
+<<<<<<< HEAD
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
   "installCommand": "npm ci",
   "buildCommand": "npm run build:ci"
+=======
+  "buildCommand": "npm run build",
+  "framework": "astro",
+  "installCommand": "npm install"
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
 }

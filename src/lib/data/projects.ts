@@ -2,7 +2,11 @@
  * Project data
  * Single Source of Truth for portfolio projects
  */
+<<<<<<< HEAD
 import type { Project } from '../domain/entities';
+=======
+import type { Project } from '$lib/domain/entities';
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
 
 // Type for raw data before creating entities
 interface ProjectData {

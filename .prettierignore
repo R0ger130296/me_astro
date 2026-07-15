@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 dist
 .astro
 node_modules
 coverage
 public
 package-lock.json
+=======
+.svelte-kit
+build
+node_modules
+package
+
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)

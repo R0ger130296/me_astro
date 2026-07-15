@@ -1,10 +1,15 @@
 /**
  * Presentation Hook
  * Connects the presentation layer with use cases
+<<<<<<< HEAD
  * Implements Facade Pattern for simplified API
  */
 import { container } from '../../infrastructure/di/Container';
 import { useAsyncData } from './useAsyncData';
+=======
+ */
+import { container } from '../../infrastructure/di/Container';
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
 import type {
   PersonalInfo,
   Experience,
@@ -17,7 +22,11 @@ import type {
 } from '../../domain/entities';
 
 /**
+<<<<<<< HEAD
  * Hook to get personal information (async function for server-side)
+=======
+ * Hook to get personal information
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
  */
 export async function usePersonalInfo(): Promise<PersonalInfo> {
   const useCase = container.getGetPersonalInfoUseCase();
@@ -25,6 +34,7 @@ export async function usePersonalInfo(): Promise<PersonalInfo> {
 }
 
 /**
+<<<<<<< HEAD
  * React Hook to get personal information (for client-side components)
  */
 export function usePersonalInfoHook() {
@@ -36,6 +46,9 @@ export function usePersonalInfoHook() {
 
 /**
  * Hook to get experiences (async function for server-side)
+=======
+ * Hook to get experiences
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
  */
 export async function useExperiences(): Promise<Experience[]> {
   const useCase = container.getGetExperiencesUseCase();
@@ -43,6 +56,7 @@ export async function useExperiences(): Promise<Experience[]> {
 }
 
 /**
+<<<<<<< HEAD
  * React Hook to get experiences (for client-side components)
  */
 export function useExperiencesHook() {
@@ -54,6 +68,9 @@ export function useExperiencesHook() {
 
 /**
  * Hook to get education (async function for server-side)
+=======
+ * Hook to get education
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
  */
 export async function useEducation(): Promise<Education[]> {
   const useCase = container.getGetEducationUseCase();
@@ -61,6 +78,7 @@ export async function useEducation(): Promise<Education[]> {
 }
 
 /**
+<<<<<<< HEAD
  * React Hook to get education (for client-side components)
  */
 export function useEducationHook() {
@@ -72,6 +90,9 @@ export function useEducationHook() {
 
 /**
  * Hook to get certifications (async function for server-side)
+=======
+ * Hook to get certifications
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
  */
 export async function useCertifications(): Promise<Certification[]> {
   const useCase = container.getGetCertificationsUseCase();
@@ -79,6 +100,7 @@ export async function useCertifications(): Promise<Certification[]> {
 }
 
 /**
+<<<<<<< HEAD
  * React Hook to get certifications (for client-side components)
  */
 export function useCertificationsHook() {
@@ -90,6 +112,9 @@ export function useCertificationsHook() {
 
 /**
  * Hook to get skills (async function for server-side)
+=======
+ * Hook to get skills
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
  */
 export async function useSkills(): Promise<Skill[]> {
   const useCase = container.getGetSkillsUseCase();
@@ -97,6 +122,7 @@ export async function useSkills(): Promise<Skill[]> {
 }
 
 /**
+<<<<<<< HEAD
  * React Hook to get skills (for client-side components)
  */
 export function useSkillsHook() {
@@ -108,6 +134,9 @@ export function useSkillsHook() {
 
 /**
  * Hook to get soft skills (async function for server-side)
+=======
+ * Hook to get soft skills
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
  */
 export async function useSoftSkills(): Promise<Skill[]> {
   const useCase = container.getGetSkillsUseCase();
@@ -115,6 +144,7 @@ export async function useSoftSkills(): Promise<Skill[]> {
 }
 
 /**
+<<<<<<< HEAD
  * React Hook to get soft skills (for client-side components)
  */
 export function useSoftSkillsHook() {
@@ -126,6 +156,9 @@ export function useSoftSkillsHook() {
 
 /**
  * Hook to get languages (async function for server-side)
+=======
+ * Hook to get languages
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
  */
 export async function useLanguages(): Promise<Language[]> {
   const useCase = container.getGetLanguagesUseCase();
@@ -133,6 +166,7 @@ export async function useLanguages(): Promise<Language[]> {
 }
 
 /**
+<<<<<<< HEAD
  * React Hook to get languages (for client-side components)
  */
 export function useLanguagesHook() {
@@ -143,6 +177,8 @@ export function useLanguagesHook() {
 }
 
 /**
+=======
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
  * Hook to get references
  */
 export async function useReferences(): Promise<Reference[]> {

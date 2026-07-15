@@ -98,6 +98,7 @@
     scroll-behavior: smooth;
   }
 
+<<<<<<< HEAD
   /* Shimmer animation for skeleton loaders */
   @keyframes shimmer {
     0% {
@@ -112,6 +113,8 @@
     animation: shimmer 2s infinite;
   }
 
+=======
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold tracking-tight text-primary-900;
     line-height: 1.25;

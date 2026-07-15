@@ -9,8 +9,13 @@ export class Project {
     public readonly id: number,
     public readonly name: string,
     public readonly description: string,
+<<<<<<< HEAD
     public readonly technologies: string[],
     public readonly longDescription?: string,
+=======
+    public readonly longDescription?: string,
+    public readonly technologies: string[],
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
     public readonly image?: string,
     public readonly githubUrl?: string,
     public readonly liveUrl?: string,

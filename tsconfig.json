@@ -18,7 +18,11 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "jsxImportSource": "react"
+<<<<<<< HEAD
   },
   "include": ["src/**/*", "db/**/*", "astro.d.ts"],
   "exclude": ["node_modules", "dist"]
+=======
+  }
+>>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
 }
