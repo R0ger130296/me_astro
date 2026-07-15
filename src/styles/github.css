@@ -1,0 +1,233 @@
+.github-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.github-section::before {
+  content: '';
+  position: absolute;
+  width: 26rem;
+  height: 26rem;
+  top: -10rem;
+  right: -12rem;
+  border-radius: 50%;
+  background: rgba(139, 109, 246, 0.08);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.section-heading-row {
+  align-items: end;
+}
+
+.text-link {
+  width: fit-content;
+  color: #c9c1ff;
+  font-size: 0.86rem;
+  font-weight: 700;
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.text-link:hover {
+  color: #ffffff;
+  transform: translateX(2px);
+}
+
+.activity-grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.activity-card {
+  position: relative;
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  padding: 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.032), rgba(255, 255, 255, 0.014));
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.activity-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(169, 158, 247, 0.3);
+  background: linear-gradient(180deg, rgba(139, 109, 246, 0.065), rgba(255, 255, 255, 0.016));
+}
+
+.activity-status {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.activity-dot {
+  width: 0.46rem;
+  height: 0.46rem;
+  border-radius: 999px;
+  background: #788293;
+}
+
+.activity-dot-active {
+  background: var(--success);
+  box-shadow: 0 0 0 4px rgba(67, 201, 141, 0.09);
+}
+
+.activity-card h3 {
+  margin: 0.85rem 0 0.4rem;
+  font-size: 1.08rem;
+}
+
+.activity-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.activity-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  color: #c2c8d2;
+  font-size: 0.7rem;
+}
+
+.github-summary {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.85rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.github-summary div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.09);
+}
+
+.github-summary div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.github-summary span {
+  color: var(--muted);
+  font-size: 0.73rem;
+}
+
+.github-summary strong {
+  max-width: 60%;
+  text-align: right;
+  font-size: 0.76rem;
+}
+
+.repo-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+}
+
+.repo-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.9rem;
+}
+
+.repo-language,
+.repo-source {
+  font-size: 0.68rem;
+  font-weight: 750;
+}
+
+.repo-language {
+  color: #c9c1ff;
+}
+
+.repo-source {
+  padding: 0.22rem 0.45rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+}
+
+.repo-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.repo-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.9rem;
+}
+
+.repo-actions a {
+  color: #c9c1ff;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.repo-actions a:hover {
+  color: #ffffff;
+}
+
+@media (min-width: 640px) {
+  .section-heading-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .activity-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .github-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 1.1rem 1.25rem;
+  }
+
+  .github-summary div {
+    display: block;
+    padding: 0 1rem;
+    border-bottom: 0;
+    border-right: 1px solid rgba(148, 163, 184, 0.09);
+  }
+
+  .github-summary div:first-child {
+    padding-left: 0;
+  }
+
+  .github-summary div:last-child {
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .github-summary strong {
+    display: block;
+    max-width: none;
+    margin-top: 0.25rem;
+    text-align: left;
+  }
+}
+
+@media (min-width: 900px) {
+  .activity-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
