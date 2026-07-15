@@ -65,3 +65,17 @@ test('PWA assets and registration remain configured', async () => {
   assert.match(layout, /rel="manifest"/);
   assert.match(layout, /serviceWorker\.register\('\/sw\.js'\)/);
 });
+
+test('mobile performance defaults remain enabled', async () => {
+  const [indexPage, aboutComponent, queryHooks] = await Promise.all([
+    readText('src/pages/index.astro'),
+    readText('src/lib/components/portfolio/About.tsx'),
+    readText('src/lib/presentation/hooks/usePortfolioQuery.ts'),
+  ]);
+
+  assert.match(indexPage, /client:idle/);
+  assert.doesNotMatch(indexPage, /client:load/);
+  assert.match(aboutComponent, /loading="lazy"/);
+  assert.match(aboutComponent, /fetchPriority="low"/);
+  assert.match(queryHooks, /import type \{ UseQueryResult \}/);
+});
