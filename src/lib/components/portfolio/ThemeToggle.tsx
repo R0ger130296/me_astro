@@ -3,12 +3,10 @@ import React, { useEffect, useState } from 'react';
 type Theme = 'light' | 'dark';
 
 const getPreferredTheme = (): Theme => {
-  if (typeof window === 'undefined') return 'light';
+  if (typeof window === 'undefined') return 'dark';
 
-  const storedTheme = window.localStorage.getItem('theme');
-  if (storedTheme === 'light' || storedTheme === 'dark') return storedTheme;
-
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  const storedTheme = window.localStorage.getItem('portfolio-theme');
+  return storedTheme === 'light' ? 'light' : 'dark';
 };
 
 const applyTheme = (theme: Theme) => {
@@ -18,7 +16,7 @@ const applyTheme = (theme: Theme) => {
 };
 
 export const ThemeToggle: React.FC = () => {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dark');
 
   useEffect(() => {
     const preferredTheme = getPreferredTheme();
@@ -30,7 +28,7 @@ export const ThemeToggle: React.FC = () => {
     const nextTheme: Theme = theme === 'dark' ? 'light' : 'dark';
     setTheme(nextTheme);
     applyTheme(nextTheme);
-    window.localStorage.setItem('theme', nextTheme);
+    window.localStorage.setItem('portfolio-theme', nextTheme);
   };
 
   const isDark = theme === 'dark';
