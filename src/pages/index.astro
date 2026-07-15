@@ -1,37 +1,25 @@
 ---
 import '../styles/global.css';
 import '../styles/nav-fix.css';
+import BrandIcon from '../components/BrandIcon.astro';
+import { siAstro, siDocker, siDotnet, siExpo, siFirebase, siGit, siGraphql, siMicrosoftazure, siMicrosoftsqlserver, siNodedotjs, siReact, siTailwindcss, siTypescript } from 'simple-icons';
 import {
   ArrowRight,
-  Atom,
   Award,
   BadgeCheck,
   BriefcaseBusiness,
   CalendarDays,
-  CarFront,
   Clock3,
-  Cloud,
   Code2,
-  Container,
-  Database,
-  Flame,
-  GitBranch,
   Github,
   Linkedin,
   Mail,
   MapPin,
   MessageCircle,
-  Network,
   Rocket,
   Send,
-  Smartphone,
-  Sparkles,
   Star,
   UserRound,
-  WalletCards,
-  Wind,
-  Braces,
-  Box,
 } from '@lucide/astro';
 
 type Repo = {
@@ -90,7 +78,7 @@ const formatDate = (value: string) =>
 const projects = [
   {
     title: 'FinanciaApp',
-    icon: WalletCards,
+    icon: siReact,
     status: 'En producción',
     tone: 'green',
     description: 'Aplicación web para gestionar ingresos, gastos, cuentas y presupuestos personales.',
@@ -99,7 +87,7 @@ const projects = [
   },
   {
     title: 'Auriga',
-    icon: CarFront,
+    icon: siDotnet,
     status: 'En desarrollo',
     tone: 'blue',
     description: 'Plataforma empresarial para talleres automotrices, órdenes de trabajo, citas y técnicos.',
@@ -108,7 +96,7 @@ const projects = [
   },
   {
     title: 'App Colaboradores',
-    icon: Smartphone,
+    icon: siExpo,
     status: 'En producción',
     tone: 'green',
     description: 'Aplicación móvil interna para colaboradores, notificaciones y gestión de tareas.',
@@ -117,7 +105,7 @@ const projects = [
   },
   {
     title: 'Apollo GraphQL',
-    icon: Network,
+    icon: siGraphql,
     status: 'Proyecto técnico',
     tone: 'purple',
     description: 'Servidor GraphQL escalable con autenticación, roles, documentación y contenedores.',
@@ -126,7 +114,7 @@ const projects = [
   },
   {
     title: 'Portafolio v4',
-    icon: Sparkles,
+    icon: siAstro,
     status: 'En producción',
     tone: 'green',
     description: 'Portafolio profesional optimizado para rendimiento, SEO e integración con GitHub.',
@@ -136,18 +124,18 @@ const projects = [
 ];
 
 const technologies = [
-  { name: 'React', icon: Atom },
-  { name: 'TypeScript', icon: Braces },
-  { name: '.NET', icon: Code2 },
-  { name: 'Node.js', icon: Box },
-  { name: 'Astro', icon: Sparkles },
-  { name: 'Azure', icon: Cloud },
-  { name: 'SQL Server', icon: Database },
-  { name: 'Firebase', icon: Flame },
-  { name: 'Docker', icon: Container },
-  { name: 'Git', icon: GitBranch },
-  { name: 'Tailwind CSS', icon: Wind },
-  { name: 'GraphQL', icon: Network },
+  { name: 'React', icon: siReact },
+  { name: 'TypeScript', icon: siTypescript },
+  { name: '.NET', icon: siDotnet },
+  { name: 'Node.js', icon: siNodedotjs },
+  { name: 'Astro', icon: siAstro },
+  { name: 'Azure', icon: siMicrosoftazure },
+  { name: 'SQL Server', icon: siMicrosoftsqlserver },
+  { name: 'Firebase', icon: siFirebase },
+  { name: 'Docker', icon: siDocker },
+  { name: 'Git', icon: siGit },
+  { name: 'Tailwind CSS', icon: siTailwindcss },
+  { name: 'GraphQL', icon: siGraphql },
 ];
 
 const year = new Date().getFullYear();
@@ -220,11 +208,11 @@ const structuredData = {
           <p>Desarrollador Full Stack especializado en construir aplicaciones web y móviles escalables, centradas en la experiencia de usuario y el negocio.</p>
 
           <div class="tech-pills" aria-label="Tecnologías principales">
-            <span><Atom size={16} aria-hidden="true" />React</span>
-            <span><Code2 size={16} aria-hidden="true" />.NET</span>
-            <span><Braces size={16} aria-hidden="true" />TypeScript</span>
-            <span><Cloud size={16} aria-hidden="true" />Azure</span>
-            <span><Sparkles size={16} aria-hidden="true" />Astro</span>
+            <span><BrandIcon icon={siReact} size={16} />React</span>
+            <span><BrandIcon icon={siDotnet} size={16} />.NET</span>
+            <span><BrandIcon icon={siTypescript} size={16} />TypeScript</span>
+            <span><BrandIcon icon={siMicrosoftazure} size={16} />Azure</span>
+            <span><BrandIcon icon={siAstro} size={16} />Astro</span>
           </div>
 
           <div class="hero-actions">
@@ -264,11 +252,9 @@ const structuredData = {
           <a href="https://github.com/R0ger130296?tab=repositories" target="_blank" rel="noreferrer">Ver todos los proyectos <ArrowRight size={16} aria-hidden="true" /></a>
         </div>
         <div class="project-grid">
-          {projects.map((project) => {
-            const ProjectIcon = project.icon;
-            return (
+          {projects.map((project) => (
               <article class="project-card">
-                <div class="project-top"><span class="project-icon"><ProjectIcon size={22} aria-hidden="true" /></span><span class={`status ${project.tone}`}>{project.status}</span></div>
+                <div class="project-top"><span class="project-icon"><BrandIcon icon={project.icon} size={22} label={project.title} /></span><span class={`status ${project.tone}`}>{project.status}</span></div>
                 <h3>{project.title}</h3>
                 <p>{project.description}</p>
                 <div class="tags">{project.tags.map((tag) => <span>{tag}</span>)}</div>
@@ -277,8 +263,7 @@ const structuredData = {
                   {project.repo ? <a href={project.repo.html_url} target="_blank" rel="noreferrer">Ver código <ArrowRight size={14} aria-hidden="true" /></a> : <a href="#contacto">Ver detalles <ArrowRight size={14} aria-hidden="true" /></a>}
                 </div>
               </article>
-            );
-          })}
+          ))}
         </div>
       </section>
 
@@ -298,10 +283,9 @@ const structuredData = {
         <article id="habilidades" class="panel skills-panel">
           <header><Code2 size={20} aria-hidden="true" /><h2>Tecnologías principales</h2></header>
           <div class="technology-grid">
-            {technologies.map(({ name, icon }) => {
-              const TechnologyIcon = icon;
-              return <div><TechnologyIcon size={23} aria-hidden="true" /><span>{name}</span></div>;
-            })}
+            {technologies.map(({ name, icon }) => (
+              <div><BrandIcon icon={icon} size={24} label={name} /><span>{name}</span></div>
+            ))}
           </div>
           <a class="panel-link" href="https://github.com/R0ger130296" target="_blank" rel="noreferrer">Ver actividad técnica <ArrowRight size={15} aria-hidden="true" /></a>
         </article>
