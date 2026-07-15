@@ -10,8 +10,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "build:ci": "ASTRO_DATABASE_FILE=.astro/ci.db astro build",
-    "build:remote": "astro build --remote",
+    "build:ci": "astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
     "typecheck:watch": "astro check --watch",
@@ -20,12 +19,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "node --test tests/**/*.test.mjs",
-    "quality": "npm run typecheck && npm run lint && npm run test && npm run build:ci",
+    "quality": "npm run typecheck && npm run lint && npm run test && npm run build",
     "quality:full": "npm run quality && npm run format:check",
     "convert-pdfs": "node scripts/convert-pdfs-to-images.js"
   },
   "dependencies": {
-    "@astrojs/db": "^0.18.3",
     "@astrojs/react": "^3.6.0",
     "@astrojs/tailwind": "^5.1.0",
     "@astrojs/vercel": "^8.0.0",
