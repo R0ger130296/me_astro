@@ -1,117 +1,99 @@
 ---
 /**
  * Main Portfolio Page
- * Uses Astro's server-side rendering to pre-fetch data
- * Implements Islands Architecture - only interactive components are hydrated
- * Enhanced with TanStack Query for better data management
+ *
+ * Portfolio data is generated at build time. Prerendering avoids opening a
+ * local SQLite database inside Vercel's serverless runtime, where the build
+ * database is not persistent between requests.
  */
+export const prerender = true;
+
 import Layout from '../layouts/Layout.astro';
 import { Header, Hero, About, Experience, Education, Skills, Certifications, Languages } from '../lib/components/portfolio';
 import { ScrollToTop } from '../lib/components/ui/ScrollToTop';
 import { AppProviders } from '../lib/components/providers/AppProviders';
 import { usePersonalInfo, useExperiences, useEducation, useCertifications, useSkills, useSoftSkills, useLanguages } from '../lib/presentation/hooks/usePortfolio';
 
-// Pre-fetch data on server-side (Astro SSR)
-const personalInfo = await usePersonalInfo();
-const experiences = await useExperiences();
-const education = await useEducation();
-const certifications = await useCertifications();
-const skills = await useSkills();
-const softSkills = await useSoftSkills();
-const languages = await useLanguages();
+const [personalInfo, experiences, education, certifications, skills, softSkills, languages] = await Promise.all([
+  usePersonalInfo(),
+  useExperiences(),
+  useEducation(),
+  useCertifications(),
+  useSkills(),
+  useSoftSkills(),
+  useLanguages(),
+]);
 ---
 
 <Layout>
   <AppProviders client:only="react">
     <div class="min-h-screen bg-gradient-to-b from-white via-primary-50/30 to-white">
-      <!-- Fixed Header -->
       <nav class="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-lg border-b border-primary-200/50 shadow-xs">
         <Header client:load />
       </nav>
 
-    <!-- Hero Section -->
-    <Hero client:load />
+      <Hero client:load />
 
-    <!-- Main Content with Side Accent Line -->
-    <main class="relative">
-      <!-- Decorative side line for large screens -->
-      <div class="hidden xl:block absolute left-8 2xl:left-16 top-0 bottom-0 w-px bg-gradient-to-b from-secondary-300 via-primary-200 to-transparent"></div>
-      
-      <!-- Content Container -->
-      <div class="max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 pb-16 sm:pb-20 lg:pb-24 space-y-8 sm:space-y-12 lg:space-y-16 xl:space-y-20 pt-16 sm:pt-20 lg:pt-24">
-        
-        <!-- About Section -->
-        <div class="section-content initially-visible">
-          <About client:load initialData={personalInfo} />
+      <main class="relative">
+        <div class="hidden xl:block absolute left-8 2xl:left-16 top-0 bottom-0 w-px bg-gradient-to-b from-secondary-300 via-primary-200 to-transparent"></div>
+
+        <div class="max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 pb-16 sm:pb-20 lg:pb-24 space-y-8 sm:space-y-12 lg:space-y-16 xl:space-y-20 pt-16 sm:pt-20 lg:pt-24">
+          <div class="section-content initially-visible">
+            <About client:load initialData={personalInfo} />
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-content initially-visible">
+            <Experience client:load initialData={experiences} />
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-content initially-visible">
+            <Education client:load initialData={education} />
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-content initially-visible">
+            <Skills client:load initialData={{ skills, softSkills }} />
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-content initially-visible">
+            <Certifications client:load initialData={certifications} />
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-content initially-visible">
+            <Languages client:load initialData={languages} />
+          </div>
+
+          <div class="divider"></div>
         </div>
+      </main>
 
-        <!-- Divider -->
-        <div class="divider"></div>
-        
-        <!-- Experience Section -->
-        <div class="section-content initially-visible">
-          <Experience client:load initialData={experiences} />
+      <footer class="relative border-t border-primary-200/60 bg-gradient-to-b from-primary-50/50 to-primary-100/30 py-10 sm:py-14 lg:py-16 mt-12 sm:mt-16 lg:mt-20">
+        <div class="max-w-5xl xl:max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+            <p class="text-primary-600 text-sm sm:text-base font-medium">
+              © {new Date().getFullYear()} Roger Cedeño
+            </p>
+            <span class="hidden sm:inline-block w-1 h-1 rounded-full bg-primary-300"></span>
+            <p class="text-primary-500 text-sm">
+              Desarrollado con <span class="font-semibold text-primary-700">Astro</span> y <span class="font-semibold text-secondary-600">React</span>
+            </p>
+          </div>
+
+          <div class="mt-6 flex justify-center">
+            <div class="w-20 h-0.5 rounded-full bg-gradient-to-r from-secondary-400 to-primary-400"></div>
+          </div>
         </div>
+      </footer>
 
-        <!-- Divider -->
-        <div class="divider"></div>
-        
-        <!-- Education Section -->
-        <div class="section-content initially-visible">
-          <Education client:load initialData={education} />
-        </div>
-
-        <!-- Divider -->
-        <div class="divider"></div>
-        
-        <!-- Skills Section -->
-        <div class="section-content initially-visible">
-          <Skills client:load initialData={{ skills, softSkills }} />
-        </div>
-
-        <!-- Divider -->
-        <div class="divider"></div>
-        
-        <!-- Certifications Section -->
-        <div class="section-content initially-visible">
-          <Certifications client:load initialData={certifications} />
-        </div>
-
-        <!-- Divider -->
-        <div class="divider"></div>
-        
-        <!-- Languages Section -->
-        <div class="section-content initially-visible">
-          <Languages client:load initialData={languages} />
-        </div>
-
-        <!-- Divider -->
-        <div class="divider"></div>
-        
-      </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="relative border-t border-primary-200/60 bg-gradient-to-b from-primary-50/50 to-primary-100/30 py-10 sm:py-14 lg:py-16 mt-12 sm:mt-16 lg:mt-20">
-      <div class="max-w-5xl xl:max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
-          <p class="text-primary-600 text-sm sm:text-base font-medium">
-            © {new Date().getFullYear()} Roger Cedeño
-          </p>
-          <span class="hidden sm:inline-block w-1 h-1 rounded-full bg-primary-300"></span>
-          <p class="text-primary-500 text-sm">
-            Desarrollado con <span class="font-semibold text-primary-700">Astro</span> y <span class="font-semibold text-secondary-600">React</span>
-          </p>
-        </div>
-        
-        <!-- Subtle accent line -->
-        <div class="mt-6 flex justify-center">
-          <div class="w-20 h-0.5 rounded-full bg-gradient-to-r from-secondary-400 to-primary-400"></div>
-        </div>
-      </div>
-    </footer>
-
-      <!-- Scroll to Top Button -->
       <ScrollToTop client:idle />
     </div>
   </AppProviders>
@@ -164,7 +146,7 @@ const languages = await useLanguages();
   if (typeof window !== 'undefined') {
     const observerOptions = {
       threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      rootMargin: '0px 0px -50px 0px',
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -176,9 +158,9 @@ const languages = await useLanguages();
     }, observerOptions);
 
     setTimeout(() => {
-      document.querySelectorAll('section, .section-content').forEach((el) => {
-        el.classList.remove('initially-visible');
-        observer.observe(el);
+      document.querySelectorAll('section, .section-content').forEach((element) => {
+        element.classList.remove('initially-visible');
+        observer.observe(element);
       });
     }, 100);
   }
