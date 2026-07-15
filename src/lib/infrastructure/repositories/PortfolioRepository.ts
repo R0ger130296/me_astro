@@ -2,10 +2,7 @@
  * Repository Implementation
  * Infrastructure Layer - Data access
  * Uses database.json as the single source of truth
-<<<<<<< HEAD
  * Implements Repository Pattern and Dependency Inversion Principle
-=======
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
  */
 import type { IPortfolioRepository } from '../../domain/ports/IPortfolioRepository.port';
 import {
@@ -17,20 +14,14 @@ import {
   Skill,
   Language,
   Project,
-<<<<<<< HEAD
   type SkillCategory,
   type SkillLevel
 } from '../../domain/entities';
 import { LoggerFactory } from '../logger/Logger';
-=======
-  type SkillCategory
-} from '../../domain/entities';
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
 // Import database from TypeScript module
 import { database } from '../../../data/database';
 import { projectsData } from '../../data/projects';
 
-<<<<<<< HEAD
 const logger = LoggerFactory.getLogger();
 
 export class PortfolioRepository implements IPortfolioRepository {
@@ -58,19 +49,6 @@ export class PortfolioRepository implements IPortfolioRepository {
       logger.error('Error fetching personal information', error as Error);
       throw error;
     }
-=======
-export class PortfolioRepository implements IPortfolioRepository {
-  async getPersonalInfo(): Promise<PersonalInfo> {
-    const data = database.personalInfo;
-    return new PersonalInfo(
-      data.name,
-      data.title,
-      data.email,
-      data.phone,
-      data.location,
-      data.summary
-    );
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
   }
 
   async getExperiences(): Promise<Experience[]> {
@@ -128,7 +106,6 @@ export class PortfolioRepository implements IPortfolioRepository {
   async getSkills(): Promise<Skill[]> {
     const skills: Skill[] = [];
     
-<<<<<<< HEAD
     // Helper to convert numeric level to SkillLevel
     const mapLevelToSkillLevel = (level: number): SkillLevel => {
       if (level >= 85) return 'expert';
@@ -146,13 +123,6 @@ export class PortfolioRepository implements IPortfolioRepository {
             const level = skill.level ? mapLevelToSkillLevel(skill.level) : undefined;
             skills.push(new Skill(skill.name, category as SkillCategory, level));
           }
-=======
-    Object.entries(database.skills).forEach(([category, skillList]) => {
-      if (Array.isArray(skillList)) {
-        skillList.forEach((skill: any) => {
-          const skillName = typeof skill === 'string' ? skill : skill.name;
-          skills.push(new Skill(skillName, category as SkillCategory));
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
         });
       }
     });
@@ -179,13 +149,8 @@ export class PortfolioRepository implements IPortfolioRepository {
           project.id,
           project.name,
           project.description,
-<<<<<<< HEAD
           project.technologies,
           project.longDescription,
-=======
-          project.longDescription,
-          project.technologies,
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
           project.image,
           project.githubUrl,
           project.liveUrl,
