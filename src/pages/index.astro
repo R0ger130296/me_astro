@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 
-const technologies = ['React', 'TypeScript', '.NET 8', 'Astro', 'Node.js', 'Azure', 'Docker'];
+const technologies = ['React', 'TypeScript', '.NET 8', 'Astro', 'Azure', 'Docker'];
 const projects = [
   {
     title: 'Auriga Multibrand',
@@ -41,7 +41,7 @@ const structuredData = {
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={description} />
     <meta name="author" content="Roger Cedeño" />
-    <meta name="theme-color" content="#050816" />
+    <meta name="theme-color" content="#070b14" />
     <meta name="color-scheme" content="dark" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonical} />
@@ -61,11 +61,15 @@ const structuredData = {
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
     <header class="header">
       <nav class="container nav" aria-label="Navegación principal">
         <a class="brand" href="#inicio" aria-label="Ir al inicio">
           <span class="monogram" aria-hidden="true">RC</span>
-          <span class="brand-copy"><strong>Roger Cedeño</strong><span>Full Stack Software Developer</span></span>
+          <span class="brand-copy">
+            <strong>Roger Cedeño</strong>
+            <span>Full Stack Software Developer</span>
+          </span>
         </a>
         <div class="nav-links">
           <a href="#sobre-mi">Sobre mí</a>
@@ -78,42 +82,51 @@ const structuredData = {
 
     <main id="contenido">
       <section id="inicio" class="hero">
-        <div class="container hero-grid">
-          <div>
-            <div class="eyebrow"><span class="dot"></span>Disponible para nuevos retos</div>
-            <h1>Construyo <span class="gradient-text">productos digitales</span> robustos y fáciles de usar.</h1>
-            <p class="lead">Desarrollador full stack enfocado en aplicaciones web, móviles y APIs empresariales con React, TypeScript, .NET y servicios cloud.</p>
+        <div class="container hero-shell">
+          <div class="portrait-column">
+            <div class="portrait-frame">
+              <img
+                class="profile-image"
+                src="/me/1757515565808.jpeg"
+                alt="Retrato profesional de Roger Cedeño"
+                width="800"
+                height="1000"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+              />
+            </div>
+          </div>
+
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="dot"></span>Desarrollador full stack</div>
+            <h1>Construyo soluciones digitales que <span class="gradient-text">generan valor.</span></h1>
+            <p class="lead">Desarrollo aplicaciones modernas, seguras y mantenibles con React, TypeScript, .NET y servicios cloud.</p>
             <div class="actions">
-              <a class="button button-primary" href="#proyectos">Ver proyectos</a>
-              <a class="button button-secondary" href="https://github.com/R0ger130296" target="_blank" rel="noreferrer">GitHub</a>
+              <a class="button button-primary" href="#proyectos">Ver mi trabajo</a>
+              <a class="button button-secondary" href="mailto:rogercedeno96@gmail.com">Contactarme</a>
             </div>
             <div class="stack" aria-label="Tecnologías principales">
               {technologies.map((technology) => <span class="chip">{technology}</span>)}
             </div>
           </div>
+        </div>
 
-          <aside class="profile-wrap" aria-label="Perfil profesional">
-            <div class="glow" aria-hidden="true"></div>
-            <div class="profile-card">
-              <img class="profile-image" src="/me/1757515565808.jpeg" alt="Retrato profesional de Roger Cedeño" width="800" height="1000" loading="eager" decoding="async" fetchpriority="high" />
-              <div class="identity">
-                <div class="identity-top">
-                  <div><h2>Roger Cedeño</h2><p>Full Stack Software Developer</p></div>
-                  <span class="badge">Disponible</span>
-                </div>
-                <div class="identity-meta">
-                  <div>Ubicación<strong>Ecuador</strong></div>
-                  <div>Especialidad<strong>Web, móvil y APIs</strong></div>
-                </div>
-              </div>
-            </div>
-          </aside>
+        <div class="container hero-stats" aria-label="Resumen profesional">
+          <div class="hero-stat"><span class="stat-icon">&lt;/&gt;</span><strong>5+</strong><small>Años de experiencia</small></div>
+          <div class="hero-stat"><span class="stat-icon">▣</span><strong>20+</strong><small>Proyectos completados</small></div>
+          <div class="hero-stat"><span class="stat-icon">↗</span><strong>10+</strong><small>Tecnologías dominadas</small></div>
+          <div class="hero-stat"><span class="stat-icon">✦</span><strong>5+</strong><small>Certificaciones</small></div>
         </div>
       </section>
 
       <section id="sobre-mi" class="section">
         <div class="container">
-          <div class="section-heading"><span class="section-kicker">Perfil</span><h2>Ingeniería con visión de producto.</h2><p>Combino desarrollo frontend, backend, experiencia de usuario e infraestructura para entregar soluciones mantenibles y preparadas para producción.</p></div>
+          <div class="section-heading">
+            <span class="section-kicker">Sobre mí</span>
+            <h2>Ingeniería con visión de producto.</h2>
+            <p>Combino frontend, backend, experiencia de usuario e infraestructura para construir soluciones mantenibles y preparadas para producción.</p>
+          </div>
           <div class="stats">
             <div class="stat"><strong>Full stack</strong><span>Frontend, backend y cloud</span></div>
             <div class="stat"><strong>Mobile-first</strong><span>Experiencias rápidas y adaptables</span></div>
@@ -125,7 +138,11 @@ const structuredData = {
 
       <section id="experiencia" class="section">
         <div class="container">
-          <div class="section-heading"><span class="section-kicker">Experiencia</span><h2>Soluciones para operaciones reales.</h2><p>Experiencia construyendo y manteniendo aplicaciones empresariales, flujos operativos, integraciones y plataformas multiplataforma.</p></div>
+          <div class="section-heading">
+            <span class="section-kicker">Experiencia</span>
+            <h2>Soluciones para operaciones reales.</h2>
+            <p>Experiencia construyendo aplicaciones empresariales, flujos operativos, integraciones y plataformas multiplataforma.</p>
+          </div>
           <div class="timeline">
             <article><h3>Desarrollo full stack</h3><div class="meta">React · TypeScript · .NET 8 · SQL Server</div><p>Implementación de módulos empresariales, permisos, formularios, reportes, APIs y reglas de negocio complejas.</p></article>
             <article><h3>Aplicaciones móviles y PWA</h3><div class="meta">React Native · Flutter · Cordova · Web APIs</div><p>Soporte y evolución de aplicaciones móviles, acceso a capacidades del dispositivo y experiencias instalables.</p></article>
@@ -136,10 +153,18 @@ const structuredData = {
 
       <section id="proyectos" class="section">
         <div class="container">
-          <div class="section-heading"><span class="section-kicker">Proyectos</span><h2>Trabajo relevante.</h2><p>Una selección de productos y plataformas donde la calidad técnica se combina con necesidades reales de negocio.</p></div>
+          <div class="section-heading">
+            <span class="section-kicker">Proyectos</span>
+            <h2>Trabajo relevante.</h2>
+            <p>Productos y plataformas donde la calidad técnica se combina con necesidades reales de negocio.</p>
+          </div>
           <div class="cards">
             {projects.map((project) => (
-              <article class="card"><h3>{project.title}</h3><p>{project.description}</p><div class="card-tags">{project.tags.map((tag) => <span class="chip">{tag}</span>)}</div></article>
+              <article class="card">
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+                <div class="card-tags">{project.tags.map((tag) => <span class="chip">{tag}</span>)}</div>
+              </article>
             ))}
           </div>
         </div>
@@ -153,7 +178,17 @@ const structuredData = {
       </section>
     </main>
 
-    <footer class="footer"><div class="container footer-row"><span>© {year} Roger Cedeño</span><span>Construido con Astro y TypeScript</span></div></footer>
+    <nav class="mobile-nav" aria-label="Navegación móvil">
+      <a href="#inicio"><span>⌂</span>Inicio</a>
+      <a href="#sobre-mi"><span>○</span>Sobre mí</a>
+      <a href="#proyectos"><span>□</span>Proyectos</a>
+      <a href="#contacto"><span>✉</span>Contacto</a>
+    </nav>
+
+    <footer class="footer">
+      <div class="container footer-row"><span>© {year} Roger Cedeño</span><span>Construido con Astro y TypeScript</span></div>
+    </footer>
+
     <script is:inline>
       if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
     </script>
