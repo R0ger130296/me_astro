@@ -57,18 +57,65 @@
 .project-icon,
 .metrics article > span,
 .socials a,
-.technology-grid div > svg,
+.brand-icon,
 .panel header > svg {
   flex: 0 0 auto;
 }
 
-.profile-meta span {
-  white-space: nowrap;
+.brand-icon {
+  display: block;
+  transition: transform .18s ease, filter .18s ease;
 }
 
-.technology-grid div > svg {
-  color: #9dd7ff;
-  stroke-width: 1.8;
+.tech-pills span {
+  min-height: 40px;
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.018));
+}
+
+.tech-pills span:hover .brand-icon,
+.technology-grid div:hover .brand-icon,
+.project-card:hover .brand-icon {
+  transform: scale(1.08);
+  filter: saturate(1.15) brightness(1.08);
+}
+
+.technology-grid div {
+  position: relative;
+  overflow: hidden;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.technology-grid div::after {
+  content: '';
+  position: absolute;
+  inset: auto 18% 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+
+.technology-grid div:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 92, 246, .32);
+  background: rgba(255,255,255,.035);
+}
+
+.technology-grid div:hover::after {
+  opacity: .3;
+}
+
+.project-icon {
+  background: rgba(255,255,255,.045);
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+.profile-meta span,
+.project-footer a,
+.section-title-row > a,
+.panel-link,
+.cta-card a {
+  white-space: nowrap;
 }
 
 .project-icon svg,
@@ -76,13 +123,6 @@
 .panel header > svg,
 .socials svg {
   stroke-width: 1.8;
-}
-
-.project-footer a,
-.section-title-row > a,
-.panel-link,
-.cta-card a {
-  white-space: nowrap;
 }
 
 @media (max-width: 1120px) {
