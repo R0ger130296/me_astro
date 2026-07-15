@@ -1,15 +1,8 @@
 /**
- * Presentation Hook
- * Connects the presentation layer with use cases
-<<<<<<< HEAD
- * Implements Facade Pattern for simplified API
+ * Presentation facade for portfolio use cases.
  */
 import { container } from '../../infrastructure/di/Container';
 import { useAsyncData } from './useAsyncData';
-=======
- */
-import { container } from '../../infrastructure/di/Container';
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
 import type {
   PersonalInfo,
   Experience,
@@ -18,186 +11,73 @@ import type {
   Reference,
   Skill,
   Language,
-  Project
+  Project,
 } from '../../domain/entities';
 
-/**
-<<<<<<< HEAD
- * Hook to get personal information (async function for server-side)
-=======
- * Hook to get personal information
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
- */
 export async function usePersonalInfo(): Promise<PersonalInfo> {
-  const useCase = container.getGetPersonalInfoUseCase();
-  return await useCase.execute();
+  return container.getGetPersonalInfoUseCase().execute();
 }
 
-/**
-<<<<<<< HEAD
- * React Hook to get personal information (for client-side components)
- */
 export function usePersonalInfoHook() {
-  return useAsyncData<PersonalInfo>(async () => {
-    const useCase = container.getGetPersonalInfoUseCase();
-    return await useCase.execute();
-  });
+  return useAsyncData<PersonalInfo>(() => container.getGetPersonalInfoUseCase().execute());
 }
 
-/**
- * Hook to get experiences (async function for server-side)
-=======
- * Hook to get experiences
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
- */
 export async function useExperiences(): Promise<Experience[]> {
-  const useCase = container.getGetExperiencesUseCase();
-  return await useCase.execute();
+  return container.getGetExperiencesUseCase().execute();
 }
 
-/**
-<<<<<<< HEAD
- * React Hook to get experiences (for client-side components)
- */
 export function useExperiencesHook() {
-  return useAsyncData<Experience[]>(async () => {
-    const useCase = container.getGetExperiencesUseCase();
-    return await useCase.execute();
-  });
+  return useAsyncData<Experience[]>(() => container.getGetExperiencesUseCase().execute());
 }
 
-/**
- * Hook to get education (async function for server-side)
-=======
- * Hook to get education
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
- */
 export async function useEducation(): Promise<Education[]> {
-  const useCase = container.getGetEducationUseCase();
-  return await useCase.execute();
+  return container.getGetEducationUseCase().execute();
 }
 
-/**
-<<<<<<< HEAD
- * React Hook to get education (for client-side components)
- */
 export function useEducationHook() {
-  return useAsyncData<Education[]>(async () => {
-    const useCase = container.getGetEducationUseCase();
-    return await useCase.execute();
-  });
+  return useAsyncData<Education[]>(() => container.getGetEducationUseCase().execute());
 }
 
-/**
- * Hook to get certifications (async function for server-side)
-=======
- * Hook to get certifications
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
- */
 export async function useCertifications(): Promise<Certification[]> {
-  const useCase = container.getGetCertificationsUseCase();
-  return await useCase.execute();
+  return container.getGetCertificationsUseCase().execute();
 }
 
-/**
-<<<<<<< HEAD
- * React Hook to get certifications (for client-side components)
- */
 export function useCertificationsHook() {
-  return useAsyncData<Certification[]>(async () => {
-    const useCase = container.getGetCertificationsUseCase();
-    return await useCase.execute();
-  });
+  return useAsyncData<Certification[]>(() => container.getGetCertificationsUseCase().execute());
 }
 
-/**
- * Hook to get skills (async function for server-side)
-=======
- * Hook to get skills
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
- */
 export async function useSkills(): Promise<Skill[]> {
-  const useCase = container.getGetSkillsUseCase();
-  return await useCase.execute();
+  return container.getGetSkillsUseCase().execute();
 }
 
-/**
-<<<<<<< HEAD
- * React Hook to get skills (for client-side components)
- */
 export function useSkillsHook() {
-  return useAsyncData<Skill[]>(async () => {
-    const useCase = container.getGetSkillsUseCase();
-    return await useCase.execute();
-  });
+  return useAsyncData<Skill[]>(() => container.getGetSkillsUseCase().execute());
 }
 
-/**
- * Hook to get soft skills (async function for server-side)
-=======
- * Hook to get soft skills
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
- */
 export async function useSoftSkills(): Promise<Skill[]> {
-  const useCase = container.getGetSkillsUseCase();
-  return await useCase.executeSoftSkills();
+  return container.getGetSkillsUseCase().executeSoftSkills();
 }
 
-/**
-<<<<<<< HEAD
- * React Hook to get soft skills (for client-side components)
- */
 export function useSoftSkillsHook() {
-  return useAsyncData<Skill[]>(async () => {
-    const useCase = container.getGetSkillsUseCase();
-    return await useCase.executeSoftSkills();
-  });
+  return useAsyncData<Skill[]>(() => container.getGetSkillsUseCase().executeSoftSkills());
 }
 
-/**
- * Hook to get languages (async function for server-side)
-=======
- * Hook to get languages
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
- */
 export async function useLanguages(): Promise<Language[]> {
-  const useCase = container.getGetLanguagesUseCase();
-  return await useCase.execute();
+  return container.getGetLanguagesUseCase().execute();
 }
 
-/**
-<<<<<<< HEAD
- * React Hook to get languages (for client-side components)
- */
 export function useLanguagesHook() {
-  return useAsyncData<Language[]>(async () => {
-    const useCase = container.getGetLanguagesUseCase();
-    return await useCase.execute();
-  });
+  return useAsyncData<Language[]>(() => container.getGetLanguagesUseCase().execute());
 }
 
-/**
-=======
->>>>>>> e8e945d (Initial commit: Astro portfolio with React components and API endpoints)
- * Hook to get references
- */
 export async function useReferences(): Promise<Reference[]> {
-  const useCase = container.getGetReferencesUseCase();
-  return await useCase.execute();
+  return container.getGetReferencesUseCase().execute();
 }
 
-/**
- * Hook to get projects
- */
 export async function useProjects(): Promise<Project[]> {
-  const useCase = container.getGetProjectsUseCase();
-  return await useCase.execute();
+  return container.getGetProjectsUseCase().execute();
 }
 
-/**
- * Hook to get featured projects
- */
 export async function useFeaturedProjects(): Promise<Project[]> {
-  const useCase = container.getGetProjectsUseCase();
-  return await useCase.executeFeatured();
+  return container.getGetProjectsUseCase().executeFeatured();
 }
