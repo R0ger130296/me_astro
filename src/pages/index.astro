@@ -37,7 +37,7 @@ const [
 
 <Layout>
   <PortfolioApp
-    client:load
+    client:idle
     personalInfo={personalInfo}
     experiences={experiences}
     education={education}
@@ -52,7 +52,12 @@ const [
 <style is:global>
   .divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-primary-200), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--color-primary-200)),
+      transparent
+    );
     margin: 0 auto;
     max-width: 80%;
   }
