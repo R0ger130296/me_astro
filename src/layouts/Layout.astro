@@ -22,14 +22,13 @@ const {
 ---
 
 <!doctype html>
-<html lang={SITE.language}>
+<html lang={SITE.language} class="dark" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#020617" media="(prefers-color-scheme: dark)" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#020617" />
+    <meta name="color-scheme" content="dark light" />
     <meta name="application-name" content="Roger Cedeño" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -39,17 +38,15 @@ const {
     <script is:inline>
       (() => {
         try {
-          const storedTheme = localStorage.getItem('theme');
-          const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-          const theme = storedTheme === 'dark' || storedTheme === 'light' ? storedTheme : preferredTheme;
+          const storedTheme = localStorage.getItem('portfolio-theme');
+          const theme = storedTheme === 'light' ? 'light' : 'dark';
           document.documentElement.classList.toggle('dark', theme === 'dark');
           document.documentElement.dataset.theme = theme;
           document.documentElement.style.colorScheme = theme;
         } catch {
-          document.documentElement.classList.toggle(
-            'dark',
-            window.matchMedia('(prefers-color-scheme: dark)').matches,
-          );
+          document.documentElement.classList.add('dark');
+          document.documentElement.dataset.theme = 'dark';
+          document.documentElement.style.colorScheme = 'dark';
         }
       })();
     </script>
