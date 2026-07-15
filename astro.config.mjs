@@ -2,12 +2,10 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel';
-
 import db from '@astrojs/db';
 
 /**
- * Astro Configuration
- * Optimized for performance and best practices
+ * Astro configuration for the server-rendered portfolio.
  */
 export default defineConfig({
   integrations: [
@@ -16,8 +14,8 @@ export default defineConfig({
       applyBaseStyles: false,
       nesting: true,
     }),
-    db()
+    db(),
   ],
-  output: 'server', // Cambiado a 'server' para soportar Astro DB
+  output: 'server',
   adapter: vercel(),
 });

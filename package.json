@@ -3,15 +3,25 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=20.11.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:ci": "ASTRO_DATABASE_FILE=.astro/ci.db astro build",
     "build:remote": "astro build --remote",
     "preview": "astro preview",
-    "check": "astro check",
-    "check:watch": "astro check --watch",
-    "lint": "prettier --check . && eslint .",
+    "typecheck": "astro check",
+    "typecheck:watch": "astro check --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "node --test tests/**/*.test.mjs",
+    "quality": "npm run typecheck && npm run lint && npm run test && npm run build:ci",
+    "quality:full": "npm run quality && npm run format:check",
     "convert-pdfs": "node scripts/convert-pdfs-to-images.js"
   },
   "dependencies": {

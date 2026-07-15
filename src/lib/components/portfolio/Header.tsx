@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { usePersonalInfo } from '../../presentation/hooks/usePortfolio';
+import React, { useEffect, useState } from 'react';
+import { usePersonalInfo as getPersonalInfo } from '../../presentation/hooks/usePortfolio';
 import { ContactLink } from '../ui';
 import type { PersonalInfo } from '../../domain/entities';
 
@@ -8,8 +8,16 @@ export const Header: React.FC = () => {
   const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null);
 
   useEffect(() => {
+    let isActive = true;
+
     setMounted(true);
-    usePersonalInfo().then(setPersonalInfo);
+    getPersonalInfo().then((data) => {
+      if (isActive) setPersonalInfo(data);
+    });
+
+    return () => {
+      isActive = false;
+    };
   }, []);
 
   return (
@@ -17,9 +25,7 @@ export const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {mounted && personalInfo && (
           <div className="flex flex-row items-center justify-between gap-3 sm:gap-6 animate-fade-in">
-            {/* Left: Name & Title */}
             <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
-              {/* Accent dot */}
               <div className="hidden sm:block w-2 h-2 rounded-full bg-gradient-to-br from-secondary-400 to-secondary-600 shrink-0"></div>
 
               <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -33,7 +39,6 @@ export const Header: React.FC = () => {
               </div>
             </div>
 
-            {/* Right: Contact Links */}
             <div className="flex items-center gap-1 sm:gap-2 shrink-0">
               <ContactLink
                 type="email"
@@ -59,4 +64,3 @@ export const Header: React.FC = () => {
     </header>
   );
 };
-
