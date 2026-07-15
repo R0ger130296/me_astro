@@ -1,0 +1,42 @@
+name: Apply GitHub styles
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-github-styles.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import GitHub styles
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('src/pages/index.astro')
+          content = path.read_text()
+          import_line = "import '../styles/github.css';"
+
+          if import_line not in content:
+              content = content.replace(
+                  "import '../styles/global.css';",
+                  "import '../styles/global.css';\nimport '../styles/github.css';",
+                  1,
+              )
+              path.write_text(content)
+          PY
+      - name: Remove one-time workflow
+        run: rm .github/workflows/apply-github-styles.yml
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/pages/index.astro .github/workflows/apply-github-styles.yml
+          git commit -m "style: connect GitHub integration stylesheet"
+          git push origin HEAD:main
