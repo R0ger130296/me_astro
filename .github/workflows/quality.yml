@@ -39,7 +39,13 @@ jobs:
         run: npm run typecheck
 
       - name: Lint
-        run: npm run lint
+        shell: bash
+        run: |
+          set +e
+          npm run lint > eslint.log 2>&1
+          status=$?
+          tail -n 160 eslint.log
+          exit $status
 
       - name: Check formatting
         run: npm run format:check
