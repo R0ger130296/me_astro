@@ -44,8 +44,9 @@ const AboutComponent: React.FC<AboutProps> = ({ initialData }) => {
               alt={`Fotografía de ${personalInfo.name}`}
               width={144}
               height={144}
-              loading="eager"
+              loading="lazy"
               decoding="async"
+              fetchPriority="low"
               onError={() => setImageError(true)}
               className="aspect-square h-32 w-32 rounded-2xl border border-primary-200 object-cover sm:h-36 sm:w-36"
             />
