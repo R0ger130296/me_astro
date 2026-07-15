@@ -4,14 +4,18 @@ import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel';
 import db from '@astrojs/db';
 
-const site = process.env.SITE_URL ?? 'https://rogercedeno.dev';
-
+/**
+ * Astro configuration for the server-rendered portfolio.
+ */
 export default defineConfig({
-  site,
-  output: 'server',
-  adapter: vercel(),
   integrations: [
     react(),
     tailwind({
       applyBaseStyles: false,
-      nesting: true
+      nesting: true,
+    }),
+    db(),
+  ],
+  output: 'server',
+  adapter: vercel(),
+});
