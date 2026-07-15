@@ -1,6 +1,38 @@
 ---
 import '../styles/global.css';
 import '../styles/nav-fix.css';
+import {
+  ArrowRight,
+  Atom,
+  Award,
+  BadgeCheck,
+  BriefcaseBusiness,
+  CalendarDays,
+  CarFront,
+  Clock3,
+  Cloud,
+  Code2,
+  Container,
+  Database,
+  Flame,
+  GitBranch,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Network,
+  Rocket,
+  Send,
+  Smartphone,
+  Sparkles,
+  Star,
+  UserRound,
+  WalletCards,
+  Wind,
+  Braces,
+  Box,
+} from '@lucide/astro';
 
 type Repo = {
   name: string;
@@ -52,12 +84,13 @@ try {
 }
 
 const repoByName = new Map(githubRepos.map((repo) => [repo.name.toLowerCase(), repo]));
-const formatDate = (value: string) => new Intl.DateTimeFormat('es-EC', { month: 'short', year: 'numeric' }).format(new Date(value));
+const formatDate = (value: string) =>
+  new Intl.DateTimeFormat('es-EC', { month: 'short', year: 'numeric' }).format(new Date(value));
 
 const projects = [
   {
     title: 'FinanciaApp',
-    icon: '▣',
+    icon: WalletCards,
     status: 'En producción',
     tone: 'green',
     description: 'Aplicación web para gestionar ingresos, gastos, cuentas y presupuestos personales.',
@@ -66,7 +99,7 @@ const projects = [
   },
   {
     title: 'Auriga',
-    icon: '◆',
+    icon: CarFront,
     status: 'En desarrollo',
     tone: 'blue',
     description: 'Plataforma empresarial para talleres automotrices, órdenes de trabajo, citas y técnicos.',
@@ -75,7 +108,7 @@ const projects = [
   },
   {
     title: 'App Colaboradores',
-    icon: '▯',
+    icon: Smartphone,
     status: 'En producción',
     tone: 'green',
     description: 'Aplicación móvil interna para colaboradores, notificaciones y gestión de tareas.',
@@ -84,7 +117,7 @@ const projects = [
   },
   {
     title: 'Apollo GraphQL',
-    icon: '⬡',
+    icon: Network,
     status: 'Proyecto técnico',
     tone: 'purple',
     description: 'Servidor GraphQL escalable con autenticación, roles, documentación y contenedores.',
@@ -93,7 +126,7 @@ const projects = [
   },
   {
     title: 'Portafolio v4',
-    icon: 'RC',
+    icon: Sparkles,
     status: 'En producción',
     tone: 'green',
     description: 'Portafolio profesional optimizado para rendimiento, SEO e integración con GitHub.',
@@ -103,15 +136,25 @@ const projects = [
 ];
 
 const technologies = [
-  ['React', '⚛'], ['TypeScript', 'TS'], ['.NET', '.N'], ['Node.js', '⬢'],
-  ['Astro', '▲'], ['Azure', 'A'], ['SQL Server', 'DB'], ['Firebase', '🔥'],
-  ['Docker', '▰'], ['Git', '◇'], ['Tailwind CSS', '≈'], ['GraphQL', '⬡'],
+  { name: 'React', icon: Atom },
+  { name: 'TypeScript', icon: Braces },
+  { name: '.NET', icon: Code2 },
+  { name: 'Node.js', icon: Box },
+  { name: 'Astro', icon: Sparkles },
+  { name: 'Azure', icon: Cloud },
+  { name: 'SQL Server', icon: Database },
+  { name: 'Firebase', icon: Flame },
+  { name: 'Docker', icon: Container },
+  { name: 'Git', icon: GitBranch },
+  { name: 'Tailwind CSS', icon: Wind },
+  { name: 'GraphQL', icon: Network },
 ];
 
 const year = new Date().getFullYear();
 const canonical = 'https://rogercedeno.dev/';
 const title = 'Roger Cedeño | Full Stack Developer';
-const description = 'Portafolio profesional de Roger Cedeño, desarrollador Full Stack especializado en React, TypeScript, .NET, aplicaciones móviles y soluciones cloud.';
+const description =
+  'Portafolio profesional de Roger Cedeño, desarrollador Full Stack especializado en React, TypeScript, .NET, aplicaciones móviles y soluciones cloud.';
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -165,7 +208,7 @@ const structuredData = {
           <a href="#habilidades">Habilidades</a>
           <a href="#contacto">Contacto</a>
         </div>
-        <a class="cv-button" href="mailto:rogercedeno96@gmail.com">Contactar</a>
+        <a class="cv-button" href="mailto:rogercedeno96@gmail.com"><Mail size={16} aria-hidden="true" />Contactar</a>
       </nav>
     </header>
 
@@ -177,13 +220,17 @@ const structuredData = {
           <p>Desarrollador Full Stack especializado en construir aplicaciones web y móviles escalables, centradas en la experiencia de usuario y el negocio.</p>
 
           <div class="tech-pills" aria-label="Tecnologías principales">
-            <span>⚛ React</span><span>.NET</span><span>TS TypeScript</span><span>Azure</span><span>▲ Astro</span>
+            <span><Atom size={16} aria-hidden="true" />React</span>
+            <span><Code2 size={16} aria-hidden="true" />.NET</span>
+            <span><Braces size={16} aria-hidden="true" />TypeScript</span>
+            <span><Cloud size={16} aria-hidden="true" />Azure</span>
+            <span><Sparkles size={16} aria-hidden="true" />Astro</span>
           </div>
 
           <div class="hero-actions">
-            <a class="button primary" href="#proyectos">Ver proyectos <b>→</b></a>
+            <a class="button primary" href="#proyectos">Ver proyectos <ArrowRight size={18} aria-hidden="true" /></a>
             <a class="button secondary" href="#contacto">Contactarme</a>
-            <a class="icon-button" href="https://github.com/R0ger130296" target="_blank" rel="noreferrer" aria-label="Ver GitHub">⌘</a>
+            <a class="icon-button" href="https://github.com/R0ger130296" target="_blank" rel="noreferrer" aria-label="Ver perfil de GitHub"><Github size={21} aria-hidden="true" /></a>
           </div>
         </div>
 
@@ -193,60 +240,74 @@ const structuredData = {
             <img src="/me/1757515565808.jpeg" alt="Retrato profesional de Roger Cedeño" width="800" height="1000" loading="eager" decoding="async" fetchpriority="high" />
             <div class="profile-overlay">
               <div><strong>Roger Cedeño</strong><span>Full Stack Developer</span></div>
-              <span class="verified">✓</span>
-              <div class="profile-meta"><span>⌖ Ecuador</span><span>◷ GMT -5</span><span>▣ 6+ años de experiencia</span></div>
+              <span class="verified" aria-label="Perfil verificado"><BadgeCheck size={14} aria-hidden="true" /></span>
+              <div class="profile-meta">
+                <span><MapPin size={15} aria-hidden="true" />Ecuador</span>
+                <span><Clock3 size={15} aria-hidden="true" />GMT -5</span>
+                <span><BriefcaseBusiness size={15} aria-hidden="true" />6+ años de experiencia</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <section class="metrics shell" aria-label="Resumen profesional">
-        <article><span>▣</span><strong>6+</strong><small>Años de experiencia</small></article>
-        <article><span>🚀</span><strong>20+</strong><small>Proyectos completados</small></article>
-        <article><span>&lt;/&gt;</span><strong>{new Set(githubRepos.map((repo) => repo.language).filter(Boolean)).size || 10}+</strong><small>Tecnologías dominadas</small></article>
-        <article><span>☆</span><strong>10+</strong><small>Certificaciones</small></article>
+        <article><span><CalendarDays size={21} aria-hidden="true" /></span><strong>6+</strong><small>Años de experiencia</small></article>
+        <article><span><Rocket size={21} aria-hidden="true" /></span><strong>20+</strong><small>Proyectos completados</small></article>
+        <article><span><Code2 size={21} aria-hidden="true" /></span><strong>{new Set(githubRepos.map((repo) => repo.language).filter(Boolean)).size || 10}+</strong><small>Tecnologías dominadas</small></article>
+        <article><span><Award size={21} aria-hidden="true" /></span><strong>10+</strong><small>Certificaciones</small></article>
       </section>
 
       <section id="proyectos" class="section shell">
         <div class="section-title-row">
           <div><span class="kicker">Portafolio</span><h2>Proyectos destacados</h2></div>
-          <a href="https://github.com/R0ger130296?tab=repositories" target="_blank" rel="noreferrer">Ver todos los proyectos →</a>
+          <a href="https://github.com/R0ger130296?tab=repositories" target="_blank" rel="noreferrer">Ver todos los proyectos <ArrowRight size={16} aria-hidden="true" /></a>
         </div>
         <div class="project-grid">
-          {projects.map((project) => (
-            <article class="project-card">
-              <div class="project-top"><span class="project-icon">{project.icon}</span><span class={`status ${project.tone}`}>{project.status}</span></div>
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
-              <div class="tags">{project.tags.map((tag) => <span>{tag}</span>)}</div>
-              <div class="project-footer">
-                {project.repo ? <small>Actualizado {formatDate(project.repo.updated_at)}</small> : <small>Proyecto privado</small>}
-                {project.repo ? <a href={project.repo.html_url} target="_blank" rel="noreferrer">Ver código →</a> : <a href="#contacto">Ver detalles →</a>}
-              </div>
-            </article>
-          ))}
+          {projects.map((project) => {
+            const ProjectIcon = project.icon;
+            return (
+              <article class="project-card">
+                <div class="project-top"><span class="project-icon"><ProjectIcon size={22} aria-hidden="true" /></span><span class={`status ${project.tone}`}>{project.status}</span></div>
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+                <div class="tags">{project.tags.map((tag) => <span>{tag}</span>)}</div>
+                <div class="project-footer">
+                  {project.repo ? <small>Actualizado {formatDate(project.repo.updated_at)}</small> : <small>Proyecto privado</small>}
+                  {project.repo ? <a href={project.repo.html_url} target="_blank" rel="noreferrer">Ver código <ArrowRight size={14} aria-hidden="true" /></a> : <a href="#contacto">Ver detalles <ArrowRight size={14} aria-hidden="true" /></a>}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
       <section id="sobre-mi" class="content-grid shell section">
         <article class="panel about-panel">
-          <header><span>♙</span><h2>Sobre mí</h2></header>
+          <header><UserRound size={20} aria-hidden="true" /><h2>Sobre mí</h2></header>
           <p>Soy desarrollador Full Stack con más de 6 años de experiencia diseñando y construyendo aplicaciones escalables, seguras y centradas en el usuario.</p>
           <p>Me especializo en React, .NET, Azure y arquitecturas cloud-first. Disfruto transformar ideas en productos digitales que mejoran procesos reales.</p>
-          <a class="mail-link" href="mailto:rogercedeno96@gmail.com">✉ rogercedeno96@gmail.com</a>
-          <div class="socials"><a href="https://github.com/R0ger130296">⌘</a><a href="#contacto">in</a><a href="#contacto">◉</a></div>
+          <a class="mail-link" href="mailto:rogercedeno96@gmail.com"><Mail size={17} aria-hidden="true" />rogercedeno96@gmail.com</a>
+          <div class="socials">
+            <a href="https://github.com/R0ger130296" target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={19} aria-hidden="true" /></a>
+            <a href="#contacto" aria-label="LinkedIn"><Linkedin size={19} aria-hidden="true" /></a>
+            <a href="#contacto" aria-label="WhatsApp"><MessageCircle size={19} aria-hidden="true" /></a>
+          </div>
         </article>
 
         <article id="habilidades" class="panel skills-panel">
-          <header><span>&lt;/&gt;</span><h2>Tecnologías principales</h2></header>
+          <header><Code2 size={20} aria-hidden="true" /><h2>Tecnologías principales</h2></header>
           <div class="technology-grid">
-            {technologies.map(([name, icon]) => <div><b>{icon}</b><span>{name}</span></div>)}
+            {technologies.map(({ name, icon }) => {
+              const TechnologyIcon = icon;
+              return <div><TechnologyIcon size={23} aria-hidden="true" /><span>{name}</span></div>;
+            })}
           </div>
-          <a class="panel-link" href="https://github.com/R0ger130296" target="_blank" rel="noreferrer">Ver actividad técnica →</a>
+          <a class="panel-link" href="https://github.com/R0ger130296" target="_blank" rel="noreferrer">Ver actividad técnica <ArrowRight size={15} aria-hidden="true" /></a>
         </article>
 
         <article class="panel strengths-panel">
-          <header><span>☆</span><h2>Fortalezas</h2></header>
+          <header><Star size={20} aria-hidden="true" /><h2>Fortalezas</h2></header>
           <ul>
             <li>Código limpio y mantenible</li>
             <li>Pensamiento analítico</li>
@@ -255,7 +316,7 @@ const structuredData = {
             <li>Aprendizaje continuo</li>
             <li>Orientación a resultados</li>
           </ul>
-          <div class="cta-card"><strong>¿Tienes un proyecto en mente?</strong><p>Hablemos sobre cómo puedo ayudarte a hacerlo realidad.</p><a href="mailto:rogercedeno96@gmail.com">Contactarme →</a></div>
+          <div class="cta-card"><strong>¿Tienes un proyecto en mente?</strong><p>Hablemos sobre cómo puedo ayudarte a hacerlo realidad.</p><a href="mailto:rogercedeno96@gmail.com">Contactarme <ArrowRight size={15} aria-hidden="true" /></a></div>
         </article>
       </section>
 
@@ -270,7 +331,7 @@ const structuredData = {
 
       <section id="contacto" class="contact shell">
         <div><span class="kicker">Contacto</span><h2>¿Construimos algo juntos?</h2><p>Disponible para oportunidades, colaboración técnica y desarrollo de productos digitales.</p></div>
-        <a class="button primary" href="mailto:rogercedeno96@gmail.com">Enviar correo →</a>
+        <a class="button primary" href="mailto:rogercedeno96@gmail.com"><Send size={18} aria-hidden="true" />Enviar correo</a>
       </section>
     </main>
 
