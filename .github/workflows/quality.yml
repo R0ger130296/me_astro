@@ -39,24 +39,7 @@ jobs:
         run: npm run typecheck
 
       - name: Lint
-        id: lint
-        continue-on-error: true
-        run: npm run lint > eslint.log 2>&1
-
-      - name: Upload ESLint report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: eslint-report
-          path: eslint.log
-          if-no-files-found: error
-          retention-days: 3
-
-      - name: Fail when lint has errors
-        if: steps.lint.outcome == 'failure'
-        run: |
-          tail -n 160 eslint.log
-          exit 1
+        run: npm run lint
 
       - name: Check formatting
         continue-on-error: true
