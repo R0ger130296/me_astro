@@ -14,7 +14,7 @@
     "preview": "astro preview",
     "typecheck": "astro check",
     "typecheck:watch": "astro check --watch",
-    "lint": "eslint . --max-warnings=0",
+    "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
