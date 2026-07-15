@@ -1,0 +1,36 @@
+name: Apply navigation fix
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-nav-fix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Connect navigation stylesheet
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const path = 'src/pages/index.astro';
+          let content = fs.readFileSync(path, 'utf8');
+          const importLine = "import '../styles/nav-fix.css';";
+          if (!content.includes(importLine)) {
+            content = content.replace("import '../styles/global.css';", "import '../styles/global.css';\n" + importLine);
+            fs.writeFileSync(path, content);
+          }
+          NODE
+          rm .github/workflows/apply-nav-fix.yml
+      - name: Commit final navigation fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/pages/index.astro .github/workflows/apply-nav-fix.yml
+          git commit -m "fix: keep navigation actions on one row"
+          git push origin HEAD:main
