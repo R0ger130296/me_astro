@@ -7,12 +7,14 @@ import type {
   PersonalInfo,
   Skill,
 } from '../../domain/entities';
+import type { GitHubRepository } from '../../infrastructure/github/getFeaturedRepositories';
 import { QueryProvider } from '../../infrastructure/query/QueryProvider';
 import { ScrollToTop } from '../ui/ScrollToTop';
 import { About } from './About';
 import { Certifications } from './Certifications';
 import { Education } from './Education';
 import { Experience } from './Experience';
+import { GitHubProjects } from './GitHubProjects';
 import { Header } from './Header';
 import { Hero } from './Hero';
 import { Languages } from './Languages';
@@ -26,11 +28,13 @@ interface PortfolioAppProps {
   skills: Skill[];
   softSkills: Skill[];
   languages: Language[];
+  repositories: GitHubRepository[];
 }
 
 const navigation = [
   { label: 'Perfil', href: '#perfil' },
   { label: 'Experiencia', href: '#experiencia' },
+  { label: 'Proyectos', href: '#proyectos' },
   { label: 'Educación', href: '#educacion' },
   { label: 'Habilidades', href: '#habilidades' },
   { label: 'Certificaciones', href: '#certificaciones' },
@@ -44,6 +48,7 @@ export const PortfolioApp: React.FC<PortfolioAppProps> = ({
   skills,
   softSkills,
   languages,
+  repositories,
 }) => (
   <QueryProvider>
     <div className="min-h-screen bg-white text-primary-800">
@@ -82,6 +87,10 @@ export const PortfolioApp: React.FC<PortfolioAppProps> = ({
 
           <div id="experiencia" className="scroll-mt-36">
             <Experience initialData={experiences} />
+          </div>
+
+          <div id="proyectos" className="scroll-mt-36">
+            <GitHubProjects repositories={repositories} />
           </div>
 
           <div id="educacion" className="scroll-mt-36">
