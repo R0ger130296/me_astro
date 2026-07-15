@@ -47,3 +47,21 @@ test('crawler files reference the canonical domain', async () => {
   assert.match(robots, /https:\/\/rogercedeno\.dev\/sitemap\.xml/);
   assert.match(sitemap, /https:\/\/rogercedeno\.dev\//);
 });
+
+test('PWA assets and registration remain configured', async () => {
+  const [manifest, serviceWorker, offlinePage, layout] = await Promise.all([
+    readJson('public/manifest.webmanifest'),
+    readText('public/sw.js'),
+    readText('public/offline.html'),
+    readText('src/layouts/Layout.astro'),
+  ]);
+
+  assert.equal(manifest.display, 'standalone');
+  assert.equal(manifest.start_url, '/');
+  assert.ok(Array.isArray(manifest.icons) && manifest.icons.length > 0);
+  assert.match(serviceWorker, /offline\.html/);
+  assert.match(serviceWorker, /addEventListener\('fetch'/);
+  assert.match(offlinePage, /Modo offline/);
+  assert.match(layout, /rel="manifest"/);
+  assert.match(layout, /serviceWorker\.register\('\/sw\.js'\)/);
+});
