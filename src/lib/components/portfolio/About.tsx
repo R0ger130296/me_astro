@@ -40,15 +40,15 @@ const AboutComponent: React.FC<AboutProps> = ({ initialData }) => {
         <div className="mx-auto sm:mx-0">
           {!imageError ? (
             <img
-              src="/me/roger.jpg"
-              alt={`Fotografía de ${personalInfo.name}`}
+              src="/me/roger-profile.svg"
+              alt={`Retrato profesional de ${personalInfo.name}`}
               width={144}
               height={144}
               loading="lazy"
               decoding="async"
               fetchPriority="low"
               onError={() => setImageError(true)}
-              className="aspect-square h-32 w-32 rounded-2xl border border-primary-200 object-cover sm:h-36 sm:w-36"
+              className="aspect-square h-32 w-32 rounded-2xl border border-primary-200 object-cover object-top shadow-sm sm:h-36 sm:w-36"
             />
           ) : (
             <div className="flex h-32 w-32 items-center justify-center rounded-2xl border border-primary-200 bg-primary-100 text-2xl font-semibold text-primary-700 sm:h-36 sm:w-36">
