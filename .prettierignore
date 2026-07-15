@@ -1,5 +1,6 @@
-.svelte-kit
-build
+dist
+.astro
 node_modules
-package
-
+coverage
+public
+package-lock.json
