@@ -1,0 +1,84 @@
+---
+import { SITE, absoluteUrl } from '../lib/config/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalPath?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = SITE.title,
+  description = SITE.description,
+  image = SITE.image,
+  canonicalPath = Astro.url.pathname,
+  noindex = false,
+} = Astro.props;
+
+const canonicalUrl = absoluteUrl(canonicalPath);
+const imageUrl = absoluteUrl(image);
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${SITE.url}/#person`,
+      name: SITE.author,
+      url: SITE.url,
+      image: imageUrl,
+      jobTitle: 'Software Engineer y Full Stack Developer',
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'EC',
+      },
+      knowsAbout: SITE.keywords,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE.url}/#website`,
+      url: SITE.url,
+      name: SITE.name,
+      description: SITE.description,
+      inLanguage: SITE.language,
+      author: { '@id': `${SITE.url}/#person` },
+    },
+    {
+      '@type': 'ProfilePage',
+      '@id': `${canonicalUrl}#profile-page`,
+      url: canonicalUrl,
+      name: title,
+      description,
+      inLanguage: SITE.language,
+      isPartOf: { '@id': `${SITE.url}/#website` },
+      mainEntity: { '@id': `${SITE.url}/#person` },
+    },
+  ],
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="author" content={SITE.author} />
+<meta name="keywords" content={SITE.keywords.join(', ')} />
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+<link rel="canonical" href={canonicalUrl} />
+
+<meta property="og:type" content="profile" />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={SITE.locale} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content={`Fotografía profesional de ${SITE.author}`} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content={`Fotografía profesional de ${SITE.author}`} />
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
