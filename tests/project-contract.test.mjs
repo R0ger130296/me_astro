@@ -79,3 +79,21 @@ test('mobile performance defaults remain enabled', async () => {
   assert.match(aboutComponent, /fetchPriority="low"/);
   assert.match(queryHooks, /import type \{ UseQueryResult \}/);
 });
+
+test('profile components use the uploaded JPEG and contain no merge conflicts', async () => {
+  const [hero, about, image] = await Promise.all([
+    readText('src/lib/components/portfolio/Hero.tsx'),
+    readText('src/lib/components/portfolio/About.tsx'),
+    readFile('public/me/1757515565808.jpeg'),
+  ]);
+
+  for (const component of [hero, about]) {
+    assert.match(component, /\/me\/1757515565808\.jpeg/);
+    assert.doesNotMatch(component, /<<<<<<<|=======|>>>>>>>/);
+    assert.doesNotMatch(component, /roger-profile\.svg/);
+  }
+
+  assert.ok(image.length > 10_000, 'Profile JPEG appears to be empty or invalid.');
+  assert.equal(image[0], 0xff);
+  assert.equal(image[1], 0xd8);
+});
