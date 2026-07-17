@@ -1,14 +1,26 @@
 ---
 import '../styles/global.css';
-import * as Lucide from '@lucide/astro';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  BadgeCheck,
+  BarChart3,
+  Check,
+  Code2,
+  Github,
+  Layers3,
+  Mail,
+  MapPin,
+  Menu,
+  MoonStar,
+  Rocket,
+  Send,
+  Sparkles,
+  Star,
+  X,
+} from '@lucide/astro';
 import { capabilities, principles, profile, projects, technologies } from '../data/portfolio';
 import { getGitHubRepos, getRepositoryMap } from '../services/github';
-
-const {
-  ArrowRight, ArrowUpRight, BadgeCheck, BarChart3, BriefcaseBusiness, Check,
-  ChevronDown, Code2, Github, Layers3, Mail, MapPin, Menu, MessageCircle,
-  MoonStar, Rocket, Send, Sparkles, Star, X,
-} = Lucide;
 
 const repositories = await getGitHubRepos();
 const repositoryMap = getRepositoryMap(repositories);
