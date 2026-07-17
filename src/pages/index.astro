@@ -26,11 +26,15 @@ const repositories = await getGitHubRepos();
 const repositoryMap = getRepositoryMap(repositories);
 const languages = new Set(repositories.map((repo) => repo.language).filter(Boolean));
 const totalStars = repositories.reduce((total, repo) => total + repo.stargazers_count, 0);
+const recentRepositories = repositories
+  .filter((repository) => repository.name.toLowerCase() !== 'me_astro')
+  .slice(0, 3);
 const formatDate = (value: string) => new Intl.DateTimeFormat('es-EC', { month: 'short', year: 'numeric' }).format(new Date(value));
 const year = new Date().getFullYear();
 const canonical = 'https://rogercedeno.dev/';
 const title = 'Roger Cedeño | Full Stack Developer & Product Builder';
 const description = 'Portafolio de Roger Cedeño, desarrollador Full Stack especializado en productos web, móviles, cloud y experiencias digitales centradas en negocio.';
+const contactHref = `mailto:${profile.email}?subject=${encodeURIComponent('Hablemos sobre un proyecto')}&body=${encodeURIComponent('Hola Roger,\n\nQuiero conversar contigo sobre:\n\nContexto del proyecto:\nResultado que buscamos:\nPlazo aproximado:\n\nSaludos.')}`;
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -81,10 +85,10 @@ const structuredData = {
           <span><strong>Roger Cedeño</strong><small>Full Stack · Product Builder</small></span>
         </a>
         <div class="nav-links" data-nav-links>
-          <a href="#proyectos">Trabajo</a><a href="#servicios">Capacidades</a><a href="#sobre-mi">Perfil</a><a href="#contacto">Contacto</a>
+          <a href="#proyectos">Trabajo</a><a href="#actividad">Actividad</a><a href="#servicios">Capacidades</a><a href="#sobre-mi">Perfil</a><a href="#contacto">Contacto</a>
         </div>
         <div class="nav-actions">
-          <a class="nav-cta" href={`mailto:${profile.email}`}><Mail size={16} />Hablemos</a>
+          <a class="nav-cta" href={contactHref}><Mail size={16} />Hablemos</a>
           <button class="menu-button" type="button" aria-label="Abrir menú" aria-expanded="false" data-menu-button><Menu size={21} /><X size={21} /></button>
         </div>
       </nav>
@@ -94,12 +98,12 @@ const structuredData = {
       <section id="inicio" class="hero shell">
         <div class="hero-copy reveal">
           <div class="eyebrow"><span></span>Disponible para proyectos seleccionados</div>
-          <p class="overline">Desarrollo · Diseño de producto · Arquitectura</p>
+          <p class="overline">Frontend · Backend · Mobile · Cloud · Producto</p>
           <h1>Convierto ideas complejas en <em>productos digitales claros.</em></h1>
-          <p class="hero-summary">{profile.summary}</p>
+          <p class="hero-summary">Diseño y construyo soluciones completas: desde la experiencia del usuario y el frontend hasta APIs, reglas de negocio, datos, nube y entrega continua.</p>
           <div class="hero-actions">
             <a class="button primary" href="#proyectos">Explorar trabajo <ArrowRight size={18} /></a>
-            <a class="button secondary" href={`mailto:${profile.email}`}>Iniciar conversación</a>
+            <a class="button secondary" href={contactHref}>Iniciar conversación</a>
             <a class="icon-button" href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub"><GitBranch size={20} /></a>
           </div>
           <div class="trust-line"><span><BadgeCheck size={17} />6+ años construyendo software</span><span><MapPin size={17} />{profile.location}</span></div>
@@ -142,6 +146,27 @@ const structuredData = {
         </div>
       </section>
 
+      {recentRepositories.length > 0 && (
+        <section id="actividad" class="section section-contrast">
+          <div class="shell">
+            <div class="section-heading reveal"><div><span class="kicker">Actividad verificable</span><h2>Trabajo técnico reciente, directamente desde GitHub.</h2></div><p>Esta sección se actualiza durante cada despliegue mediante la API pública de GitHub y muestra evidencia real de continuidad técnica.</p></div>
+            <div class="project-grid">
+              {recentRepositories.map((repository, index) => (
+                <article class="project-card reveal">
+                  <div class="project-number">0{index + 1}</div>
+                  <div class="project-meta"><span class="status">Repositorio público</span><span>{formatDate(repository.updated_at)}</span></div>
+                  <h3>{repository.name}</h3>
+                  <p>{repository.description ?? 'Proyecto técnico público disponible para revisión.'}</p>
+                  <div class="impact"><GitBranch size={17} /><span>{repository.language ?? 'Tecnología múltiple'} · {repository.stargazers_count} estrellas · {repository.forks_count} forks</span></div>
+                  <div class="tags"><span>API GitHub</span><span>Actividad real</span><span>{repository.language ?? 'Software'}</span></div>
+                  <a href={repository.html_url} target="_blank" rel="noreferrer">Revisar repositorio <ArrowUpRight size={16} /></a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <section id="servicios" class="section section-contrast">
         <div class="shell">
           <div class="section-heading reveal"><div><span class="kicker">Capacidades</span><h2>De la idea al producto operando.</h2></div><p>Puedo integrarme en una etapa puntual o acompañar el ciclo completo: descubrimiento, diseño técnico, implementación y entrega.</p></div>
@@ -175,12 +200,12 @@ const structuredData = {
       </section>
 
       <section id="contacto" class="contact shell reveal">
-        <div><span class="kicker">¿Tienes un reto?</span><h2>Construyamos algo que valga la pena usar.</h2><p>Cuéntame el contexto, el problema y qué resultado estás buscando.</p></div>
-        <div class="contact-actions"><a class="button primary" href={`mailto:${profile.email}`}><Send size={18} />Enviar correo</a><a class="button secondary" href={profile.github} target="_blank" rel="noreferrer"><GitBranch size={18} />GitHub</a></div>
+        <div><span class="kicker">¿Tienes un reto?</span><h2>Construyamos algo que valga la pena usar.</h2><p>Cuéntame el contexto, el resultado esperado y el plazo. El correo se abrirá con una guía breve para facilitar la conversación.</p></div>
+        <div class="contact-actions"><a class="button primary" href={contactHref}><Send size={18} />Contarme el proyecto</a><a class="button secondary" href={profile.github} target="_blank" rel="noreferrer"><GitBranch size={18} />GitHub</a></div>
       </section>
     </main>
 
-    <footer class="footer shell"><div class="brand"><span class="brand-mark">RC</span><span><strong>{profile.name}</strong><small>{profile.role}</small></span></div><p>© {year} · Diseñado y construido con intención.</p><nav><a href="#inicio">Inicio</a><a href="#proyectos">Trabajo</a><a href="#contacto">Contacto</a></nav></footer>
+    <footer class="footer shell"><div class="brand"><span class="brand-mark">RC</span><span><strong>{profile.name}</strong><small>{profile.role}</small></span></div><p>© {year} · Diseñado y construido con intención.</p><nav><a href="#inicio">Inicio</a><a href="#proyectos">Trabajo</a><a href="#actividad">Actividad</a><a href="#contacto">Contacto</a></nav></footer>
 
     <script is:inline>
       const menuButton = document.querySelector('[data-menu-button]');
