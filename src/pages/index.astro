@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/certificates.css';
+import '../styles/career.css';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -20,6 +21,7 @@ import {
   Star,
   X,
 } from '@lucide/astro';
+import { careerRoles, careerStats, education } from '../data/career';
 import { certificateCategories, certificates, certificateStats } from '../data/certificates';
 import { capabilities, principles, profile, projects, technologies } from '../data/portfolio';
 import { getGitHubRepos, getRepositoryMap } from '../services/github';
@@ -47,6 +49,14 @@ const structuredData = {
   address: { '@type': 'PostalAddress', addressCountry: 'EC' },
   sameAs: [profile.github],
   knowsAbout: technologies,
+  alumniOf: education.map((item) => ({
+    '@type': 'EducationalOrganization',
+    name: item.institution,
+  })),
+  worksFor: careerRoles.filter((role) => role.current).map((role) => ({
+    '@type': 'Organization',
+    name: role.company,
+  })),
   hasCredential: certificates.map((certificate) => ({
     '@type': 'EducationalOccupationalCredential',
     name: certificate.title,
@@ -93,7 +103,7 @@ const structuredData = {
           <span><strong>Roger Cedeño</strong><small>Full Stack · Product Builder</small></span>
         </a>
         <div class="nav-links" data-nav-links>
-          <a href="#proyectos">Trabajo</a><a href="#actividad">Actividad</a><a href="#formacion">Formación</a><a href="#servicios">Capacidades</a><a href="#sobre-mi">Perfil</a><a href="#contacto">Contacto</a>
+          <a href="#proyectos">Trabajo</a><a href="#trayectoria">Trayectoria</a><a href="#formacion">Formación</a><a href="#servicios">Capacidades</a><a href="#sobre-mi">Perfil</a><a href="#contacto">Contacto</a>
         </div>
         <div class="nav-actions">
           <a class="nav-cta" href={contactHref}><Mail size={16} />Hablemos</a>
@@ -114,7 +124,7 @@ const structuredData = {
             <a class="button secondary" href={contactHref}>Iniciar conversación</a>
             <a class="icon-button" href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub"><GitBranch size={20} /></a>
           </div>
-          <div class="trust-line"><span><BadgeCheck size={17} />6+ años construyendo software</span><span><MapPin size={17} />{profile.location}</span></div>
+          <div class="trust-line"><span><BadgeCheck size={17} />Experiencia profesional desde 2019</span><span><MapPin size={17} />{profile.location}</span></div>
         </div>
 
         <div class="hero-visual reveal">
@@ -129,8 +139,8 @@ const structuredData = {
       </section>
 
       <section class="signal-strip shell" aria-label="Indicadores profesionales">
-        <article><strong>6+</strong><span>Años de experiencia</span></article>
-        <article><strong>20+</strong><span>Productos y proyectos</span></article>
+        <article><strong>{careerStats.companies}</strong><span>Organizaciones</span></article>
+        <article><strong>{careerStats.roles}</strong><span>Etapas profesionales</span></article>
         <article><strong>{languages.size || 10}+</strong><span>Tecnologías activas</span></article>
         <article><strong>{certificateStats.hours}h</strong><span>Formación certificada</span></article>
       </section>
@@ -174,6 +184,54 @@ const structuredData = {
           </div>
         </section>
       )}
+
+      <section id="trayectoria" class="section shell journey-section">
+        <div class="section-heading reveal">
+          <div><span class="kicker">Trayectoria profesional</span><h2>De desarrollador junior a constructor de productos completos.</h2></div>
+          <p>La historia conecta consultoría, productos empresariales, trabajo independiente, mobile, frontend, backend y arquitectura. Cada etapa amplió el alcance de los problemas que puedo resolver.</p>
+        </div>
+
+        <div class="journey-summary reveal" aria-label="Resumen de trayectoria">
+          <article><strong>{careerStats.since}</strong><span>Inicio profesional</span></article>
+          <article><strong>{careerStats.companies}</strong><span>Organizaciones</span></article>
+          <article><strong>{careerStats.roles}</strong><span>Roles y etapas</span></article>
+          <article><strong>{careerStats.education}</strong><span>Formaciones superiores</span></article>
+        </div>
+
+        <div class="journey-layout">
+          <div class="timeline" aria-label="Experiencia profesional">
+            {careerRoles.map((item, index) => (
+              <article class="timeline-item reveal">
+                <span class="timeline-dot">{String(careerRoles.length - index).padStart(2, '0')}</span>
+                <div class:list={['timeline-card', item.current && 'current']}>
+                  <div class="timeline-card-head">
+                    <div><h3>{item.role}</h3><h4>{item.company}</h4></div>
+                    <time>{item.period}</time>
+                  </div>
+                  <div class="timeline-meta"><span><MapPin size={14} />{item.location}</span>{item.mode && <span>{item.mode}</span>}{item.freelance && <span>Proyecto independiente</span>}</div>
+                  <p>{item.summary}</p>
+                  <div class="tags">{item.skills.map((skill) => <span>{skill}</span>)}</div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <aside class="education-panel reveal">
+            <span>Educación formal</span>
+            <h3>Fundamentos que sostienen la práctica.</h3>
+            <div class="education-list">
+              {education.map((item) => (
+                <article class="education-item">
+                  <strong>{item.institution}</strong>
+                  <p>{item.degree}</p>
+                  <time>{item.period}</time>
+                  <div class="tags">{item.focus.map((focus) => <span>{focus}</span>)}</div>
+                </article>
+              ))}
+            </div>
+          </aside>
+        </div>
+      </section>
 
       <section id="formacion" class="section shell learning-section">
         <div class="section-heading reveal">
@@ -253,7 +311,7 @@ const structuredData = {
       </section>
     </main>
 
-    <footer class="footer shell"><div class="brand"><span class="brand-mark">RC</span><span><strong>{profile.name}</strong><small>{profile.role}</small></span></div><p>© {year} · Diseñado y construido con intención.</p><nav><a href="#inicio">Inicio</a><a href="#proyectos">Trabajo</a><a href="#actividad">Actividad</a><a href="#formacion">Formación</a><a href="#contacto">Contacto</a></nav></footer>
+    <footer class="footer shell"><div class="brand"><span class="brand-mark">RC</span><span><strong>{profile.name}</strong><small>{profile.role}</small></span></div><p>© {year} · Diseñado y construido con intención.</p><nav><a href="#inicio">Inicio</a><a href="#proyectos">Trabajo</a><a href="#trayectoria">Trayectoria</a><a href="#formacion">Formación</a><a href="#contacto">Contacto</a></nav></footer>
 
     <script is:inline>
       const menuButton = document.querySelector('[data-menu-button]');
