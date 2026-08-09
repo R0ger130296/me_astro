@@ -1,0 +1,13 @@
+<script is:inline>
+  (() => {
+    try {
+      const storedTheme = localStorage.getItem('portfolio-theme');
+      const systemTheme = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      const theme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : systemTheme;
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+    } catch {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  })();
+</script>

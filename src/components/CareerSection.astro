@@ -1,0 +1,14 @@
+---
+import { MapPin } from '@lucide/astro';
+import { careerRoles, careerStats, education } from '../data/career';
+---
+<section id="trayectoria" class="section shell journey-section">
+  <div class="section-heading reveal"><div><span class="kicker">Trayectoria profesional</span><h2>De desarrollador junior a constructor de productos completos.</h2></div><p>La historia conecta consultoría, productos empresariales, trabajo independiente, mobile, frontend, backend y arquitectura.</p></div>
+  <div class="journey-summary reveal" aria-label="Resumen de trayectoria">
+    <article><strong>{careerStats.since}</strong><span>Inicio profesional</span></article><article><strong>{careerStats.companies}</strong><span>Organizaciones</span></article><article><strong>{careerStats.roles}</strong><span>Roles y etapas</span></article><article><strong>{careerStats.education}</strong><span>Formaciones superiores</span></article>
+  </div>
+  <div class="journey-layout">
+    <div class="timeline" aria-label="Experiencia profesional">{careerRoles.map((item, index) => <article class="timeline-item reveal"><span class="timeline-dot">{String(careerRoles.length - index).padStart(2, '0')}</span><div class:list={['timeline-card', item.current && 'current']}><div class="timeline-card-head"><div><h3>{item.role}</h3><h4>{item.company}</h4></div><time>{item.period}</time></div><div class="timeline-meta"><span><MapPin size={14} />{item.location}</span>{item.mode && <span>{item.mode}</span>}{item.freelance && <span>Proyecto independiente</span>}</div><p>{item.summary}</p><div class="tags">{item.skills.map((skill) => <span>{skill}</span>)}</div></div></article>)}</div>
+    <aside class="education-panel reveal"><span>Educación formal</span><h3>Fundamentos que sostienen la práctica.</h3><div class="education-list">{education.map((item) => <article class="education-item"><strong>{item.institution}</strong><p>{item.degree}</p><time>{item.period}</time><div class="tags">{item.focus.map((focus) => <span>{focus}</span>)}</div></article>)}</div></aside>
+  </div>
+</section>

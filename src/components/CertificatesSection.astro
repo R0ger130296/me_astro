@@ -1,0 +1,11 @@
+---
+import { ArrowUpRight, BadgeCheck } from '@lucide/astro';
+import { certificateCategories, certificates, certificateStats } from '../data/certificates';
+const issuerMarks = { Udemy: 'U', CertiProf: 'CP', Platzi: 'P' } as const;
+---
+<section id="formacion" class="section shell learning-section">
+  <div class="section-heading reveal"><div><span class="kicker">Formación continua</span><h2>Aprendizaje estructurado que acompaña la experiencia real.</h2></div><p>Evidencia de evolución profesional sostenida: desde frontend y mobile hacia backend, arquitectura, gestión y seguridad.</p></div>
+  <div class="credential-stats reveal" aria-label="Resumen de formación"><article><strong>{certificateStats.count}</strong><span>Credenciales</span></article><article><strong>{certificateStats.hours}h</strong><span>Horas certificadas</span></article><article><strong>{certificateStats.areas}</strong><span>Áreas de conocimiento</span></article><article><strong>{certificateStats.years}</strong><span>Evolución continua</span></article></div>
+  <div class="certificate-filters reveal" aria-label="Filtrar credenciales">{certificateCategories.map((category, index) => <button type="button" class:list={['certificate-filter', index === 0 && 'active']} data-certificate-filter={category}>{category}</button>)}</div>
+  <div class="certificate-grid">{certificates.map((certificate) => <article class:list={['certificate-card', certificate.featured && 'featured', 'reveal']} data-certificate-card data-category={certificate.category}><div class="certificate-head"><span class="certificate-mark">{issuerMarks[certificate.issuer]}</span><div><strong>{certificate.issuer}</strong><small>{certificate.category} · {certificate.year}</small></div><BadgeCheck size={19} aria-hidden="true" /></div><h3>{certificate.title}</h3><p>{certificate.date}{certificate.hours ? ` · ${certificate.hours} horas` : ''}</p>{certificate.credentialId && <small class="credential-id">ID: {certificate.credentialId}</small>}<div class="tags">{certificate.skills.map((skill) => <span>{skill}</span>)}</div>{certificate.credentialUrl ? <a href={certificate.credentialUrl} target="_blank" rel="noreferrer">Ver credencial oficial <ArrowUpRight size={16} /></a> : <span class="credential-available"><BadgeCheck size={15} />Credencial verificada disponible</span>}</article>)}</div>
+</section>

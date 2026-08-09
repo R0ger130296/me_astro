@@ -1,0 +1,7 @@
+---
+import { GitBranch, Send } from '@lucide/astro';
+import { profile } from '../data/portfolio';
+interface Props { contactHref: string; }
+const { contactHref } = Astro.props;
+---
+<section id="contacto" class="contact shell reveal"><div><span class="kicker">¿Tienes un reto?</span><h2>Construyamos algo que valga la pena usar.</h2><p>Cuéntame el contexto, el resultado esperado y el plazo. El correo se abrirá con una guía breve para facilitar la conversación.</p></div><div class="contact-actions"><a class="button primary" href={contactHref}><Send size={18} />Contarme el proyecto</a><a class="button secondary" href={profile.github} target="_blank" rel="noreferrer"><GitBranch size={18} />GitHub</a></div></section>

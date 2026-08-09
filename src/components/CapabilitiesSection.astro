@@ -1,0 +1,5 @@
+---
+import { ArrowRight } from '@lucide/astro';
+import { capabilities } from '../data/portfolio';
+---
+<section id="servicios" class="section section-contrast"><div class="shell"><div class="section-heading reveal"><div><span class="kicker">Capacidades</span><h2>De la idea al producto operando.</h2></div><p>Puedo integrarme en una etapa puntual o acompañar el ciclo completo: descubrimiento, diseño técnico, implementación y entrega.</p></div><div class="capability-grid">{capabilities.map((item, index) => <article class="capability-card reveal"><span>0{index + 1}</span><h3>{item.title}</h3><p>{item.description}</p><ArrowRight size={18} /></article>)}</div></div></section>

@@ -1,0 +1,6 @@
+---
+import { profile } from '../data/portfolio';
+interface Props { year: number; }
+const { year } = Astro.props;
+---
+<footer class="footer shell"><div class="brand"><span class="brand-mark">RC</span><span><strong>{profile.name}</strong><small>{profile.role}</small></span></div><p>© {year} · Diseñado y construido con intención.</p><nav><a href="#inicio">Inicio</a><a href="#proyectos">Trabajo</a><a href="#trayectoria">Trayectoria</a><a href="#formacion">Formación</a><a href="#contacto">Contacto</a></nav></footer>

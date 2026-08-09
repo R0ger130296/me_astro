@@ -1,0 +1,31 @@
+---
+import { ArrowRight, BadgeCheck, Code2, GitBranch, MapPin, Rocket } from '@lucide/astro';
+import { profile } from '../data/portfolio';
+
+type Props = { contactHref: string };
+const { contactHref } = Astro.props;
+---
+<section id="inicio" class="hero shell">
+  <div class="hero-copy reveal">
+    <div class="eyebrow"><span></span>Disponible para proyectos seleccionados</div>
+    <p class="overline">Frontend · Backend · Mobile · Cloud · Producto</p>
+    <h1>Convierto ideas complejas en <em>productos digitales claros.</em></h1>
+    <p class="hero-summary">Diseño y construyo soluciones completas: desde la experiencia del usuario y el frontend hasta APIs, reglas de negocio, datos, nube y entrega continua.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="#proyectos">Explorar trabajo <ArrowRight size={18} /></a>
+      <a class="button secondary" href={contactHref}>Iniciar conversación</a>
+      <a class="icon-button" href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub"><GitBranch size={20} /></a>
+    </div>
+    <div class="trust-line"><span><BadgeCheck size={17} />Experiencia profesional desde 2019</span><span><MapPin size={17} />{profile.location}</span></div>
+  </div>
+
+  <div class="hero-visual reveal">
+    <div class="portrait-shell">
+      <div class="portrait-grid" aria-hidden="true"></div>
+      <img src="/me/1757515565808.jpeg" alt="Retrato profesional de Roger Cedeño" width="800" height="1000" loading="eager" decoding="async" fetchpriority="high" />
+      <div class="portrait-caption"><div><strong>{profile.name}</strong><span>{profile.role}</span></div><BadgeCheck size={20} /></div>
+    </div>
+    <div class="floating-card code-card"><Code2 size={18} /><span><small>Stack principal</small><strong>React · .NET · TypeScript</strong></span></div>
+    <div class="floating-card delivery-card"><Rocket size={18} /><span><small>Enfoque</small><strong>Producto + ejecución</strong></span></div>
+  </div>
+</section>

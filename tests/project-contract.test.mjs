@@ -27,11 +27,28 @@ test('repository has no unresolved merge markers', async () => {
 });
 
 test('portfolio uses the uploaded JPEG', async () => {
-  const [page, image] = await Promise.all([readFile('src/pages/index.astro', 'utf8'), readFile('public/me/1757515565808.jpeg')]);
-  assert.match(page, /\/me\/1757515565808\.jpeg/);
+  const [hero, image] = await Promise.all([readFile('src/components/Hero.astro', 'utf8'), readFile('public/me/1757515565808.jpeg')]);
+  assert.match(hero, /\/me\/1757515565808\.jpeg/);
   assert.equal(image[0], 0xff);
   assert.equal(image[1], 0xd8);
   assert.ok(image.length > 10_000);
+});
+
+test('portfolio is componentized and supports persistent light and dark themes', async () => {
+  const [page, header, themeInit, client, styles] = await Promise.all([
+    readFile('src/pages/index.astro', 'utf8'),
+    readFile('src/components/SiteHeader.astro', 'utf8'),
+    readFile('src/components/ThemeInit.astro', 'utf8'),
+    readFile('src/scripts/site.ts', 'utf8'),
+    readFile('src/styles/global.css', 'utf8'),
+  ]);
+  assert.match(page, /<SiteHeader/);
+  assert.match(page, /<WorkSections/);
+  assert.match(page, /<CertificatesSection/);
+  assert.match(header, /data-theme-toggle/);
+  assert.match(themeInit, /portfolio-theme/);
+  assert.match(client, /prefers-color-scheme/);
+  assert.match(styles, /html\[data-theme="light"\]/);
 });
 
 test('deployment is static and does not use Astro DB', async () => {
