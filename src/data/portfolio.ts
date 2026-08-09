@@ -14,7 +14,7 @@ export const profile = {
   name: 'Roger Cedeño',
   role: 'Full Stack Developer',
   location: 'Ecuador · GMT-5',
-  email: 'rogercedeno96@gmail.com',
+  email: 'grarogccee@gmail.com',
   github: 'https://github.com/R0ger130296',
   linkedin: 'https://www.linkedin.com/',
   summary:
