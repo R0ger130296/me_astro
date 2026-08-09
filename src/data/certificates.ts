@@ -1,16 +1,63 @@
 export type Certificate = {
   title: string;
-  issuer: 'Udemy' | 'CertiProf';
+  issuer: 'Udemy' | 'CertiProf' | 'Platzi';
   date: string;
   year: number;
   hours?: number;
-  category: 'Frontend' | 'Backend' | 'Mobile' | 'Arquitectura' | 'Gestión' | 'Seguridad';
+  category: 'Frontend' | 'Backend' | 'Mobile' | 'Arquitectura' | 'Gestión' | 'Seguridad' | 'Cloud';
   skills: string[];
+  credentialId?: string;
   credentialUrl?: string;
   featured?: boolean;
 };
 
 export const certificates: Certificate[] = [
+  {
+    title: 'Curso de Bases de Datos en Azure',
+    issuer: 'Platzi',
+    date: 'Agosto de 2026',
+    year: 2026,
+    hours: 3,
+    category: 'Cloud',
+    skills: ['Azure SQL', 'Cosmos DB', 'Bases de datos'],
+    credentialId: 'f5a36ccc-3609-4e4e-b9e1-9e51db040afe-4430756a-649b-4b14-8e98-73f4fb008618',
+    credentialUrl: 'https://platzi.com/p/grarogccee/curso/2204-azure-bases-datos/diploma/detalle/',
+    featured: true,
+  },
+  {
+    title: 'Curso de Almacenamiento en Azure',
+    issuer: 'Platzi',
+    date: 'Julio de 2026',
+    year: 2026,
+    hours: 2,
+    category: 'Cloud',
+    skills: ['Azure Storage', 'Blob Storage', 'Seguridad'],
+    credentialId: 'd896e11d-6f9e-4fff-a975-e0b1e1b2ee52-e201ef4c-15a6-4541-9a70-76efe6c13b1f',
+    credentialUrl: 'https://platzi.com/p/grarogccee/curso/1705-almacenamiento-azure/diploma/detalle/',
+    featured: true,
+  },
+  {
+    title: 'Curso de Azure IaaS',
+    issuer: 'Platzi',
+    date: 'Julio de 2026',
+    year: 2026,
+    hours: 3,
+    category: 'Cloud',
+    skills: ['Azure IaaS', 'Máquinas virtuales', 'Redes'],
+    credentialId: 'f7424a35-c1fc-4bd3-a704-934f12e1eafe-63453c38-9443-4215-9b70-1f56705b3051',
+    credentialUrl: 'https://platzi.com/p/grarogccee/curso/1704-azure-iaas/diploma/detalle/',
+  },
+  {
+    title: 'Curso de Fundamentos de Microsoft Azure (AZ-900)',
+    issuer: 'Platzi',
+    date: 'Julio de 2026',
+    year: 2026,
+    hours: 5,
+    category: 'Cloud',
+    skills: ['Azure', 'Cloud Computing', 'AZ-900'],
+    credentialId: '2a4c68c0-f7f3-475c-b6ac-65a6bb22bd4d-50ce46b6-aaae-4947-a149-033aa5579395',
+    credentialUrl: 'https://platzi.com/p/grarogccee/curso/11884-az-900/diploma/detalle/',
+  },
   {
     title: '.NET Backend: .NET Core, SQL Server y seguridad JWT',
     issuer: 'Udemy',

@@ -34,6 +34,7 @@ const recentRepositories = repositories
   .slice(0, 3);
 const formatDate = (value: string) => new Intl.DateTimeFormat('es-EC', { month: 'short', year: 'numeric' }).format(new Date(value));
 const year = new Date().getFullYear();
+const certificateIssuerMarks = { Udemy: 'U', CertiProf: 'CP', Platzi: 'P' } as const;
 const canonical = 'https://rogercedeno.dev/';
 const title = 'Roger Cedeño | Full Stack Developer & Product Builder';
 const description = 'Portafolio de Roger Cedeño, desarrollador Full Stack especializado en productos web, móviles, cloud y experiencias digitales centradas en negocio.';
@@ -256,12 +257,13 @@ const structuredData = {
           {certificates.map((certificate) => (
             <article class:list={['certificate-card', certificate.featured && 'featured', 'reveal']} data-certificate-card data-category={certificate.category}>
               <div class="certificate-head">
-                <span class="certificate-mark">{certificate.issuer === 'Udemy' ? 'U' : 'CP'}</span>
+                <span class="certificate-mark">{certificateIssuerMarks[certificate.issuer]}</span>
                 <div><strong>{certificate.issuer}</strong><small>{certificate.category} · {certificate.year}</small></div>
                 <BadgeCheck size={19} aria-hidden="true" />
               </div>
               <h3>{certificate.title}</h3>
               <p>{certificate.date}{certificate.hours ? ` · ${certificate.hours} horas` : ''}</p>
+              {certificate.credentialId && <small class="credential-id">ID: {certificate.credentialId}</small>}
               <div class="tags">{certificate.skills.map((skill) => <span>{skill}</span>)}</div>
               {certificate.credentialUrl ? (
                 <a href={certificate.credentialUrl} target="_blank" rel="noreferrer">Ver credencial oficial <ArrowUpRight size={16} /></a>

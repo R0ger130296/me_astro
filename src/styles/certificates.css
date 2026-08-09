@@ -21,6 +21,7 @@
 .certificate-mark { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid rgba(168,255,96,.25); border-radius: 12px; color: var(--accent); background: var(--accent-soft); font-size: .72rem; font-weight: 900; }
 .certificate-card h3 { margin: 2.2rem 0 .6rem; font-size: 1.16rem; line-height: 1.25; }
 .certificate-card>p { margin: 0; color: var(--muted); font-size: .72rem; }
+.credential-id { display: block; margin-top: .45rem; color: #8490a0; font-size: .62rem; line-height: 1.4; overflow-wrap: anywhere; }
 .certificate-card .tags { margin-top: auto; padding-top: 1.4rem; }
 .certificate-card>a,.credential-available { display: inline-flex; align-items: center; gap: .35rem; margin-top: 1rem; color: var(--accent); font-size: .72rem; font-weight: 800; }
 .credential-available { color: #c5ceda; }
