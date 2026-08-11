@@ -1,5 +1,5 @@
 ---
-import { Braces, CheckCircle2, Code2, Eye, Layers3, Play, Route, TerminalSquare } from '@lucide/astro';
+import { Braces, CheckCircle2, CircuitBoard, Eye, Network, Play, Route, TerminalSquare } from '@lucide/astro';
 
 const codeTabs = [
   {
@@ -63,7 +63,7 @@ const codeTabs = [
 
 const thinking = [
   { number: '01', title: 'Understand', icon: Eye, copy: 'Primero reduzco ambigüedad: usuario, contexto, restricción y resultado esperado.', detail: 'Problem → Context → Success' },
-  { number: '02', title: 'Architect', icon: Layers3, copy: 'Diseño contratos y límites antes de repartir tecnologías por capas.', detail: 'UI → API → Domain → Data' },
+  { number: '02', title: 'Architect', icon: Network, copy: 'Diseño contratos y límites antes de repartir tecnologías por capas.', detail: 'UI → API → Domain → Data' },
   { number: '03', title: 'Ship', icon: Play, copy: 'Entrego en incrementos observables, medibles y fáciles de corregir.', detail: 'Build → Verify → Deploy → Learn' },
 ] as const;
 ---
@@ -118,7 +118,7 @@ const thinking = [
 </section>
 
 <button class="dev-view-toggle" type="button" aria-pressed="false" data-dev-view-toggle title="Mostrar la arquitectura del portafolio">
-  <Code2 size={17} /><span>Dev View</span><Braces size={15} />
+  <CircuitBoard size={17} /><span>Dev View</span><Braces size={15} />
 </button>
 
 <script is:inline define:vars={{ codeTabs: JSON.stringify(codeTabs) }}>
