@@ -1,0 +1,41 @@
+---
+import { ArrowRight, BadgeCheck, Boxes, Network } from '@lucide/astro';
+import BrandIcon from './BrandIcon.astro';
+import { certificates } from '../data/certificates';
+import { projects, technologies } from '../data/portfolio';
+import { getTechnologyIcon } from '../data/technology-icons';
+
+const normalize = (value: string) => value.toLowerCase().replaceAll(' ', '').replaceAll('.', '').replaceAll('-', '');
+const matchesTechnology = (technology: string, value: string) => {
+  const left = normalize(technology);
+  const right = normalize(value);
+  return left === right || left.includes(right) || right.includes(left);
+};
+
+const relations = technologies.map((technology) => {
+  const relatedProjects = projects.filter((project) => project.tags.some((tag) => matchesTechnology(technology, tag)));
+  const relatedCertificates = certificates.filter((certificate) => certificate.skills.some((skill) => matchesTechnology(technology, skill)));
+  return { technology, relatedProjects, relatedCertificates, icon: getTechnologyIcon(technology) };
+}).filter((item) => item.relatedProjects.length > 0 || item.relatedCertificates.length > 0);
+---
+<section id="relaciones-tecnicas" class="section shell technology-relations" data-dev-label="TechnologyRelations.astro">
+  <div class="section-heading reveal">
+    <div><span class="kicker">Evidencia conectada</span><h2>Tecnologías respaldadas por proyectos y formación.</h2></div>
+    <p>La relación se genera únicamente desde los tags de proyectos y skills de certificados que ya existen en el repositorio.</p>
+  </div>
+
+  <div class="technology-relation-grid">
+    {relations.map(({ technology, relatedProjects, relatedCertificates, icon }) => (
+      <article class="technology-relation-card reveal">
+        <header class="technology-relation-head">
+          <span class="technology-brand">{icon && <BrandIcon icon={icon} size={22} label={technology} monochrome />}</span>
+          <div><strong>{technology}</strong><small>{relatedProjects.length} proyecto{relatedProjects.length === 1 ? '' : 's'} · {relatedCertificates.length} credencial{relatedCertificates.length === 1 ? '' : 'es'}</small></div>
+        </header>
+        {relatedProjects.length > 0 && <div class="technology-relation-group"><span><Boxes size={14} />Proyectos</span><div>{relatedProjects.map((project) => <a href={`/proyectos/${project.slug}`}>{project.title}<ArrowRight size={13} /></a>)}</div></div>}
+        {relatedCertificates.length > 0 && <div class="technology-relation-group"><span><BadgeCheck size={14} />Formación</span><div>{relatedCertificates.slice(0, 3).map((certificate) => <a href="#formacion">{certificate.title}</a>)}</div></div>}
+      </article>
+    ))}
+  </div>
+
+  <div class="relation-note reveal"><Network size={17} /><span>No se infieren competencias: si una tecnología no aparece vinculada a datos existentes, no se muestra aquí.</span></div>
+</section>
