@@ -1,0 +1,105 @@
+---
+import { Command, FileText, Github, Home, Mail, Search, X } from '@lucide/astro';
+import { profile, projects } from '../data/portfolio';
+
+type Props = { sectionPrefix?: string };
+const { sectionPrefix = '' } = Astro.props;
+const actions = [
+  { label: 'Inicio', hint: 'Hero', href: `${sectionPrefix}#inicio`, icon: Home },
+  { label: 'Trabajo seleccionado', hint: 'Proyectos', href: `${sectionPrefix}#proyectos`, icon: FileText },
+  ...projects.map((project) => ({ label: project.title, hint: project.status, href: `/proyectos/${project.slug}`, icon: FileText })),
+  { label: 'GitHub', hint: 'Actividad pública', href: profile.github, external: true, icon: Github },
+  { label: 'Contacto', hint: 'Enviar correo', href: `mailto:${profile.email}`, icon: Mail },
+] as const;
+---
+<button class="command-launcher" type="button" data-command-launch aria-label="Abrir navegación rápida">
+  <Command size={16} /><span>Buscar</span><kbd>⌘ K</kbd>
+</button>
+
+<div class="command-palette" data-command-palette hidden aria-hidden="true">
+  <button class="command-backdrop" type="button" data-command-close aria-label="Cerrar navegación rápida"></button>
+  <section class="command-panel" role="dialog" aria-modal="true" aria-labelledby="command-title">
+    <header class="command-head">
+      <Search size={18} aria-hidden="true" />
+      <label class="sr-only" for="command-search">Buscar una sección o proyecto</label>
+      <input id="command-search" type="search" placeholder="Buscar proyecto, sección o acción…" autocomplete="off" data-command-search />
+      <button type="button" data-command-close aria-label="Cerrar"><X size={18} /></button>
+    </header>
+    <div class="command-caption"><strong id="command-title">Navegación rápida</strong><span>Solo contenido disponible en el portafolio</span></div>
+    <div class="command-results" data-command-results>
+      {actions.map(({ label, hint, href, icon: Icon, ...action }) => (
+        <a class="command-item" href={href} target={'external' in action && action.external ? '_blank' : undefined} rel={'external' in action && action.external ? 'noreferrer' : undefined} data-command-item data-command-query={`${label} ${hint}`.toLowerCase()}>
+          <span class="command-item-icon"><Icon size={17} /></span>
+          <span><strong>{label}</strong><small>{hint}</small></span>
+          <kbd>↵</kbd>
+        </a>
+      ))}
+      <p class="command-empty" data-command-empty hidden>No hay coincidencias.</p>
+    </div>
+    <footer class="command-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navegar</span><span><kbd>Esc</kbd> cerrar</span></footer>
+  </section>
+</div>
+
+<script>
+  const palette = document.querySelector<HTMLElement>('[data-command-palette]');
+  const input = document.querySelector<HTMLInputElement>('[data-command-search]');
+  const items = [...document.querySelectorAll<HTMLAnchorElement>('[data-command-item]')];
+  const empty = document.querySelector<HTMLElement>('[data-command-empty]');
+  let visibleItems = items;
+  let activeIndex = 0;
+  let previousFocus: HTMLElement | null = null;
+
+  function setActive(index: number) {
+    visibleItems.forEach((item) => item.classList.remove('active'));
+    if (visibleItems.length === 0) return;
+    activeIndex = (index + visibleItems.length) % visibleItems.length;
+    const item = visibleItems[activeIndex];
+    item?.classList.add('active');
+    item?.scrollIntoView({ block: 'nearest' });
+  }
+
+  function filterItems() {
+    const query = input?.value.trim().toLowerCase() ?? '';
+    visibleItems = items.filter((item) => {
+      const matches = (item.dataset.commandQuery ?? '').includes(query);
+      item.hidden = !matches;
+      return matches;
+    });
+    if (empty) empty.hidden = visibleItems.length > 0;
+    activeIndex = 0;
+    setActive(0);
+  }
+
+  function openPalette(launcher?: HTMLElement) {
+    if (!palette) return;
+    previousFocus = launcher ?? document.activeElement as HTMLElement;
+    palette.hidden = false;
+    palette.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('command-open');
+    if (input) { input.value = ''; filterItems(); input.focus(); }
+  }
+
+  function closePalette() {
+    if (!palette || palette.hidden) return;
+    palette.hidden = true;
+    palette.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('command-open');
+    previousFocus?.focus({ preventScroll: true });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-command-launch]').forEach((launcher) => launcher.addEventListener('click', () => openPalette(launcher)));
+  document.querySelectorAll<HTMLElement>('[data-command-close]').forEach((closer) => closer.addEventListener('click', closePalette));
+  input?.addEventListener('input', filterItems);
+  items.forEach((item) => item.addEventListener('mouseenter', () => { const index = visibleItems.indexOf(item); if (index >= 0) setActive(index); }));
+  items.forEach((item) => item.addEventListener('click', closePalette));
+
+  document.addEventListener('keydown', (event) => {
+    const shortcut = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k';
+    if (shortcut) { event.preventDefault(); palette?.hidden ? openPalette() : closePalette(); return; }
+    if (palette?.hidden) return;
+    if (event.key === 'Escape') { event.preventDefault(); closePalette(); }
+    if (event.key === 'ArrowDown') { event.preventDefault(); setActive(activeIndex + 1); }
+    if (event.key === 'ArrowUp') { event.preventDefault(); setActive(activeIndex - 1); }
+    if (event.key === 'Enter' && visibleItems[activeIndex]) { event.preventDefault(); visibleItems[activeIndex]?.click(); }
+  });
+</script>
