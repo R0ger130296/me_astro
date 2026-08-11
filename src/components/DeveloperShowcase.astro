@@ -1,0 +1,126 @@
+---
+import { Braces, CheckCircle2, Code2, Eye, Layers3, Play, Route, TerminalSquare } from '@lucide/astro';
+
+const codeTabs = [
+  {
+    id: 'frontend',
+    label: 'Frontend',
+    file: 'ProductCard.tsx',
+    language: 'tsx',
+    explanation: 'La UI expresa estados del producto; la lógica de negocio vive fuera del componente.',
+    lines: [
+      'type Props = { project: Project };',
+      '',
+      'export function ProductCard({ project }: Props) {',
+      '  const state = useProjectState(project.id);',
+      '  return <Card project={project} state={state} />;',
+      '}',
+    ],
+  },
+  {
+    id: 'backend',
+    label: 'Backend',
+    file: 'OrdersEndpoint.cs',
+    language: 'csharp',
+    explanation: 'Endpoints pequeños, dominio explícito y persistencia tratada como detalle de infraestructura.',
+    lines: [
+      'var order = await repository.GetAsync(id);',
+      'order.AssignTechnician(technicianId);',
+      '',
+      'await unitOfWork.SaveChangesAsync();',
+      'return Results.Ok(order);',
+    ],
+  },
+  {
+    id: 'mobile',
+    label: 'Mobile',
+    file: 'useOfflineSync.ts',
+    language: 'typescript',
+    explanation: 'La conectividad es un estado del producto, no una excepción que el usuario deba resolver.',
+    lines: [
+      'const pending = await queue.pending();',
+      'if (!network.online) return pending;',
+      '',
+      'await sync(pending);',
+      'return queue.clearSynced();',
+    ],
+  },
+  {
+    id: 'cloud',
+    label: 'Cloud',
+    file: 'deploy.yml',
+    language: 'yaml',
+    explanation: 'La entrega forma parte de la arquitectura: build reproducible, validación y despliegue automático.',
+    lines: [
+      'steps:',
+      '  - run: npm ci',
+      '  - run: npm test',
+      '  - run: npm run build',
+      '  - deploy: production',
+    ],
+  },
+] as const;
+
+const thinking = [
+  { number: '01', title: 'Understand', icon: Eye, copy: 'Primero reduzco ambigüedad: usuario, contexto, restricción y resultado esperado.', detail: 'Problem → Context → Success' },
+  { number: '02', title: 'Architect', icon: Layers3, copy: 'Diseño contratos y límites antes de repartir tecnologías por capas.', detail: 'UI → API → Domain → Data' },
+  { number: '03', title: 'Ship', icon: Play, copy: 'Entrego en incrementos observables, medibles y fáciles de corregir.', detail: 'Build → Verify → Deploy → Learn' },
+] as const;
+---
+<section id="codigo" class="section developer-showcase" data-dev-label="DeveloperShowcase.astro">
+  <div class="shell">
+    <div class="section-heading reveal">
+      <div><span class="kicker">Engineering preview</span><h2>El código importa. Las decisiones detrás, más.</h2></div>
+      <p>Una mirada breve a cómo conecto frontend, backend, mobile y cloud sin convertir el portafolio en una captura de VS Code.</p>
+    </div>
+
+    <div class="live-code-layout reveal">
+      <div class="live-code-copy">
+        <span class="engineering-badge"><TerminalSquare size={16} />Live code</span>
+        <h3>Una misma filosofía en distintas capas.</h3>
+        <p data-code-explanation>{codeTabs[0].explanation}</p>
+        <div class="code-tabs" role="tablist" aria-label="Seleccionar capa técnica">
+          {codeTabs.map((tab, index) => <button type="button" role="tab" aria-selected={index === 0 ? 'true' : 'false'} class:list={['code-tab', index === 0 && 'active']} data-code-tab={tab.id}>{tab.label}</button>)}
+        </div>
+        <div class="engineering-principle"><CheckCircle2 size={17} /><span>Objetivo: que el sistema sea fácil de entender mañana, no solo que funcione hoy.</span></div>
+      </div>
+
+      <div class="code-window live-code-window" data-live-code-window>
+        <div class="code-window-bar">
+          <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <strong data-code-filename>{codeTabs[0].file}</strong>
+          <span data-code-language>{codeTabs[0].language}</span>
+        </div>
+        <pre aria-live="polite"><code data-code-content>{codeTabs[0].lines.map((line, index) => <span><i>{index + 1}</i>{line || ' '}</span>)}</code></pre>
+      </div>
+    </div>
+
+    <div class="thinking-heading reveal"><span class="kicker">How I think</span><h3>Del problema al producto operando.</h3></div>
+    <div class="thinking-grid">
+      {thinking.map(({ number, title, icon: Icon, copy, detail }) => (
+        <article class="thinking-card reveal" data-dev-label={`Thinking/${title}`}>
+          <div class="thinking-top"><span>{number}</span><Icon size={20} /></div>
+          <h4>{title}</h4><p>{copy}</p>
+          <div class="thinking-flow"><Route size={15} /><code>{detail}</code></div>
+        </article>
+      ))}
+    </div>
+
+    <div class="terminal-strip reveal" aria-label="Perfil técnico resumido">
+      <div class="terminal-title"><TerminalSquare size={17} /><span>roger@portfolio:~</span></div>
+      <div class="terminal-lines">
+        <p><span>$</span> whoami <strong>Full Stack Developer · Product Builder</strong></p>
+        <p><span>$</span> strengths <strong>Web · Mobile · Backend · Cloud</strong></p>
+        <p><span>$</span> approach <strong>Understand → Architect → Ship</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<button class="dev-view-toggle" type="button" aria-pressed="false" data-dev-view-toggle title="Mostrar la arquitectura del portafolio">
+  <Code2 size={17} /><span>Dev View</span><Braces size={15} />
+</button>
+
+<script is:inline define:vars={{ codeTabs: JSON.stringify(codeTabs) }}>
+  document.documentElement.dataset.codeTabs = codeTabs;
+</script>
