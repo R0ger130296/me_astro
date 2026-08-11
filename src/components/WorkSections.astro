@@ -1,5 +1,5 @@
 ---
-import { ArrowUpRight, Braces, ChevronDown, GitBranch, Network, Sparkles } from '@lucide/astro';
+import { ArrowRight, ArrowUpRight, Braces, ChevronDown, GitBranch, Network, Sparkles } from '@lucide/astro';
 import { projects } from '../data/portfolio';
 import { getRepositoryMap, type GitHubRepo } from '../services/github';
 
@@ -26,7 +26,8 @@ const formatDate = (value: string) => new Intl.DateTimeFormat('es-EC', { month: 
             <button class="text-link case-study-toggle" type="button" aria-expanded="false" aria-controls={detailId} data-case-study-toggle>
               <Braces size={16} /><span>Ver cómo está construido</span><ChevronDown size={15} aria-hidden="true" />
             </button>
-            <a href={project.href ?? '#contacto'} target={project.href ? '_blank' : undefined} rel={project.href ? 'noreferrer' : undefined}>Ver proyecto <ArrowUpRight size={16} /></a>
+            <a href={`/proyectos/${project.slug}`}>Caso completo <ArrowRight size={16} /></a>
+            {project.href && <a href={project.href} target="_blank" rel="noreferrer" aria-label={`Abrir referencia externa de ${project.title}`}>Referencia <ArrowUpRight size={16} /></a>}
           </div>
           <div class="case-study" id={detailId} hidden data-case-study>
             <div class="case-study-story">
