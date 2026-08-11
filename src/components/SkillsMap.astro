@@ -1,16 +1,16 @@
 ---
-import { Boxes, Cloud, CodeXml, ServerCog, Smartphone } from '@lucide/astro';
+import { Boxes, Cloud, CodeXml, Gauge, Layers3, ServerCog, Smartphone } from '@lucide/astro';
 
 const skillAreas = [
-  { id: 'frontend', title: 'Frontend', description: 'Interfaces accesibles, rápidas y orientadas a tareas reales.', stack: 'React · Astro · TypeScript · Tailwind CSS' },
-  { id: 'backend', title: 'Backend', description: 'APIs, reglas de negocio, seguridad e integración de sistemas.', stack: '.NET · Node.js · REST · GraphQL · SQL Server' },
-  { id: 'mobile', title: 'Mobile', description: 'Experiencias móviles y PWA con capacidad de trabajar dentro y fuera de línea.', stack: 'React Native · Expo · Flutter · PWA' },
-  { id: 'cloud', title: 'Cloud', description: 'Infraestructura, automatización y despliegues reproducibles.', stack: 'Azure · Docker · GitHub Actions · Vercel · Firebase' },
-  { id: 'producto', title: 'Producto', description: 'El punto donde convergen experiencia, tecnología, datos y objetivos de negocio.', stack: 'Discovery · UX · Arquitectura · Delivery · Métricas' },
+  { id: 'frontend', title: 'Frontend', description: 'Interfaces accesibles, rápidas y orientadas a tareas reales.', stack: 'React · Astro · TypeScript · Tailwind CSS', experience: 'Producto web', useCase: 'Sistemas donde claridad, rendimiento y estados de UI importan.', signal: 'UI → State → API' },
+  { id: 'backend', title: 'Backend', description: 'APIs, reglas de negocio, seguridad e integración de sistemas.', stack: '.NET · Node.js · REST · GraphQL · SQL Server', experience: 'APIs & dominio', useCase: 'Procesos con reglas, permisos, integraciones y trazabilidad.', signal: 'API → Domain → Data' },
+  { id: 'mobile', title: 'Mobile', description: 'Experiencias móviles y PWA con capacidad de trabajar dentro y fuera de línea.', stack: 'React Native · Expo · Flutter · PWA', experience: 'Mobile-first', useCase: 'Flujos frecuentes, notificaciones y escenarios de conectividad variable.', signal: 'Device → Sync → Services' },
+  { id: 'cloud', title: 'Cloud', description: 'Infraestructura, automatización y despliegues reproducibles.', stack: 'Azure · Docker · GitHub Actions · Vercel · Firebase', experience: 'Delivery', useCase: 'Productos que necesitan despliegue confiable, observabilidad y automatización.', signal: 'Build → Verify → Deploy' },
+  { id: 'producto', title: 'Producto', description: 'El punto donde convergen experiencia, tecnología, datos y objetivos de negocio.', stack: 'Discovery · UX · Arquitectura · Delivery · Métricas', experience: 'End-to-end', useCase: 'Problemas donde la solución necesita criterio técnico y de experiencia al mismo tiempo.', signal: 'Problem → Product → Value' },
 ] as const;
 ---
-<section class="skills-map reveal" aria-labelledby="skills-map-title" data-skill-map>
-  <div class="skills-map-heading"><div><span class="kicker">Arquitectura de habilidades</span><h3 id="skills-map-title">Cinco perspectivas, un solo producto.</h3></div><p>Selecciona un área para explorar cómo se conecta con el resultado final.</p></div>
+<section class="skills-map reveal" aria-labelledby="skills-map-title" data-skill-map data-dev-label="SkillsMap.astro">
+  <div class="skills-map-heading"><div><span class="kicker">Stack inspector</span><h3 id="skills-map-title">Cinco perspectivas, un solo producto.</h3></div><p>Selecciona un área. No solo verás tecnologías: también para qué las uso y cómo encajan en la arquitectura.</p></div>
   <div class="skills-map-layout">
     <div class="skills-map-canvas">
       <svg class="skills-connections" viewBox="0 0 600 400" aria-hidden="true"><path d="M300 200 L115 90 M300 200 L485 90 M300 200 L115 310 M300 200 L485 310" /></svg>
@@ -20,6 +20,14 @@ const skillAreas = [
       <button class="skill-node node-cloud" type="button" data-skill-node={JSON.stringify(skillAreas[3])}><Cloud size={22} /><span>Cloud</span></button>
       <button class="skill-node node-product active" type="button" data-skill-node={JSON.stringify(skillAreas[4])} aria-pressed="true"><Boxes size={25} /><span>Producto</span></button>
     </div>
-    <article class="skill-detail" data-skill-detail aria-live="polite"><span>Área seleccionada</span><h4 data-skill-title>{skillAreas[4].title}</h4><p data-skill-description>{skillAreas[4].description}</p><strong data-skill-stack>{skillAreas[4].stack}</strong></article>
+    <article class="skill-detail stack-inspector" data-skill-detail aria-live="polite">
+      <div class="inspector-bar"><span><Layers3 size={15} />Inspector</span><i aria-hidden="true"></i></div>
+      <span>Área seleccionada</span><h4 data-skill-title>{skillAreas[4].title}</h4><p data-skill-description>{skillAreas[4].description}</p><strong data-skill-stack>{skillAreas[4].stack}</strong>
+      <dl class="inspector-grid">
+        <div><dt><Gauge size={14} />Experiencia</dt><dd data-skill-experience>{skillAreas[4].experience}</dd></div>
+        <div><dt>Mejor encaje</dt><dd data-skill-use-case>{skillAreas[4].useCase}</dd></div>
+      </dl>
+      <div class="inspector-signal"><code data-skill-signal>{skillAreas[4].signal}</code></div>
+    </article>
   </div>
 </section>
