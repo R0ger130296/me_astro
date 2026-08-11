@@ -1,0 +1,15 @@
+---
+import BrandIcon from './BrandIcon.astro';
+import { getTechnologyIcon } from '../data/technology-icons';
+
+interface Props {
+  name: string;
+  compact?: boolean;
+}
+const { name, compact = false } = Astro.props;
+const icon = getTechnologyIcon(name);
+---
+<span class:list={['tech-chip', compact && 'compact']} title={icon ? `${name} · marca de Simple Icons` : name}>
+  {icon && <BrandIcon icon={icon} size={compact ? 14 : 16} label={name} monochrome />}
+  <span>{name}</span>
+</span>
