@@ -17,7 +17,7 @@ const hiddenCount = certificates.length - highlightedCertificates.size;
   <div class="certificate-filters reveal" aria-label="Filtrar credenciales">{certificateCategories.map((category, index) => <button type="button" class:list={['certificate-filter', index === 0 && 'active']} data-certificate-filter={category}>{category}</button>)}</div>
   <div id="certificate-grid" class="certificate-grid">{certificates.map((certificate) => {
     const isHighlighted = highlightedCertificates.has(certificate.title);
-    return <article class:list={['certificate-card', isHighlighted && 'featured', 'reveal']} data-certificate-card data-category={certificate.category} data-certificate-featured={String(isHighlighted)} hidden={!isHighlighted}>
+    return <article class:list={['certificate-card', isHighlighted && 'featured']} data-certificate-card data-category={certificate.category} data-certificate-featured={String(isHighlighted)} hidden={!isHighlighted}>
       <div class="certificate-head"><span class="certificate-mark">{issuerMarks[certificate.issuer]}</span><div><strong>{certificate.issuer}</strong><small>{certificate.category} · {certificate.year}</small></div><BadgeCheck size={19} aria-hidden="true" /></div>
       <h3>{certificate.title}</h3><p>{certificate.date}{certificate.hours ? ` · ${certificate.hours} horas` : ''}</p>
       {certificate.credentialId && <small class="credential-id">ID: {certificate.credentialId}</small>}
