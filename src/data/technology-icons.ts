@@ -5,9 +5,12 @@ const iconExports = simpleIcons as unknown as Record<string, SimpleIcon>;
 
 const technologyIconKeys: Record<string, string> = {
   React: 'siReact',
+  'React Native': 'siReact',
   TypeScript: 'siTypescript',
+  JavaScript: 'siJavascript',
   '.NET': 'siDotnet',
   '.NET 8': 'siDotnet',
+  'C#': 'siSharp',
   'Node.js': 'siNodedotjs',
   Astro: 'siAstro',
   Azure: 'siMicrosoftazure',
@@ -17,9 +20,9 @@ const technologyIconKeys: Record<string, string> = {
   Git: 'siGit',
   'Tailwind CSS': 'siTailwindcss',
   GraphQL: 'siGraphql',
-  'React Native': 'siReact',
   Expo: 'siExpo',
   Flutter: 'siFlutter',
+  Dart: 'siDart',
   Java: 'siOpenjdk',
   Angular: 'siAngular',
   'Spring Boot': 'siSpringboot',
@@ -29,7 +32,8 @@ const technologyIconKeys: Record<string, string> = {
 
 export function getTechnologyIcon(name: string): SimpleIcon | undefined {
   const key = technologyIconKeys[name];
-  return key ? iconExports[key] : undefined;
+  const icon = key ? iconExports[key] : undefined;
+  return icon && typeof icon.path === 'string' ? icon : undefined;
 }
 
 export const supportedTechnologyIcons = Object.keys(technologyIconKeys);
