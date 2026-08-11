@@ -21,7 +21,7 @@ import { profile, technologies } from '../data/portfolio';
 import { getGitHubRepos } from '../services/github';
 
 const repositories = await getGitHubRepos();
-const languagesCount = new Set(repositories.map((repo) => repo.language).filter(Boolean)).size || 10;
+const languagesCount = technologies.length;
 const year = new Date().getFullYear();
 const canonical = new URL('/', Astro.site ?? 'https://me-astro-alpha.vercel.app').toString();
 const title = 'Roger Cedeño | Full Stack Developer & Product Builder';

@@ -25,6 +25,12 @@
 .certificate-card .tags { margin-top: auto; padding-top: 1.4rem; }
 .certificate-card>a,.credential-available { display: inline-flex; align-items: center; gap: .35rem; margin-top: 1rem; color: var(--accent); font-size: .72rem; font-weight: 800; }
 .credential-available { color: var(--text-secondary); }
+.certificate-more { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.2rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--soft-panel); }
+.certificate-more p { margin: 0; color: var(--muted); font-size: .74rem; }
+.certificate-more p strong { color: var(--text-secondary); }
+.certificate-more button svg { transition: transform .25s ease; }
+.certificate-more button.expanded svg { transform: rotate(180deg); }
+.certificate-more[hidden] { display: none; }
 @media (max-width: 1000px) {
   .certificate-card,.certificate-card.featured { grid-column: span 6; }
 }
@@ -35,4 +41,6 @@
   .certificate-card,.certificate-card.featured { grid-column: 1/-1; min-height: auto; }
   .certificate-filters { flex-wrap: nowrap; overflow-x: auto; padding-bottom: .3rem; }
   .certificate-filter { flex: 0 0 auto; }
+  .certificate-more { align-items: stretch; flex-direction: column; }
+  .certificate-more .button { width: 100%; }
 }

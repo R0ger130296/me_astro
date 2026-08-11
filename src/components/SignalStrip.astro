@@ -6,8 +6,8 @@ type Props = { languagesCount: number };
 const { languagesCount } = Astro.props;
 ---
 <section class="signal-strip shell" aria-label="Indicadores profesionales">
-  <article><strong>{careerStats.companies}</strong><span>Organizaciones</span></article>
-  <article><strong>{careerStats.roles}</strong><span>Etapas profesionales</span></article>
-  <article><strong>{languagesCount || 10}+</strong><span>Tecnologías activas</span></article>
-  <article><strong>{certificateStats.hours}h</strong><span>Formación certificada</span></article>
+  <article><strong data-counter data-counter-value={careerStats.companies}>{careerStats.companies}</strong><span>Organizaciones</span></article>
+  <article><strong data-counter data-counter-value={careerStats.roles}>{careerStats.roles}</strong><span>Etapas profesionales</span></article>
+  <article><strong data-counter data-counter-value={languagesCount || 10} data-counter-suffix="+">{languagesCount || 10}+</strong><span>Tecnologías activas</span></article>
+  <article><strong data-counter data-counter-value={certificateStats.hours} data-counter-suffix="h" data-counter-decimals="1">{certificateStats.hours}h</strong><span>Formación certificada</span></article>
 </section>

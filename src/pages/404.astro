@@ -1,0 +1,37 @@
+---
+import '../styles/global.css';
+import { ArrowLeft, Compass } from '@lucide/astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import ThemeInit from '../components/ThemeInit.astro';
+import { profile } from '../data/portfolio';
+
+const year = new Date().getFullYear();
+const contactHref = `mailto:${profile.email}?subject=${encodeURIComponent('Consulta desde el portafolio')}`;
+---
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <ThemeInit />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="theme-color" content="#08040d" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Página no encontrada | Roger Cedeño</title>
+  </head>
+  <body>
+    <SiteHeader contactHref={contactHref} sectionPrefix="/" showTour={false} />
+    <main class="not-found shell" data-not-found>
+      <div class="not-found-visual" aria-hidden="true"><span>4</span><span class="not-found-orbit"><Compass size={42} /></span><span>4</span></div>
+      <div class="not-found-copy">
+        <span class="kicker">Ruta no encontrada</span>
+        <h1>Esta página tomó un desvío.</h1>
+        <p>El enlace puede haber cambiado, pero el portafolio sigue disponible. Regresa al inicio o explora el trabajo seleccionado.</p>
+        <div class="hero-actions"><a class="button primary" href="/"><ArrowLeft size={18} />Volver al inicio</a><a class="button secondary" href="/#proyectos">Explorar proyectos</a></div>
+      </div>
+    </main>
+    <SiteFooter year={year} sectionPrefix="/" />
+    <script>import '../scripts/site';</script>
+  </body>
+</html>

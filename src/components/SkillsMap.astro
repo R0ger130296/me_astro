@@ -1,0 +1,25 @@
+---
+import { Boxes, Cloud, CodeXml, ServerCog, Smartphone } from '@lucide/astro';
+
+const skillAreas = [
+  { id: 'frontend', title: 'Frontend', description: 'Interfaces accesibles, rápidas y orientadas a tareas reales.', stack: 'React · Astro · TypeScript · Tailwind CSS' },
+  { id: 'backend', title: 'Backend', description: 'APIs, reglas de negocio, seguridad e integración de sistemas.', stack: '.NET · Node.js · REST · GraphQL · SQL Server' },
+  { id: 'mobile', title: 'Mobile', description: 'Experiencias móviles y PWA con capacidad de trabajar dentro y fuera de línea.', stack: 'React Native · Expo · Flutter · PWA' },
+  { id: 'cloud', title: 'Cloud', description: 'Infraestructura, automatización y despliegues reproducibles.', stack: 'Azure · Docker · GitHub Actions · Vercel · Firebase' },
+  { id: 'producto', title: 'Producto', description: 'El punto donde convergen experiencia, tecnología, datos y objetivos de negocio.', stack: 'Discovery · UX · Arquitectura · Delivery · Métricas' },
+] as const;
+---
+<section class="skills-map reveal" aria-labelledby="skills-map-title" data-skill-map>
+  <div class="skills-map-heading"><div><span class="kicker">Arquitectura de habilidades</span><h3 id="skills-map-title">Cinco perspectivas, un solo producto.</h3></div><p>Selecciona un área para explorar cómo se conecta con el resultado final.</p></div>
+  <div class="skills-map-layout">
+    <div class="skills-map-canvas">
+      <svg class="skills-connections" viewBox="0 0 600 400" aria-hidden="true"><path d="M300 200 L115 90 M300 200 L485 90 M300 200 L115 310 M300 200 L485 310" /></svg>
+      <button class="skill-node node-frontend" type="button" data-skill-node={JSON.stringify(skillAreas[0])}><CodeXml size={22} /><span>Frontend</span></button>
+      <button class="skill-node node-backend" type="button" data-skill-node={JSON.stringify(skillAreas[1])}><ServerCog size={22} /><span>Backend</span></button>
+      <button class="skill-node node-mobile" type="button" data-skill-node={JSON.stringify(skillAreas[2])}><Smartphone size={22} /><span>Mobile</span></button>
+      <button class="skill-node node-cloud" type="button" data-skill-node={JSON.stringify(skillAreas[3])}><Cloud size={22} /><span>Cloud</span></button>
+      <button class="skill-node node-product active" type="button" data-skill-node={JSON.stringify(skillAreas[4])} aria-pressed="true"><Boxes size={25} /><span>Producto</span></button>
+    </div>
+    <article class="skill-detail" data-skill-detail aria-live="polite"><span>Área seleccionada</span><h4 data-skill-title>{skillAreas[4].title}</h4><p data-skill-description>{skillAreas[4].description}</p><strong data-skill-stack>{skillAreas[4].stack}</strong></article>
+  </div>
+</section>

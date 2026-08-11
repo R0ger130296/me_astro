@@ -1,6 +1,7 @@
 import { inject } from '@vercel/analytics';
 import { injectSpeedInsights } from '@vercel/speed-insights';
 import { animate } from 'animejs/animation';
+import { stagger } from 'animejs/utils';
 
 type Theme = 'light' | 'dark';
 
@@ -11,6 +12,7 @@ const root = document.documentElement;
 const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
 const themeMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
 const colorMedia = window.matchMedia('(prefers-color-scheme: dark)');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const themeColors: Record<Theme, string> = { light: '#fbf8ff', dark: '#08040d' };
 const isTheme = (value: string | null | undefined): value is Theme => value === 'light' || value === 'dark';
 
@@ -49,11 +51,43 @@ navigation?.querySelectorAll('a').forEach((link) => link.addEventListener('click
 
 const certificateFilters = document.querySelectorAll<HTMLElement>('[data-certificate-filter]');
 const certificateCards = document.querySelectorAll<HTMLElement>('[data-certificate-card]');
+const certificateToggle = document.querySelector<HTMLButtonElement>('[data-certificate-toggle]');
+const certificateToggleLabel = document.querySelector<HTMLElement>('[data-certificate-toggle-label]');
+const certificateMore = document.querySelector<HTMLElement>('[data-certificate-more]');
+let activeCertificateCategory = 'Todos';
+let certificatesExpanded = false;
+
+function renderCertificateCards(withAnimation = true) {
+  const visibleCards: HTMLElement[] = [];
+  certificateCards.forEach((card) => {
+    const matchesCategory = activeCertificateCategory === 'Todos' || card.dataset.category === activeCertificateCategory;
+    const isFeatured = card.dataset.certificateFeatured === 'true';
+    const shouldShow = matchesCategory && (activeCertificateCategory !== 'Todos' || certificatesExpanded || isFeatured);
+    card.toggleAttribute('hidden', !shouldShow);
+    if (shouldShow) visibleCards.push(card);
+  });
+
+  if (certificateMore) certificateMore.hidden = activeCertificateCategory !== 'Todos';
+  if (certificateToggle) certificateToggle.setAttribute('aria-expanded', String(certificatesExpanded));
+  if (certificateToggleLabel) certificateToggleLabel.textContent = certificatesExpanded ? 'Mostrar solo destacadas' : 'Ver todas las credenciales';
+  certificateToggle?.classList.toggle('expanded', certificatesExpanded);
+
+  if (withAnimation && !reduceMotion.matches && visibleCards.length > 0) {
+    animate(visibleCards, { opacity: { from: 0 }, y: { from: 16 }, delay: stagger(45), duration: 420, ease: 'out(4)' });
+  }
+}
+
 certificateFilters.forEach((filter) => filter.addEventListener('click', () => {
-  const category = filter.getAttribute('data-certificate-filter');
+  activeCertificateCategory = filter.dataset.certificateFilter ?? 'Todos';
   certificateFilters.forEach((item) => item.classList.toggle('active', item === filter));
-  certificateCards.forEach((card) => card.toggleAttribute('hidden', category !== 'Todos' && card.getAttribute('data-category') !== category));
+  if (!reduceMotion.matches) animate(filter, { scale: { from: 0.94 }, duration: 300, ease: 'out(4)' });
+  renderCertificateCards();
 }));
+
+certificateToggle?.addEventListener('click', () => {
+  certificatesExpanded = !certificatesExpanded;
+  renderCertificateCards();
+});
 
 const revealElements = document.querySelectorAll('.reveal');
 if ('IntersectionObserver' in window) {
@@ -62,6 +96,66 @@ if ('IntersectionObserver' in window) {
   }), { threshold: 0.12 });
   revealElements.forEach((element) => observer.observe(element));
 } else revealElements.forEach((element) => element.classList.add('visible'));
+
+const counters = document.querySelectorAll<HTMLElement>('[data-counter]');
+if ('IntersectionObserver' in window && !reduceMotion.matches) {
+  const counterObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    const counter = entry.target as HTMLElement;
+    const value = Number(counter.dataset.counterValue ?? 0);
+    const suffix = counter.dataset.counterSuffix ?? '';
+    const decimals = Number(counter.dataset.counterDecimals ?? 0);
+    const state = { value: 0 };
+    animate(state, {
+      value,
+      duration: 1200,
+      ease: 'out(4)',
+      onUpdate: () => { counter.textContent = `${state.value.toFixed(decimals)}${suffix}`; },
+    });
+    counterObserver.unobserve(counter);
+  }), { threshold: 0.6 });
+  counters.forEach((counter) => counterObserver.observe(counter));
+}
+
+const technologyStack = document.querySelector<HTMLElement>('[data-tech-stack]');
+if (technologyStack && !reduceMotion.matches && 'IntersectionObserver' in window) {
+  const technologyObserver = new IntersectionObserver(([entry]) => {
+    if (!entry?.isIntersecting) return;
+    animate(technologyStack.querySelectorAll('span'), { opacity: { from: 0 }, y: { from: 10 }, delay: stagger(55), duration: 420, ease: 'out(4)' });
+    technologyObserver.disconnect();
+  }, { threshold: 0.45 });
+  technologyObserver.observe(technologyStack);
+}
+
+type SkillArea = { id: string; title: string; description: string; stack: string };
+const skillNodes = document.querySelectorAll<HTMLButtonElement>('[data-skill-node]');
+const skillDetail = document.querySelector<HTMLElement>('[data-skill-detail]');
+const skillTitle = document.querySelector<HTMLElement>('[data-skill-title]');
+const skillDescription = document.querySelector<HTMLElement>('[data-skill-description]');
+const skillStack = document.querySelector<HTMLElement>('[data-skill-stack]');
+skillNodes.forEach((node) => node.addEventListener('click', () => {
+  if (!node.dataset.skillNode || !skillTitle || !skillDescription || !skillStack) return;
+  const area = JSON.parse(node.dataset.skillNode) as SkillArea;
+  skillNodes.forEach((item) => {
+    const active = item === node;
+    item.classList.toggle('active', active);
+    item.setAttribute('aria-pressed', String(active));
+  });
+  skillTitle.textContent = area.title;
+  skillDescription.textContent = area.description;
+  skillStack.textContent = area.stack;
+  if (!reduceMotion.matches) {
+    animate(node, { scale: { from: 0.9 }, duration: 360, ease: 'out(4)' });
+    if (skillDetail) animate(skillDetail, { opacity: { from: 0 }, x: { from: 14 }, duration: 420, ease: 'out(4)' });
+  }
+}));
+
+const notFound = document.querySelector<HTMLElement>('[data-not-found]');
+if (notFound && !reduceMotion.matches) {
+  animate(notFound.querySelectorAll('.not-found-visual span'), { opacity: { from: 0 }, scale: { from: 0.72 }, delay: stagger(120), duration: 700, ease: 'out(5)' });
+  const notFoundCopy = notFound.querySelector('.not-found-copy');
+  if (notFoundCopy) animate(notFoundCopy, { opacity: { from: 0 }, y: { from: 24 }, duration: 700, delay: 180, ease: 'out(4)' });
+}
 
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
 
@@ -114,7 +208,6 @@ const tourDots = document.querySelector<HTMLElement>('[data-tour-dots]');
 const tourPrevious = document.querySelector<HTMLButtonElement>('[data-tour-previous]');
 const tourNext = document.querySelector<HTMLButtonElement>('[data-tour-next]');
 const tourNextLabel = document.querySelector<HTMLElement>('[data-tour-next-label]');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let tourIndex = 0;
 let activeTourTarget: HTMLElement | null = null;
 let lastTourLauncher: HTMLElement | null = null;

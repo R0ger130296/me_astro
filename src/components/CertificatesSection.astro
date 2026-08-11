@@ -1,11 +1,32 @@
 ---
-import { ArrowUpRight, BadgeCheck } from '@lucide/astro';
+import { ArrowUpRight, BadgeCheck, ChevronDown } from '@lucide/astro';
 import { certificateCategories, certificates, certificateStats } from '../data/certificates';
+
 const issuerMarks = { Udemy: 'U', CertiProf: 'CP', Platzi: 'P' } as const;
+const highlightedCertificates = new Set(certificates.filter((certificate) => certificate.featured).slice(0, 4).map((certificate) => certificate.title));
+const hiddenCount = certificates.length - highlightedCertificates.size;
 ---
 <section id="formacion" class="section shell learning-section">
   <div class="section-heading reveal"><div><span class="kicker">Formación continua</span><h2>Aprendizaje estructurado que acompaña la experiencia real.</h2></div><p>Evidencia de evolución profesional sostenida: desde frontend y mobile hacia backend, arquitectura, gestión y seguridad.</p></div>
-  <div class="credential-stats reveal" aria-label="Resumen de formación"><article><strong>{certificateStats.count}</strong><span>Credenciales</span></article><article><strong>{certificateStats.hours}h</strong><span>Horas certificadas</span></article><article><strong>{certificateStats.areas}</strong><span>Áreas de conocimiento</span></article><article><strong>{certificateStats.years}</strong><span>Evolución continua</span></article></div>
+  <div class="credential-stats reveal" aria-label="Resumen de formación">
+    <article><strong data-counter data-counter-value={certificateStats.count}>{certificateStats.count}</strong><span>Credenciales</span></article>
+    <article><strong data-counter data-counter-value={certificateStats.hours} data-counter-suffix="h" data-counter-decimals="1">{certificateStats.hours}h</strong><span>Horas certificadas</span></article>
+    <article><strong data-counter data-counter-value={certificateStats.areas}>{certificateStats.areas}</strong><span>Áreas de conocimiento</span></article>
+    <article><strong>{certificateStats.years}</strong><span>Evolución continua</span></article>
+  </div>
   <div class="certificate-filters reveal" aria-label="Filtrar credenciales">{certificateCategories.map((category, index) => <button type="button" class:list={['certificate-filter', index === 0 && 'active']} data-certificate-filter={category}>{category}</button>)}</div>
-  <div class="certificate-grid">{certificates.map((certificate) => <article class:list={['certificate-card', certificate.featured && 'featured', 'reveal']} data-certificate-card data-category={certificate.category}><div class="certificate-head"><span class="certificate-mark">{issuerMarks[certificate.issuer]}</span><div><strong>{certificate.issuer}</strong><small>{certificate.category} · {certificate.year}</small></div><BadgeCheck size={19} aria-hidden="true" /></div><h3>{certificate.title}</h3><p>{certificate.date}{certificate.hours ? ` · ${certificate.hours} horas` : ''}</p>{certificate.credentialId && <small class="credential-id">ID: {certificate.credentialId}</small>}<div class="tags">{certificate.skills.map((skill) => <span>{skill}</span>)}</div>{certificate.credentialUrl ? <a href={certificate.credentialUrl} target="_blank" rel="noreferrer">Ver credencial oficial <ArrowUpRight size={16} /></a> : <span class="credential-available"><BadgeCheck size={15} />Credencial verificada disponible</span>}</article>)}</div>
+  <div id="certificate-grid" class="certificate-grid">{certificates.map((certificate) => {
+    const isHighlighted = highlightedCertificates.has(certificate.title);
+    return <article class:list={['certificate-card', isHighlighted && 'featured', 'reveal']} data-certificate-card data-category={certificate.category} data-certificate-featured={String(isHighlighted)} hidden={!isHighlighted}>
+      <div class="certificate-head"><span class="certificate-mark">{issuerMarks[certificate.issuer]}</span><div><strong>{certificate.issuer}</strong><small>{certificate.category} · {certificate.year}</small></div><BadgeCheck size={19} aria-hidden="true" /></div>
+      <h3>{certificate.title}</h3><p>{certificate.date}{certificate.hours ? ` · ${certificate.hours} horas` : ''}</p>
+      {certificate.credentialId && <small class="credential-id">ID: {certificate.credentialId}</small>}
+      <div class="tags">{certificate.skills.map((skill) => <span>{skill}</span>)}</div>
+      {certificate.credentialUrl ? <a href={certificate.credentialUrl} target="_blank" rel="noreferrer">Ver credencial oficial <ArrowUpRight size={16} /></a> : <span class="credential-available"><BadgeCheck size={15} />Credencial verificada disponible</span>}
+    </article>;
+  })}</div>
+  <div class="certificate-more reveal" data-certificate-more>
+    <p><strong>4 destacadas</strong><span data-certificate-summary> · {hiddenCount} credenciales adicionales</span></p>
+    <button type="button" class="button secondary" aria-expanded="false" aria-controls="certificate-grid" data-certificate-toggle><span data-certificate-toggle-label>Ver todas las credenciales</span><ChevronDown size={18} /></button>
+  </div>
 </section>

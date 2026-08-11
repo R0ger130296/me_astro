@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import test from 'node:test';
@@ -142,4 +143,48 @@ test('internal navigation targets exist and deprecated icon aliases are gone', a
   const targets = [...source.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
   for (const target of targets) assert.ok(ids.has(target), `Missing target for #${target}`);
   assert.doesNotMatch(source, /\b(Code2|BarChart3|Layers3)\b/);
+});
+
+test('certificates start with four highlights and can reveal the full collection', async () => {
+  const [section, client] = await Promise.all([
+    readFile('src/components/CertificatesSection.astro', 'utf8'),
+    readFile('src/scripts/site.ts', 'utf8'),
+  ]);
+  assert.match(section, /certificates\.filter\(\(certificate\) => certificate\.featured\)\.slice\(0, 4\)/);
+  assert.match(section, /data-certificate-toggle/);
+  assert.match(section, /Ver todas las credenciales/);
+  assert.match(section, /data-certificate-featured/);
+  assert.match(client, /stagger\(/);
+});
+
+test('animated counters and the interactive skills architecture are wired', async () => {
+  const [signals, about, skills, capabilities, client] = await Promise.all([
+    readFile('src/components/SignalStrip.astro', 'utf8'),
+    readFile('src/components/AboutSection.astro', 'utf8'),
+    readFile('src/components/SkillsMap.astro', 'utf8'),
+    readFile('src/components/CapabilitiesSection.astro', 'utf8'),
+    readFile('src/scripts/site.ts', 'utf8'),
+  ]);
+  assert.match(signals, /data-counter/);
+  assert.match(about, /data-tech-stack/);
+  for (const area of ['Frontend', 'Backend', 'Mobile', 'Cloud', 'Producto']) assert.match(skills, new RegExp(area));
+  assert.match(skills, /data-skill-node/);
+  assert.match(capabilities, /<SkillsMap/);
+  assert.match(client, /IntersectionObserver/);
+});
+
+test('custom 404 and downloadable CV preserve the portfolio identity', async () => {
+  const [page404, header, contact, outputCv, publicCv] = await Promise.all([
+    readFile('src/pages/404.astro', 'utf8'),
+    readFile('src/components/SiteHeader.astro', 'utf8'),
+    readFile('src/components/ContactSection.astro', 'utf8'),
+    readFile('output/pdf/Roger-Cedeno-CV.pdf'),
+    readFile('public/Roger-Cedeno-CV.pdf'),
+  ]);
+  assert.match(page404, /name="robots" content="noindex, follow"/);
+  assert.match(page404, /data-not-found/);
+  assert.match(header, /Roger-Cedeno-CV\.pdf/);
+  assert.match(contact, /Roger-Cedeno-CV\.pdf/);
+  assert.equal(outputCv.subarray(0, 4).toString(), '%PDF');
+  assert.equal(createHash('sha256').update(outputCv).digest('hex'), createHash('sha256').update(publicCv).digest('hex'));
 });

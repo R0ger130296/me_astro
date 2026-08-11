@@ -1,5 +1,5 @@
 ---
-import { GitBranch, Mail, Send } from '@lucide/astro';
+import { Download, GitBranch, Mail, Send } from '@lucide/astro';
 import { profile } from '../data/portfolio';
 ---
 <section id="contacto" class="contact shell reveal">
@@ -10,6 +10,7 @@ import { profile } from '../data/portfolio';
     <div class="contact-alternatives">
       <a href={`mailto:${profile.email}`}><Mail size={17} />{profile.email}</a>
       <a href={profile.github} target="_blank" rel="noreferrer"><GitBranch size={17} />GitHub</a>
+      <a href="/Roger-Cedeno-CV.pdf" download><Download size={17} />Descargar CV</a>
     </div>
   </div>
   <form class="contact-form" data-contact-form data-contact-email={profile.email}>
