@@ -3,10 +3,12 @@ import '../../styles/global.css';
 import '../../styles/developer-showcase.css';
 import '../../styles/command-palette.css';
 import '../../styles/project-detail.css';
+import '../../styles/technical-evidence.css';
 import { ArrowLeft, ArrowUpRight, GitBranch, Network } from '@lucide/astro';
 import CommandPalette from '../../components/CommandPalette.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
+import TechChip from '../../components/TechChip.astro';
 import ThemeInit from '../../components/ThemeInit.astro';
 import { profile, projects, type Project } from '../../data/portfolio';
 
@@ -53,7 +55,7 @@ const contactHref = `mailto:${profile.email}?subject=${encodeURIComponent(`Consu
           <span class="kicker">Caso técnico · {project.status}</span>
           <h1>{project.title}</h1>
           <p>{project.description}</p>
-          <div class="project-detail-meta">{project.tags.map((tag) => <span>{tag}</span>)}</div>
+          <div class="project-detail-meta tech-tags">{project.tags.map((tag) => <TechChip name={tag} />)}</div>
         </div>
         <aside class="project-detail-aside">
           <span>Impacto descrito en el portafolio</span>
@@ -79,7 +81,7 @@ const contactHref = `mailto:${profile.email}?subject=${encodeURIComponent(`Consu
         <div class="system-design-flow">
           {project.caseStudy.architecture.map((node, index) => (
             <>
-              <div class="system-node"><Network size={18} /><strong>{node}</strong><small>Etapa {String(index + 1).padStart(2, '0')}</small></div>
+              <div class="system-node"><Network size={18} /><TechChip name={node} compact /><small>Etapa {String(index + 1).padStart(2, '0')}</small></div>
               {index < project.caseStudy.architecture.length - 1 && <div class="system-arrow" aria-hidden="true">→</div>}
             </>
           ))}
@@ -93,7 +95,7 @@ const contactHref = `mailto:${profile.email}?subject=${encodeURIComponent(`Consu
           <p>No se genera código adicional para “decorar” la página: se muestra exactamente el fragmento ya registrado en los datos del proyecto.</p>
         </article>
         <div class="code-window compact-code">
-          <div class="code-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><strong>{project.caseStudy.codeLanguage}</strong></div>
+          <div class="code-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><TechChip name={project.caseStudy.codeLanguage} compact /></div>
           <pre><code>{project.caseStudy.code.map((line, lineIndex) => <span><i>{lineIndex + 1}</i>{line}</span>)}</code></pre>
         </div>
       </section>
