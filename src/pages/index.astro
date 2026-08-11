@@ -2,11 +2,13 @@
 import '../styles/global.css';
 import '../styles/certificates.css';
 import '../styles/career.css';
+import '../styles/developer-showcase.css';
 import AboutSection from '../components/AboutSection.astro';
 import CapabilitiesSection from '../components/CapabilitiesSection.astro';
 import CareerSection from '../components/CareerSection.astro';
 import CertificatesSection from '../components/CertificatesSection.astro';
 import ContactSection from '../components/ContactSection.astro';
+import DeveloperShowcase from '../components/DeveloperShowcase.astro';
 import Hero from '../components/Hero.astro';
 import GuidedTour from '../components/GuidedTour.astro';
 import ProcessSection from '../components/ProcessSection.astro';
@@ -52,9 +54,9 @@ const structuredData = {
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a><div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
     <SiteHeader contactHref={contactHref} />
-    <main id="contenido"><Hero contactHref={contactHref} /><SignalStrip languagesCount={languagesCount} /><WorkSections repositories={repositories} /><CareerSection /><CertificatesSection /><CapabilitiesSection /><AboutSection /><ProcessSection /><ContactSection /></main>
+    <main id="contenido"><Hero contactHref={contactHref} /><SignalStrip languagesCount={languagesCount} /><WorkSections repositories={repositories} /><DeveloperShowcase /><CareerSection /><CertificatesSection /><CapabilitiesSection /><AboutSection /><ProcessSection /><ContactSection /></main>
     <SiteFooter year={year} />
     <GuidedTour />
-    <script>import '../scripts/site';</script>
+    <script>import '../scripts/site'; import '../scripts/enhancements';</script>
   </body>
 </html>
