@@ -1,0 +1,28 @@
+---
+import { ArrowRight, Database, FileCode2, Github, Rocket, ServerCog } from '@lucide/astro';
+
+const nodes = [
+  { label: 'index.astro', detail: 'Composición principal', icon: FileCode2 },
+  { label: 'Components', detail: 'Secciones Astro', icon: FileCode2 },
+  { label: 'portfolio.ts', detail: 'Datos tipados', icon: Database },
+  { label: 'github.ts', detail: 'Repositorios públicos', icon: Github },
+  { label: 'Vercel', detail: 'Build estático + deploy', icon: Rocket },
+] as const;
+---
+<section id="arquitectura-portfolio" class="section shell portfolio-architecture" data-dev-label="PortfolioArchitecture.astro">
+  <div class="section-heading reveal">
+    <div><span class="kicker">Architecture of this portfolio</span><h2>La propia web explica cómo está construida.</h2></div>
+    <p>Este mapa refleja archivos y servicios que existen en <code>me_astro</code>; no es una arquitectura conceptual inventada.</p>
+  </div>
+  <div class="portfolio-architecture-flow reveal" aria-label="Arquitectura real del portafolio">
+    {nodes.map(({ label, detail, icon: Icon }, index) => (
+      <>
+        <article class="portfolio-architecture-node">
+          <span><Icon size={19} /></span><strong>{label}</strong><small>{detail}</small>
+        </article>
+        {index < nodes.length - 1 && <div class="portfolio-architecture-arrow" aria-hidden="true"><ArrowRight size={17} /></div>}
+      </>
+    ))}
+  </div>
+  <div class="portfolio-architecture-caption reveal"><ServerCog size={16} /><span>Astro genera las páginas estáticas; los datos del portafolio alimentan componentes y la integración de GitHub añade actividad verificable durante el build.</span></div>
+</section>
