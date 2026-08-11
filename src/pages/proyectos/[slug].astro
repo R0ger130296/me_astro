@@ -1,0 +1,105 @@
+---
+import '../../styles/global.css';
+import '../../styles/developer-showcase.css';
+import '../../styles/command-palette.css';
+import '../../styles/project-detail.css';
+import { ArrowLeft, ArrowUpRight, GitBranch, Network } from '@lucide/astro';
+import CommandPalette from '../../components/CommandPalette.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import ThemeInit from '../../components/ThemeInit.astro';
+import { profile, projects, type Project } from '../../data/portfolio';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+type Props = { project: Project };
+const { project } = Astro.props;
+const year = new Date().getFullYear();
+const canonical = new URL(`/proyectos/${project.slug}`, Astro.site ?? 'https://me-astro-alpha.vercel.app').toString();
+const title = `${project.title} | Caso técnico de Roger Cedeño`;
+const description = project.description;
+const contactHref = `mailto:${profile.email}?subject=${encodeURIComponent(`Consulta sobre ${project.title}`)}`;
+---
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <ThemeInit />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#08040d" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/og-image.png', canonical).toString()} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
+    <SiteHeader contactHref={contactHref} sectionPrefix="/" showTour={false} />
+    <main id="contenido" class="project-detail shell">
+      <a class="project-back" href="/#proyectos"><ArrowLeft size={16} />Volver a proyectos</a>
+
+      <section class="project-detail-hero">
+        <div class="project-detail-copy">
+          <span class="kicker">Caso técnico · {project.status}</span>
+          <h1>{project.title}</h1>
+          <p>{project.description}</p>
+          <div class="project-detail-meta">{project.tags.map((tag) => <span>{tag}</span>)}</div>
+        </div>
+        <aside class="project-detail-aside">
+          <span>Impacto descrito en el portafolio</span>
+          <strong>{project.impact}</strong>
+          <div class="project-detail-actions">
+            {project.repository && <a class="button secondary" href={`https://github.com/R0ger130296/${project.repository}`} target="_blank" rel="noreferrer"><GitBranch size={17} />Repositorio</a>}
+            {project.href && <a class="button secondary" href={project.href} target="_blank" rel="noreferrer">Abrir referencia <ArrowUpRight size={16} /></a>}
+          </div>
+        </aside>
+      </section>
+
+      <section class="section project-story-grid" aria-label="Resumen del caso">
+        <article class="project-block"><span>01 · Problema</span><h2>Qué había que resolver</h2><p>{project.caseStudy.problem}</p></article>
+        <article class="project-block"><span>02 · Decisión</span><h2>Cómo se planteó</h2><p>{project.caseStudy.decision}</p></article>
+        <article class="project-block"><span>03 · Resultado</span><h2>Qué deja la solución</h2><p>{project.caseStudy.result}</p></article>
+      </section>
+
+      <section class="section system-design" aria-labelledby="system-design-title">
+        <div class="system-design-head">
+          <div><span class="kicker">System Design</span><h2 id="system-design-title">Arquitectura registrada para {project.title}</h2></div>
+          <p>Esta visualización usa únicamente la secuencia técnica ya definida para este proyecto dentro del repositorio del portafolio.</p>
+        </div>
+        <div class="system-design-flow">
+          {project.caseStudy.architecture.map((node, index) => (
+            <>
+              <div class="system-node"><Network size={18} /><strong>{node}</strong><small>Etapa {String(index + 1).padStart(2, '0')}</small></div>
+              {index < project.caseStudy.architecture.length - 1 && <div class="system-arrow" aria-hidden="true">→</div>}
+            </>
+          ))}
+        </div>
+      </section>
+
+      <section class="section project-code-layout">
+        <article class="project-code-note">
+          <span class="kicker">Código disponible</span>
+          <h2>Fragmento asociado al caso</h2>
+          <p>No se genera código adicional para “decorar” la página: se muestra exactamente el fragmento ya registrado en los datos del proyecto.</p>
+        </article>
+        <div class="code-window compact-code">
+          <div class="code-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><strong>{project.caseStudy.codeLanguage}</strong></div>
+          <pre><code>{project.caseStudy.code.map((line, lineIndex) => <span><i>{lineIndex + 1}</i>{line}</span>)}</code></pre>
+        </div>
+      </section>
+    </main>
+    <SiteFooter year={year} sectionPrefix="/" />
+    <CommandPalette sectionPrefix="/" />
+    <script>import '../../scripts/site';</script>
+  </body>
+</html>
