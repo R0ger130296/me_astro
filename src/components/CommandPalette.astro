@@ -1,13 +1,17 @@
 ---
-import { Command, FileText, GitBranch, Home, Mail, Search, X } from '@lucide/astro';
-import { profile, projects } from '../data/portfolio';
+import { BadgeCheck, Command, FileText, GitBranch, House, Mail, Search, Wrench, X } from '@lucide/astro';
+import { certificates } from '../data/certificates';
+import { profile, projects, technologies } from '../data/portfolio';
 
 type Props = { sectionPrefix?: string };
 const { sectionPrefix = '' } = Astro.props;
 const actions = [
-  { label: 'Inicio', hint: 'Hero', href: `${sectionPrefix}#inicio`, icon: Home },
+  { label: 'Inicio', hint: 'Hero', href: `${sectionPrefix}#inicio`, icon: House },
   { label: 'Trabajo seleccionado', hint: 'Proyectos', href: `${sectionPrefix}#proyectos`, icon: FileText },
-  ...projects.map((project) => ({ label: project.title, hint: project.status, href: `/proyectos/${project.slug}`, icon: FileText })),
+  ...projects.map((project) => ({ label: project.title, hint: `Proyecto · ${project.status}`, href: `/proyectos/${project.slug}`, icon: FileText })),
+  ...technologies.map((technology) => ({ label: technology, hint: 'Tecnología del stack', href: `${sectionPrefix}#relaciones-tecnicas`, icon: Wrench })),
+  ...certificates.map((certificate) => ({ label: certificate.title, hint: `Credencial · ${certificate.issuer}`, href: `${sectionPrefix}#formacion`, icon: BadgeCheck })),
+  { label: 'Arquitectura del portafolio', hint: 'System Design real', href: `${sectionPrefix}#arquitectura-portfolio`, icon: GitBranch },
   { label: 'GitHub', hint: 'Actividad pública', href: profile.github, external: true, icon: GitBranch },
   { label: 'Contacto', hint: 'Enviar correo', href: `mailto:${profile.email}`, icon: Mail },
 ] as const;
@@ -21,11 +25,11 @@ const actions = [
   <section class="command-panel" role="dialog" aria-modal="true" aria-labelledby="command-title">
     <header class="command-head">
       <Search size={18} aria-hidden="true" />
-      <label class="sr-only" for="command-search">Buscar una sección o proyecto</label>
-      <input id="command-search" type="search" placeholder="Buscar proyecto, sección o acción…" autocomplete="off" data-command-search />
+      <label class="sr-only" for="command-search">Buscar una sección, proyecto, tecnología o credencial</label>
+      <input id="command-search" type="search" placeholder="Buscar proyecto, tecnología o credencial…" autocomplete="off" data-command-search />
       <button type="button" data-command-close aria-label="Cerrar"><X size={18} /></button>
     </header>
-    <div class="command-caption"><strong id="command-title">Navegación rápida</strong><span>Solo contenido disponible en el portafolio</span></div>
+    <div class="command-caption"><strong id="command-title">Navegación rápida</strong><span>Proyectos · stack · formación · acciones</span></div>
     <div class="command-results" data-command-results>
       {actions.map(({ label, hint, href, icon: Icon, ...action }) => (
         <a class="command-item" href={href} target={'external' in action && action.external ? '_blank' : undefined} rel={'external' in action && action.external ? 'noreferrer' : undefined} data-command-item data-command-query={`${label} ${hint}`.toLowerCase()}>
