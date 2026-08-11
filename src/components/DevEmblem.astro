@@ -9,10 +9,11 @@ const emblem = 'data:image/webp;base64,UklGRgALAABXRUJQVlA4IPQKAABQLgCdASqAAIAAP
 <script>
   const emblemButton = document.querySelector<HTMLElement>('[data-dev-emblem]');
   const emblemLine = document.querySelector<HTMLElement>('[data-dev-emblem-line]');
-  const lines = ['build → test → deploy', 'UI → API → Data', '</> me_astro', 'understand → architect → ship'];
+  const lines: readonly string[] = ['build → test → deploy', 'UI → API → Data', '</> me_astro', 'understand → architect → ship'];
   let lineIndex = 0;
   emblemButton?.addEventListener('click', () => {
     lineIndex = (lineIndex + 1) % lines.length;
-    if (emblemLine) emblemLine.textContent = lines[lineIndex] ?? lines[0];
+    const nextLine = lines.at(lineIndex);
+    if (emblemLine && nextLine) emblemLine.textContent = nextLine;
   });
 </script>
