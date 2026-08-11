@@ -116,6 +116,25 @@ test('contact flow and privacy-friendly monitoring are wired', async () => {
   assert.match(client, /data-contact-form/);
 });
 
+test('guided portfolio tour is accessible and uses Anime.js', async () => {
+  const [page, header, tour, client, packageJson] = await Promise.all([
+    readFile('src/pages/index.astro', 'utf8'),
+    readFile('src/components/SiteHeader.astro', 'utf8'),
+    readFile('src/components/GuidedTour.astro', 'utf8'),
+    readFile('src/scripts/site.ts', 'utf8'),
+    JSON.parse(await readFile('package.json', 'utf8')),
+  ]);
+  assert.equal(packageJson.dependencies.animejs, '4.5.0');
+  assert.match(page, /<GuidedTour/);
+  assert.match(header, /data-tour-launch/);
+  assert.match(tour, /role="dialog"/);
+  assert.match(tour, /aria-live="polite"/);
+  assert.match(client, /animejs\/animation/);
+  assert.match(client, /prefers-reduced-motion/);
+  assert.match(client, /event\.key === 'Escape'/);
+  assert.equal((client.match(/target: '/g) ?? []).length, 6);
+});
+
 test('internal navigation targets exist and deprecated icon aliases are gone', async () => {
   const sourceFiles = (await walk('src')).filter((path) => ['.astro', '.ts'].includes(extname(path)));
   const source = (await Promise.all(sourceFiles.map((path) => readFile(path, 'utf8')))).join('\n');

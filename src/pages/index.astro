@@ -8,6 +8,7 @@ import CareerSection from '../components/CareerSection.astro';
 import CertificatesSection from '../components/CertificatesSection.astro';
 import ContactSection from '../components/ContactSection.astro';
 import Hero from '../components/Hero.astro';
+import GuidedTour from '../components/GuidedTour.astro';
 import ProcessSection from '../components/ProcessSection.astro';
 import SignalStrip from '../components/SignalStrip.astro';
 import SiteFooter from '../components/SiteFooter.astro';
@@ -53,6 +54,7 @@ const structuredData = {
     <SiteHeader contactHref={contactHref} />
     <main id="contenido"><Hero contactHref={contactHref} /><SignalStrip languagesCount={languagesCount} /><WorkSections repositories={repositories} /><CareerSection /><CertificatesSection /><CapabilitiesSection /><AboutSection /><ProcessSection /><ContactSection /></main>
     <SiteFooter year={year} />
+    <GuidedTour />
     <script>import '../scripts/site';</script>
   </body>
 </html>

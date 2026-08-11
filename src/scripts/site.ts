@@ -1,5 +1,6 @@
 import { inject } from '@vercel/analytics';
 import { injectSpeedInsights } from '@vercel/speed-insights';
+import { animate } from 'animejs/animation';
 
 type Theme = 'light' | 'dark';
 
@@ -63,6 +64,153 @@ if ('IntersectionObserver' in window) {
 } else revealElements.forEach((element) => element.classList.add('visible'));
 
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+
+const tourSteps = [
+  {
+    target: '#inicio .hero-copy',
+    label: 'Inicio',
+    title: 'Productos digitales de principio a fin',
+    copy: 'Una presentación breve de mi enfoque: conectar experiencia, ingeniería y objetivos de negocio en una sola solución.',
+  },
+  {
+    target: '#proyectos .section-heading',
+    label: 'Trabajo seleccionado',
+    title: 'Problemas reales, soluciones concretas',
+    copy: 'Aquí encontrarás productos web, móviles y empresariales explicados desde el problema, la solución y el valor que pueden generar.',
+  },
+  {
+    target: '#trayectoria .section-heading',
+    label: 'Trayectoria',
+    title: 'Experiencia construida en contexto',
+    copy: 'Mi recorrido profesional muestra cómo he evolucionado entre producto, frontend, backend, mobile, datos y entrega en la nube.',
+  },
+  {
+    target: '#formacion .section-heading',
+    label: 'Formación',
+    title: 'Aprendizaje continuo y verificable',
+    copy: 'La formación complementa la experiencia práctica con credenciales en cloud, arquitectura, seguridad, gestión y desarrollo.',
+  },
+  {
+    target: '#servicios .section-heading',
+    label: 'Capacidades',
+    title: 'Una visión transversal del producto',
+    copy: 'Puedo participar en una etapa concreta o acompañar todo el ciclo: diseño técnico, interfaz, APIs, datos, móvil y despliegue.',
+  },
+  {
+    target: '#contacto',
+    label: 'Contacto',
+    title: 'Convirtamos una necesidad en un plan',
+    copy: 'El formulario organiza el contexto, el resultado esperado y el plazo para iniciar una conversación clara desde el primer mensaje.',
+  },
+] as const;
+
+const tourRoot = document.querySelector<HTMLElement>('[data-tour]');
+const tourCard = document.querySelector<HTMLElement>('[data-tour-card]');
+const tourLabel = document.querySelector<HTMLElement>('[data-tour-label]');
+const tourTitle = document.querySelector<HTMLElement>('[data-tour-title]');
+const tourCopy = document.querySelector<HTMLElement>('[data-tour-copy]');
+const tourProgress = document.querySelector<HTMLElement>('[data-tour-progress]');
+const tourDots = document.querySelector<HTMLElement>('[data-tour-dots]');
+const tourPrevious = document.querySelector<HTMLButtonElement>('[data-tour-previous]');
+const tourNext = document.querySelector<HTMLButtonElement>('[data-tour-next]');
+const tourNextLabel = document.querySelector<HTMLElement>('[data-tour-next-label]');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+let tourIndex = 0;
+let activeTourTarget: HTMLElement | null = null;
+let lastTourLauncher: HTMLElement | null = null;
+
+function animateTourCard() {
+  if (!tourCard || reduceMotion.matches) return;
+  animate(tourCard, {
+    opacity: { from: 0 },
+    y: { from: 16 },
+    duration: 420,
+    ease: 'out(4)',
+  });
+}
+
+function renderTourStep(index: number) {
+  const step = tourSteps[index];
+  if (!step) return;
+  const target = document.querySelector<HTMLElement>(step.target);
+  if (!target || !tourLabel || !tourTitle || !tourCopy || !tourProgress) return;
+
+  activeTourTarget?.classList.remove('tour-highlight');
+  activeTourTarget?.style.removeProperty('transform');
+  activeTourTarget = target;
+  activeTourTarget.classList.add('tour-highlight');
+
+  tourLabel.textContent = step.label;
+  tourTitle.textContent = step.title;
+  tourCopy.textContent = step.copy;
+  tourProgress.textContent = `Paso ${index + 1} de ${tourSteps.length}`;
+  if (tourPrevious) tourPrevious.disabled = index === 0;
+  if (tourNextLabel) tourNextLabel.textContent = index === tourSteps.length - 1 ? 'Finalizar' : 'Siguiente';
+
+  tourDots?.querySelectorAll<HTMLButtonElement>('button').forEach((dot, dotIndex) => {
+    dot.toggleAttribute('aria-current', dotIndex === index);
+  });
+
+  target.scrollIntoView({ behavior: 'auto', block: 'center' });
+  if (!reduceMotion.matches) {
+    animate(target, { scale: { from: 0.985 }, duration: 520, ease: 'out(4)' });
+    animateTourCard();
+  }
+}
+
+function openTour(launcher: HTMLElement) {
+  if (!tourRoot) return;
+  lastTourLauncher = launcher;
+  tourIndex = 0;
+  tourRoot.hidden = false;
+  tourRoot.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('tour-active');
+  renderTourStep(tourIndex);
+  tourNext?.focus({ preventScroll: true });
+}
+
+function closeTour() {
+  if (!tourRoot) return;
+  activeTourTarget?.classList.remove('tour-highlight');
+  activeTourTarget?.style.removeProperty('transform');
+  activeTourTarget = null;
+  tourRoot.hidden = true;
+  tourRoot.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('tour-active');
+  lastTourLauncher?.focus({ preventScroll: true });
+}
+
+document.querySelectorAll<HTMLElement>('[data-tour-launch]').forEach((launcher) => {
+  launcher.addEventListener('click', () => openTour(launcher));
+});
+
+tourSteps.forEach((step, index) => {
+  const dot = document.createElement('button');
+  dot.type = 'button';
+  dot.setAttribute('aria-label', `Ir a ${step.label}`);
+  dot.addEventListener('click', () => { tourIndex = index; renderTourStep(tourIndex); });
+  tourDots?.append(dot);
+});
+
+tourPrevious?.addEventListener('click', () => {
+  if (tourIndex === 0) return;
+  tourIndex -= 1;
+  renderTourStep(tourIndex);
+});
+
+tourNext?.addEventListener('click', () => {
+  if (tourIndex === tourSteps.length - 1) { closeTour(); return; }
+  tourIndex += 1;
+  renderTourStep(tourIndex);
+});
+
+document.querySelector('[data-tour-close]')?.addEventListener('click', closeTour);
+document.addEventListener('keydown', (event) => {
+  if (tourRoot?.hidden) return;
+  if (event.key === 'Escape') closeTour();
+  if (event.key === 'ArrowRight') tourNext?.click();
+  if (event.key === 'ArrowLeft') tourPrevious?.click();
+});
 
 const contactForm = document.querySelector<HTMLFormElement>('[data-contact-form]');
 const contactStatus = document.querySelector<HTMLElement>('[data-contact-status]');

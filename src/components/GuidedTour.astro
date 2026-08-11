@@ -1,0 +1,21 @@
+---
+import { ArrowLeft, ArrowRight, X } from '@lucide/astro';
+---
+<aside class="portfolio-tour" data-tour hidden aria-hidden="true">
+  <div class="tour-card" role="dialog" aria-modal="false" aria-labelledby="tour-title" aria-describedby="tour-copy" data-tour-card>
+    <header class="tour-head">
+      <div><span class="tour-kicker">Recorrido guiado</span><strong data-tour-progress>Paso 1 de 6</strong></div>
+      <button class="tour-close" type="button" aria-label="Cerrar recorrido" data-tour-close><X size={19} /></button>
+    </header>
+    <div class="tour-content" aria-live="polite">
+      <span class="tour-step-label" data-tour-label>Inicio</span>
+      <h2 id="tour-title" data-tour-title>Productos digitales de principio a fin</h2>
+      <p id="tour-copy" data-tour-copy>Una presentación breve de mi enfoque, experiencia y forma de convertir necesidades complejas en soluciones claras.</p>
+    </div>
+    <div class="tour-dots" data-tour-dots aria-label="Pasos del recorrido"></div>
+    <footer class="tour-actions">
+      <button type="button" class="tour-control" data-tour-previous><ArrowLeft size={17} />Anterior</button>
+      <button type="button" class="tour-control tour-next" data-tour-next><span data-tour-next-label>Siguiente</span><ArrowRight size={17} /></button>
+    </footer>
+  </div>
+</aside>

@@ -1,5 +1,5 @@
 ---
-import { Mail, Menu, MoonStar, Sun, X } from '@lucide/astro';
+import { Compass, Mail, Menu, MoonStar, Sun, X } from '@lucide/astro';
 
 type Props = { contactHref: string };
 const { contactHref } = Astro.props;
@@ -14,6 +14,7 @@ const { contactHref } = Astro.props;
       <a href="#proyectos">Trabajo</a><a href="#trayectoria">Trayectoria</a><a href="#formacion">Formación</a><a href="#servicios">Capacidades</a><a href="#sobre-mi">Perfil</a><a href="#contacto">Contacto</a>
     </div>
     <div class="nav-actions">
+      <button class="tour-nav" type="button" data-tour-launch aria-label="Iniciar recorrido guiado"><Compass size={17} /><span>Recorrido</span></button>
       <button class="theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema" data-theme-toggle>
         <Sun class="theme-icon theme-icon-sun" size={19} aria-hidden="true" />
         <MoonStar class="theme-icon theme-icon-moon" size={19} aria-hidden="true" />

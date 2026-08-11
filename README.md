@@ -14,7 +14,7 @@ npm run quality
 
 En integración continua y Vercel se utiliza `npm ci` para respetar exactamente `package-lock.json`.
 
-La aplicación es estática, no utiliza Astro DB y está preparada para Vercel. Incluye Web Analytics, Speed Insights, cabeceras de seguridad, recursos PWA y una imagen social de 1200×630.
+La aplicación es estática, no utiliza Astro DB y está preparada para Vercel. Incluye Web Analytics, Speed Insights, cabeceras de seguridad, recursos PWA, una imagen social de 1200×630 y un recorrido guiado accesible animado con Anime.js.
 
 Los iconos PWA y la imagen social pueden regenerarse con:
 
