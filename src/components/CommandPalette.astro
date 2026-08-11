@@ -1,5 +1,5 @@
 ---
-import { Command, FileText, Github, Home, Mail, Search, X } from '@lucide/astro';
+import { Command, FileText, GitBranch, Home, Mail, Search, X } from '@lucide/astro';
 import { profile, projects } from '../data/portfolio';
 
 type Props = { sectionPrefix?: string };
@@ -8,7 +8,7 @@ const actions = [
   { label: 'Inicio', hint: 'Hero', href: `${sectionPrefix}#inicio`, icon: Home },
   { label: 'Trabajo seleccionado', hint: 'Proyectos', href: `${sectionPrefix}#proyectos`, icon: FileText },
   ...projects.map((project) => ({ label: project.title, hint: project.status, href: `/proyectos/${project.slug}`, icon: FileText })),
-  { label: 'GitHub', hint: 'Actividad pública', href: profile.github, external: true, icon: Github },
+  { label: 'GitHub', hint: 'Actividad pública', href: profile.github, external: true, icon: GitBranch },
   { label: 'Contacto', hint: 'Enviar correo', href: `mailto:${profile.email}`, icon: Mail },
 ] as const;
 ---
