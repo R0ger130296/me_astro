@@ -3,10 +3,12 @@ import '../styles/global.css';
 import '../styles/certificates.css';
 import '../styles/career.css';
 import '../styles/developer-showcase.css';
+import '../styles/command-palette.css';
 import AboutSection from '../components/AboutSection.astro';
 import CapabilitiesSection from '../components/CapabilitiesSection.astro';
 import CareerSection from '../components/CareerSection.astro';
 import CertificatesSection from '../components/CertificatesSection.astro';
+import CommandPalette from '../components/CommandPalette.astro';
 import ContactSection from '../components/ContactSection.astro';
 import DeveloperShowcase from '../components/DeveloperShowcase.astro';
 import Hero from '../components/Hero.astro';
@@ -57,6 +59,7 @@ const structuredData = {
     <main id="contenido"><Hero contactHref={contactHref} /><SignalStrip languagesCount={languagesCount} /><WorkSections repositories={repositories} /><DeveloperShowcase /><CareerSection /><CertificatesSection /><CapabilitiesSection /><AboutSection /><ProcessSection /><ContactSection /></main>
     <SiteFooter year={year} />
     <GuidedTour />
+    <CommandPalette />
     <script>import '../scripts/site'; import '../scripts/enhancements';</script>
   </body>
 </html>
