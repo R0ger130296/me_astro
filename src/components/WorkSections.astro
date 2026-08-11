@@ -2,6 +2,7 @@
 import { ArrowRight, ArrowUpRight, Braces, ChevronDown, GitBranch, Network, Sparkles } from '@lucide/astro';
 import { projects } from '../data/portfolio';
 import { getRepositoryMap, type GitHubRepo } from '../services/github';
+import TechChip from './TechChip.astro';
 
 type Props = { repositories: GitHubRepo[] };
 const { repositories } = Astro.props;
@@ -21,7 +22,7 @@ const formatDate = (value: string) => new Intl.DateTimeFormat('es-EC', { month: 
           <div class="project-meta"><span class={`status status-${project.status.toLowerCase().replaceAll(' ', '-')}`}>{project.status}</span><span>{repository ? `Actualizado ${formatDate(repository.updated_at)}` : 'Trabajo privado'}</span></div>
           <h3>{project.title}</h3><p>{project.description}</p>
           <div class="impact"><Sparkles size={17} /><span>{project.impact}</span></div>
-          <div class="tags">{project.tags.map((tag) => <span data-tech-chip>{tag}</span>)}</div>
+          <div class="tags tech-tags">{project.tags.map((tag) => <TechChip name={tag} compact />)}</div>
           <div class="project-actions">
             <button class="text-link case-study-toggle" type="button" aria-expanded="false" aria-controls={detailId} data-case-study-toggle>
               <Braces size={16} /><span>Ver cómo está construido</span><ChevronDown size={15} aria-hidden="true" />
@@ -41,7 +42,7 @@ const formatDate = (value: string) => new Intl.DateTimeFormat('es-EC', { month: 
                 <div class="architecture-flow">{project.caseStudy.architecture.map((node, nodeIndex) => <><span>{node}</span>{nodeIndex < project.caseStudy.architecture.length - 1 && <i aria-hidden="true">→</i>}</>)}</div>
               </div>
               <div class="code-window compact-code">
-                <div class="code-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><strong>{project.caseStudy.codeLanguage}</strong></div>
+                <div class="code-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><TechChip name={project.caseStudy.codeLanguage} compact /></div>
                 <pre><code>{project.caseStudy.code.map((line, lineIndex) => <span><i>{lineIndex + 1}</i>{line}</span>)}</code></pre>
               </div>
             </div>
@@ -64,7 +65,7 @@ const formatDate = (value: string) => new Intl.DateTimeFormat('es-EC', { month: 
             <h3>{repository.name}</h3>
             <p>{repository.description ?? 'Proyecto técnico público disponible para revisión.'}</p>
             <div class="impact"><GitBranch size={17} /><span>{repository.language ?? 'Tecnología múltiple'} · {repository.stargazers_count} estrellas · {repository.forks_count} forks</span></div>
-            <div class="tags"><span>API GitHub</span><span>Actividad real</span><span>{repository.language ?? 'Software'}</span></div>
+            <div class="tags tech-tags"><span>API GitHub</span><span>Actividad real</span>{repository.language ? <TechChip name={repository.language} compact /> : <span>Software</span>}</div>
             <a href={repository.html_url} target="_blank" rel="noreferrer">Revisar repositorio <ArrowUpRight size={16} /></a>
           </article>
         ))}
