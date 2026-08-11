@@ -63,15 +63,64 @@ test('deployment is static and does not use Astro DB', async () => {
 });
 
 test('SEO and PWA essentials are present', async () => {
-  const [page, manifest, robots, worker] = await Promise.all([
+  const [page, manifest, robots, worker, ogImage, icon192, icon512, appleIcon] = await Promise.all([
     readFile('src/pages/index.astro', 'utf8'),
     JSON.parse(await readFile('public/manifest.webmanifest', 'utf8')),
     readFile('public/robots.txt', 'utf8'),
     readFile('public/sw.js', 'utf8'),
+    readFile('public/og-image.png'),
+    readFile('public/icons/icon-192.png'),
+    readFile('public/icons/icon-512.png'),
+    readFile('public/icons/apple-touch-icon.png'),
   ]);
   assert.match(page, /application\/ld\+json/);
   assert.match(page, /rel="canonical"/);
+  assert.match(page, /og-image\.png/);
+  assert.match(page, /apple-touch-icon/);
   assert.equal(manifest.display, 'standalone');
+  assert.equal(manifest.icons.length, 3);
   assert.match(robots, /sitemap\.xml/);
   assert.match(worker, /addEventListener\('fetch'/);
+  const pngSize = (buffer) => [buffer.readUInt32BE(16), buffer.readUInt32BE(20)];
+  assert.deepEqual(pngSize(ogImage), [1200, 630]);
+  assert.deepEqual(pngSize(icon192), [192, 192]);
+  assert.deepEqual(pngSize(icon512), [512, 512]);
+  assert.deepEqual(pngSize(appleIcon), [180, 180]);
+});
+
+test('production configuration is reproducible and hardened', async () => {
+  const [packageJson, vercel] = await Promise.all([
+    JSON.parse(await readFile('package.json', 'utf8')),
+    JSON.parse(await readFile('vercel.json', 'utf8')),
+  ]);
+  assert.equal(packageJson.engines.node, '24.x');
+  assert.equal(vercel.installCommand, 'npm ci');
+  for (const version of Object.values(packageJson.dependencies)) {
+    assert.doesNotMatch(version, /^(latest|[~^*])/);
+  }
+  const headerNames = new Set(vercel.headers[0].headers.map(({ key }) => key));
+  for (const name of ['Content-Security-Policy', 'Referrer-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Permissions-Policy']) {
+    assert.ok(headerNames.has(name), `${name} header is missing`);
+  }
+});
+
+test('contact flow and privacy-friendly monitoring are wired', async () => {
+  const [contact, client] = await Promise.all([
+    readFile('src/components/ContactSection.astro', 'utf8'),
+    readFile('src/scripts/site.ts', 'utf8'),
+  ]);
+  for (const field of ['name', 'email', 'message', 'timeline']) assert.match(contact, new RegExp(`name="${field}"`));
+  assert.match(contact, /aria-live="polite"/);
+  assert.match(client, /@vercel\/analytics/);
+  assert.match(client, /@vercel\/speed-insights/);
+  assert.match(client, /data-contact-form/);
+});
+
+test('internal navigation targets exist and deprecated icon aliases are gone', async () => {
+  const sourceFiles = (await walk('src')).filter((path) => ['.astro', '.ts'].includes(extname(path)));
+  const source = (await Promise.all(sourceFiles.map((path) => readFile(path, 'utf8')))).join('\n');
+  const ids = new Set([...source.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]));
+  const targets = [...source.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
+  for (const target of targets) assert.ok(ids.has(target), `Missing target for #${target}`);
+  assert.doesNotMatch(source, /\b(Code2|BarChart3|Layers3)\b/);
 });

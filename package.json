@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": "22.x"
+    "node": "24.x"
   },
   "scripts": {
     "dev": "astro dev",
@@ -15,10 +15,12 @@
     "quality": "npm run test && npm run check && npm run build"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@lucide/astro": "latest",
-    "astro": "^5.0.0",
-    "simple-icons": "latest",
-    "typescript": "^5.7.0"
+    "@astrojs/check": "0.9.10",
+    "@lucide/astro": "1.30.0",
+    "@vercel/analytics": "2.0.1",
+    "@vercel/speed-insights": "2.0.0",
+    "astro": "7.2.0",
+    "simple-icons": "16.28.0",
+    "typescript": "5.9.3"
   }
 }

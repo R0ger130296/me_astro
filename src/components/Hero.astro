@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, BadgeCheck, Code2, GitBranch, MapPin, Rocket } from '@lucide/astro';
+import { ArrowRight, BadgeCheck, CodeXml, GitBranch, MapPin, Rocket } from '@lucide/astro';
 import { profile } from '../data/portfolio';
 
 type Props = { contactHref: string };
@@ -25,7 +25,7 @@ const { contactHref } = Astro.props;
       <img src="/me/1757515565808.jpeg" alt="Retrato profesional de Roger Cedeño" width="800" height="1000" loading="eager" decoding="async" fetchpriority="high" />
       <div class="portrait-caption"><div><strong>{profile.name}</strong><span>{profile.role}</span></div><BadgeCheck size={20} /></div>
     </div>
-    <div class="floating-card code-card"><Code2 size={18} /><span><small>Stack principal</small><strong>React · .NET · TypeScript</strong></span></div>
+    <div class="floating-card code-card"><CodeXml size={18} /><span><small>Stack principal</small><strong>React · .NET · TypeScript</strong></span></div>
     <div class="floating-card delivery-card"><Rocket size={18} /><span><small>Enfoque</small><strong>Producto + ejecución</strong></span></div>
   </div>
 </section>

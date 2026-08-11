@@ -2,11 +2,17 @@
   "name": "Roger Cedeño | Portafolio",
   "short_name": "Roger Cedeño",
   "description": "Portafolio profesional de Roger Cedeño",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
+  "lang": "es-EC",
   "display": "standalone",
-  "background_color": "#050816",
-  "theme_color": "#050816",
+  "background_color": "#08040d",
+  "theme_color": "#08040d",
+  "categories": ["business", "productivity", "developer"],
   "icons": [
-    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

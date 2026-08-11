@@ -1,4 +1,10 @@
+import { inject } from '@vercel/analytics';
+import { injectSpeedInsights } from '@vercel/speed-insights';
+
 type Theme = 'light' | 'dark';
+
+inject();
+injectSpeedInsights();
 
 const root = document.documentElement;
 const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
@@ -57,3 +63,31 @@ if ('IntersectionObserver' in window) {
 } else revealElements.forEach((element) => element.classList.add('visible'));
 
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+
+const contactForm = document.querySelector<HTMLFormElement>('[data-contact-form]');
+const contactStatus = document.querySelector<HTMLElement>('[data-contact-status]');
+contactForm?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  if (!contactForm.reportValidity()) return;
+
+  const data = new FormData(contactForm);
+  const name = String(data.get('name') ?? '').trim();
+  const email = String(data.get('email') ?? '').trim();
+  const message = String(data.get('message') ?? '').trim();
+  const timeline = String(data.get('timeline') ?? '').trim();
+  const recipient = contactForm.dataset.contactEmail;
+  if (!recipient) return;
+
+  const subject = encodeURIComponent(`Proyecto de ${name}`);
+  const body = encodeURIComponent([
+    `Hola Roger,`,
+    '',
+    message,
+    '',
+    `Plazo aproximado: ${timeline || 'Por definir'}`,
+    `Correo de contacto: ${email}`,
+  ].join('\n'));
+
+  if (contactStatus) contactStatus.textContent = 'Abriendo tu aplicación de correo…';
+  window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+});

@@ -1,7 +1,23 @@
 ---
-import { GitBranch, Send } from '@lucide/astro';
+import { GitBranch, Mail, Send } from '@lucide/astro';
 import { profile } from '../data/portfolio';
-interface Props { contactHref: string; }
-const { contactHref } = Astro.props;
 ---
-<section id="contacto" class="contact shell reveal"><div><span class="kicker">¿Tienes un reto?</span><h2>Construyamos algo que valga la pena usar.</h2><p>Cuéntame el contexto, el resultado esperado y el plazo. El correo se abrirá con una guía breve para facilitar la conversación.</p></div><div class="contact-actions"><a class="button primary" href={contactHref}><Send size={18} />Contarme el proyecto</a><a class="button secondary" href={profile.github} target="_blank" rel="noreferrer"><GitBranch size={18} />GitHub</a></div></section>
+<section id="contacto" class="contact shell reveal">
+  <div class="contact-copy">
+    <span class="kicker">¿Tienes un reto?</span>
+    <h2>Construyamos algo que valga la pena usar.</h2>
+    <p>Comparte el contexto, el resultado esperado y el plazo. Prepararé un correo con toda la información para que puedas revisarlo antes de enviarlo.</p>
+    <div class="contact-alternatives">
+      <a href={`mailto:${profile.email}`}><Mail size={17} />{profile.email}</a>
+      <a href={profile.github} target="_blank" rel="noreferrer"><GitBranch size={17} />GitHub</a>
+    </div>
+  </div>
+  <form class="contact-form" data-contact-form data-contact-email={profile.email}>
+    <label><span>Nombre</span><input name="name" type="text" autocomplete="name" maxlength="80" required /></label>
+    <label><span>Correo</span><input name="email" type="email" autocomplete="email" maxlength="120" required /></label>
+    <label class="contact-field-wide"><span>¿En qué puedo ayudarte?</span><textarea name="message" rows="5" minlength="20" maxlength="1200" required></textarea></label>
+    <label><span>Plazo aproximado <small>(opcional)</small></span><input name="timeline" type="text" maxlength="100" placeholder="Ej. 6–8 semanas" /></label>
+    <button class="button primary" type="submit"><Send size={18} />Preparar correo</button>
+    <p class="contact-note" data-contact-status aria-live="polite">Tus datos no se almacenan: se abrirán en tu aplicación de correo.</p>
+  </form>
+</section>

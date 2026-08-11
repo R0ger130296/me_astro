@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://rogercedeno.dev/sitemap.xml
+Sitemap: https://me-astro-alpha.vercel.app/sitemap.xml
