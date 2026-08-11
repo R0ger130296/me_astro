@@ -1,5 +1,5 @@
 ---
-import { Boxes, Cloud, CodeXml, Gauge, Layers3, ServerCog, Smartphone } from '@lucide/astro';
+import { Boxes, Cloud, CodeXml, Gauge, Network, ServerCog, Smartphone } from '@lucide/astro';
 
 const skillAreas = [
   { id: 'frontend', title: 'Frontend', description: 'Interfaces accesibles, rápidas y orientadas a tareas reales.', stack: 'React · Astro · TypeScript · Tailwind CSS', experience: 'Producto web', useCase: 'Sistemas donde claridad, rendimiento y estados de UI importan.', signal: 'UI → State → API' },
@@ -21,7 +21,7 @@ const skillAreas = [
       <button class="skill-node node-product active" type="button" data-skill-node={JSON.stringify(skillAreas[4])} aria-pressed="true"><Boxes size={25} /><span>Producto</span></button>
     </div>
     <article class="skill-detail stack-inspector" data-skill-detail aria-live="polite">
-      <div class="inspector-bar"><span><Layers3 size={15} />Inspector</span><i aria-hidden="true"></i></div>
+      <div class="inspector-bar"><span><Network size={15} />Inspector</span><i aria-hidden="true"></i></div>
       <span>Área seleccionada</span><h4 data-skill-title>{skillAreas[4].title}</h4><p data-skill-description>{skillAreas[4].description}</p><strong data-skill-stack>{skillAreas[4].stack}</strong>
       <dl class="inspector-grid">
         <div><dt><Gauge size={14} />Experiencia</dt><dd data-skill-experience>{skillAreas[4].experience}</dd></div>
