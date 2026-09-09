@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
   quality:
@@ -40,18 +41,33 @@ jobs:
         run: npm run build
 
   docker:
-    name: Docker build
+    name: Build and publish Docker image
     runs-on: ubuntu-latest
 
     needs:
       - quality
 
+    if: github.event_name == 'push'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build Docker image
         run: |
           docker build \
-            -t me-astro:${{ github.sha }} \
+            -t ghcr.io/r0ger130296/me_astro:latest \
+            -t ghcr.io/r0ger130296/me_astro:${{ github.sha }} \
             .
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/r0ger130296/me_astro:latest
+          docker push ghcr.io/r0ger130296/me_astro:${{ github.sha }}
