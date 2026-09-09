@@ -10,8 +10,12 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy production
+    name: Deploy to Vercel
     runs-on: ubuntu-latest
+
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
     steps:
       - name: Checkout repository
@@ -25,6 +29,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Run quality checks
+        run: npm run quality
 
       - name: Install Vercel CLI
         run: npm install --global vercel
@@ -42,7 +49,7 @@ jobs:
             --prod \
             --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Deploy to Vercel
+      - name: Deploy production
         run: |
           vercel deploy \
             --prebuilt \
