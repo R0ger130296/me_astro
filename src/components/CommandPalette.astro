@@ -1,7 +1,9 @@
 ---
 import { BadgeCheck, Command, FileText, GitBranch, House, Mail, Search, Wrench, X } from '@lucide/astro';
 import { certificates } from '../data/certificates';
-import { profile, projects, technologies } from '../data/portfolio';
+import { profile, technologies } from '../data/portfolio';
+import { getProjects } from '../services/portfolio';
+const projects = await getProjects();
 
 type Props = { sectionPrefix?: string };
 const { sectionPrefix = '' } = Astro.props;

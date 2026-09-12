@@ -4,6 +4,10 @@ Portafolio mobile-first construido con Astro, TypeScript y desplegado en Vercel.
 
 Sitio público: <https://me-astro-alpha.vercel.app>
 
+## Backend y administración
+
+Incluye API NestJS en `backend/`, PostgreSQL y administración de proyectos en `/admin/` con Keycloak. Consulta [la guía de instalación, arquitectura y despliegue](docs/administracion.md). Los cambios publicados se incorporan al sitio estático en el siguiente despliegue.
+
 ## Comandos
 
 ```bash

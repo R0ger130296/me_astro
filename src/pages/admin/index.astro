@@ -1,0 +1,53 @@
+---
+import '../../styles/admin.css';
+const fields = [
+  ['title', 'Nombre del proyecto', 150], ['slug', 'Dirección corta (ej. mi-proyecto)', 100],
+  ['description', 'Descripción', 3000], ['impact', 'Impacto', 3000],
+  ['tags', 'Tecnologías (separadas por comas)', 3000],
+  ['repository', 'Nombre del repositorio en GitHub', 100], ['href', 'Referencia externa (https://)', 2000],
+  ['problem', 'Problema', 5000], ['decision', 'Decisión técnica', 5000], ['result', 'Resultado', 5000],
+  ['architecture', 'Arquitectura (separada por comas)', 3000], ['codeLanguage', 'Lenguaje del ejemplo', 50],
+] as const;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Administración | Roger Cedeño</title>
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <a class="skip" href="#admin-content">Saltar al contenido</a>
+    <header><a href="/" class="brand">RC<span> / Estudio</span></a><nav aria-label="Administración"><a href="/">Ver portafolio ↗</a><button id="logout" hidden>Cerrar sesión</button></nav></header>
+    <main id="admin-content">
+      <section class="intro"><p class="eyebrow">TU ESPACIO DE TRABAJO</p><h1>Haz visible tu trabajo.</h1><p>Organiza tus proyectos y cuenta las decisiones que hay detrás.</p></section>
+      <p id="feedback" role="status" aria-live="polite">Preparando acceso seguro…</p>
+      <section id="access" class="panel"><h2>Un espacio solo para ti</h2><p>Ingresa con tu cuenta para administrar el portafolio.</p><button id="login" disabled>Ingresar con Keycloak</button></section>
+      <section id="workspace" hidden>
+        <div class="toolbar"><div><h2>Proyectos</h2><p id="count"></p></div><div><button id="reload" class="secondary">Actualizar</button><button id="import" class="secondary">Importar proyectos actuales</button><button id="new">Nuevo proyecto</button></div></div>
+        <p class="notice">Publicar incluye el proyecto en el próximo despliegue del sitio. Los borradores solo aparecen aquí.</p>
+        <div id="project-list" class="project-list"></div>
+        <section id="editor" class="panel" hidden aria-labelledby="editor-title">
+          <h2 id="editor-title">Nuevo proyecto</h2>
+          <form id="project-form">
+            <fieldset id="editor-fields">
+              <div class="fields">
+                {fields.map(([name, label, max]) => <label>{label}<input name={name} maxlength={max} required={!['repository', 'href'].includes(name)} type={name === 'href' ? 'url' : 'text'} pattern={name === 'slug' ? '[a-z0-9]+(-[a-z0-9]+)*' : undefined} /></label>)}
+                <label>Estado<select name="status"><option>En desarrollo</option><option>En producción</option><option>Proyecto técnico</option></select></label>
+                <label class="wide">Ejemplo de código (una línea por renglón)<textarea name="code" rows="7" maxlength="100000"></textarea></label>
+                <label class="check"><input name="featured" type="checkbox" />Destacado</label>
+                <label class="check"><input name="published" type="checkbox" />Publicado</label>
+              </div>
+              <div class="form-actions"><button type="submit">Guardar proyecto</button><button id="cancel" type="button" class="secondary">Cancelar</button></div>
+            </fieldset>
+          </form>
+        </section>
+      </section>
+      <noscript>Activa JavaScript para iniciar sesión y administrar el portafolio.</noscript>
+    </main>
+    <footer>Roger Cedeño · Administración del portafolio</footer>
+    <script>import '../../scripts/admin';</script>
+  </body>
+</html>

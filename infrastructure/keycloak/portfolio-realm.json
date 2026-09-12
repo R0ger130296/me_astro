@@ -1,0 +1,41 @@
+{
+  "realm": "portfolio",
+  "enabled": true,
+  "registrationAllowed": false,
+  "resetPasswordAllowed": true,
+  "sslRequired": "external",
+  "bruteForceProtected": true,
+  "roles": { "client": { "portfolio-api": [{ "name": "portfolio-admin", "description": "Administrar el contenido del portafolio" }] } },
+  "clients": [
+    {
+      "clientId": "portfolio-api",
+      "name": "Portfolio API",
+      "protocol": "openid-connect",
+      "bearerOnly": true
+    },
+    {
+      "clientId": "portfolio-admin",
+      "name": "Administración del portafolio",
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": ["http://localhost:4321/admin/"],
+      "webOrigins": ["http://localhost:4321"],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:4321/admin/"
+      },
+      "defaultClientScopes": ["web-origins", "acr", "profile", "roles", "email"],
+      "protocolMappers": [{
+        "name": "portfolio-api-audience",
+        "protocol": "openid-connect",
+        "protocolMapper": "oidc-audience-mapper",
+        "consentRequired": false,
+        "config": { "included.client.audience": "portfolio-api", "id.token.claim": "false", "access.token.claim": "true" }
+      }]
+    }
+  ]
+}

@@ -1,11 +1,12 @@
 ---
 import { ArrowRight, ArrowUpRight, Braces, ChevronDown, GitBranch, Network, Sparkles } from '@lucide/astro';
-import { projects } from '../data/portfolio';
+import { getProjects } from '../services/portfolio';
 import { getRepositoryMap, type GitHubRepo } from '../services/github';
 import TechChip from './TechChip.astro';
 
 type Props = { repositories: GitHubRepo[] };
 const { repositories } = Astro.props;
+const projects = await getProjects();
 const repositoryMap = getRepositoryMap(repositories);
 const recentRepositories = repositories.filter((repository) => repository.name.toLowerCase() !== 'me_astro').slice(0, 3);
 const formatDate = (value: string) => new Intl.DateTimeFormat('es-EC', { month: 'short', year: 'numeric' }).format(new Date(value));

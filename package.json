@@ -20,7 +20,8 @@
     "@vercel/analytics": "2.0.1",
     "@vercel/speed-insights": "2.0.0",
     "animejs": "4.5.0",
-    "astro": "7.2.0",
+    "astro": "7.2.8",
+    "keycloak-js": "26.2.4",
     "simple-icons": "16.28.0",
     "typescript": "5.9.3"
   }

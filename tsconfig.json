@@ -1,5 +1,6 @@
 {
   "extends": "astro/tsconfigs/strict",
+  "exclude": ["backend", "dist", "node_modules"],
   "compilerOptions": {
     "strict": true,
     "forceConsistentCasingInFileNames": true,
