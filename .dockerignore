@@ -1,0 +1,10 @@
+node_modules
+dist
+.astro
+.git
+.github
+tmp
+.vscode
+.env
+.env.*
+npm-debug.log
